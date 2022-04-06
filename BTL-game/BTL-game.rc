@@ -50,7 +50,7 @@ END
 // Bitmap
 //
 
-IDB_BITMAP1             BITMAP                  "bitmap1.bmp"
+//bmp here
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////

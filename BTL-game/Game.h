@@ -7,20 +7,36 @@
 
 #include<SDL.h>
 
+
+
+const int SCREEN_WIDTH = 1080;
+const int SCREEN_HEIGHT = 720;
+
+
 class Game
 {
 public:
+
+
+	SDL_Renderer* gRenderer = NULL;
+	SDL_Window* gWindow = NULL;
+	const char* backgroundImagePath = "image/gameover.jpg";
+	const char* gameOverImagePath = "image/colors.png";
+	SDL_Texture* backgroundTxt;
+	SDL_Texture* gameOverTxt;
+
+
+
 	Game();
 	~Game();
-	void init(const char* title, SDL_Window* gWindow,SDL_Renderer* gRenderer, int width, int height, bool fullscreen);
+	void init();
 	void handleEvents();
 	void update();
 	void render();
+	void renderGameover();
 	void clean();
-	//testing zone
-	string backgroundImagePath = "image/colors.png";
-	string gameOverImagePath = "image/gameover.png";
-	//
+
+	
 	bool running(){
 		return isRunning;
 	};
@@ -28,13 +44,12 @@ public:
 private:
 	int cnt = 0;
 	bool isRunning;
-	SDL_Window* gWindow;
-	SDL_Renderer* gRenderer;
+	
+	
 	
 
 	//Testing zone
-	SDL_Texture* backgroundTxt;
-	SDL_Texture* gameOverTxt;
+	
 
 
 };

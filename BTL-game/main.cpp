@@ -2,24 +2,43 @@
 #include<SDL.h>
 #include<SDL_image.h>
 #include"Game.h"
+#include"SDL_Ultis.h"
 using namespace std;
 
-const int SCREEN_WIDTH = 1080;
-const int SCREEN_HEIGHT = 720;
 
 
 Game* newgame = nullptr;
+
+
+const int FPS = 60;
+const int frameDelay = 1000 / FPS;
+int frameTime;
+
+Uint32 frameStart;
+
 
 //initialize window,texture etc..
 int main(int argc, char* argv[]) {
 
 	newgame = new Game();
-	newgame->init("DAMN BRO TACH FILE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT,false);
-	while (newgame->running()) {
+	newgame->init();
 
+	
+	while (newgame->running()) {
+		frameStart = SDL_GetTicks();
 		newgame->handleEvents();
+		
+		
 		newgame->update();
 		newgame->render();
+
+
+
+
+		frameTime = SDL_GetTicks() - frameStart;
+		if (frameDelay > frameTime) {
+			SDL_Delay(frameDelay - frameTime);
+		}
 
 		
 	}
