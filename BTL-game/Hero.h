@@ -9,7 +9,7 @@
 class Hero
 {
 public:
-	Hero(const char* texturelink, SDL_Renderer* renderer, int xpos, int ypos);
+	Hero(const char* texturelink, int xpos, int ypos);
 
 	~Hero();
 
@@ -20,7 +20,7 @@ public:
 private:
 	int xpos, ypos;
 	SDL_Texture* hTexture;
-	SDL_Renderer* hRenderer;
+
 	SDL_Rect scrRect, desRect;
 
 

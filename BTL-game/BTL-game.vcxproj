@@ -145,12 +145,13 @@
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="SDL_Ultis.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="Hero.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="SDL_Ultis.h" />
   </ItemGroup>
   <ItemGroup>
@@ -158,11 +159,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="colors.png" />
-    <Image Include="gameover.jpg" />
     <Image Include="image\arnold.png" />
     <Image Include="image\colors.png" />
+    <Image Include="image\dirt_txt.png" />
     <Image Include="image\enemy.png" />
     <Image Include="image\gameover.jpg" />
+    <Image Include="image\grass_txt.png" />
+    <Image Include="image\water_txt.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

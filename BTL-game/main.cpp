@@ -4,6 +4,8 @@
 #include"Game.h"
 #include"SDL_Ultis.h"
 #include"Hero.h"
+#include"Map.h"
+
 
 using namespace std;
 
@@ -25,8 +27,8 @@ int main(int argc, char* argv[]) {
 	
 	newgame = new Game();
 	newgame->init("ah finally", false);
+	newgame->loadMap();
 	newgame->loadMedia();
-
 	
 	while (newgame->running()) {
 

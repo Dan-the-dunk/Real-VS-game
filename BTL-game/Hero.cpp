@@ -1,9 +1,9 @@
 #include"Hero.h"
 
 
-Hero::Hero(const char* texturelink, SDL_Renderer* renderer, int x, int y) {
-	hRenderer = renderer;
-	hTexture = loadTexture(texturelink, hRenderer);
+Hero::Hero(const char* texturelink, int x, int y) {
+	
+	hTexture = loadTexture(texturelink);
 	xpos = x;
 	ypos = y;
 }
@@ -25,6 +25,6 @@ void Hero::update() {
 
 
 void Hero::render() {
-	SDL_RenderCopy(hRenderer, hTexture, &scrRect, &desRect);
+	SDL_RenderCopy(Game::gRenderer, hTexture, &scrRect, &desRect);
 }
 

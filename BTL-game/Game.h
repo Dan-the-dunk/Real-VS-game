@@ -38,8 +38,8 @@ public:
 	void renderGameover();
 	void clean();
 	void loadMedia();
-	
-
+	void loadMap();
+	static SDL_Renderer* gRenderer;
 	
 	bool running(){
 		return isRunning;
@@ -49,7 +49,7 @@ private:
 	int cnt = 0;
 	SDL_Texture* gameOverTxt;
 	bool isRunning ;
-	SDL_Renderer* gRenderer;
+	
 	SDL_Window* gWindow;
 	
 

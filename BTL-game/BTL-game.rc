@@ -1,6 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+
+//cho fatal error RC1015
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////

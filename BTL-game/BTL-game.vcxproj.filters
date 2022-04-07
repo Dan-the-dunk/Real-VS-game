@@ -27,9 +27,12 @@
     <ClCompile Include="Hero.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -57,13 +60,19 @@
     <Image Include="colors.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="gameover.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="image\arnold.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="image\enemy.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="image\dirt_txt.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="image\grass_txt.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="image\water_txt.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

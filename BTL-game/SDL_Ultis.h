@@ -13,7 +13,9 @@ using namespace std;
 
 const int FRAME_NUMBER = 4;
 
-SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer);
+SDL_Texture* loadTexture(const char* path);
+
+void drawTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des);
 
 
 

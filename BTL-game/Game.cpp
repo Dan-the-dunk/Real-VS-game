@@ -2,15 +2,18 @@
 #include"SDL_Ultis.h"
 #include<iostream>
 #include"Hero.h"
+#include"Map.h"
 using namespace std;
 
 
 
 Hero* hero1 = nullptr;
 Hero* hero2 = nullptr;
+SDL_Renderer* Game::gRenderer = nullptr;
+Map* maplv1 = nullptr;
 
 Game::Game() {
-	isRunning = true;
+	
 }
 
 Game::~Game() {
@@ -77,11 +80,19 @@ void Game::init(const char* title, bool fullscreen) {
 };
 
 
+void Game::loadMap() {
+	maplv1 = new Map();
+	
+}
+
+
 void Game::loadMedia() {
-	backgroundTxt = loadTexture(backgroundImagePath, gRenderer);
-	gameOverTxt = loadTexture(gameOverImagePath, gRenderer);
-	hero1 = new Hero("image/arnold.png", gRenderer, 0, 0);
-	hero2 = new Hero("image/enemy.png", gRenderer, 200, 200);
+	backgroundTxt = loadTexture(backgroundImagePath);
+	gameOverTxt = loadTexture(gameOverImagePath);
+	hero1 = new Hero("image/arnold.png" , 0, 0);
+	hero2 = new Hero("image/enemy.png", 200, 200);
+	
+	
 	
 }
 
@@ -110,7 +121,7 @@ void Game::update() {
 void Game::render() {
 	SDL_RenderClear(gRenderer);
 	//add things to render 
-	SDL_RenderCopy(gRenderer, backgroundTxt, NULL, NULL);
+	maplv1->drawmap();
 	hero1->render();
 	hero2->render();
 	SDL_RenderPresent(gRenderer);
