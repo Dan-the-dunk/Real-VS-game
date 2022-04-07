@@ -4,7 +4,6 @@
 #include"Game.h"
 #include"SDL_Ultis.h"
 #include"Hero.h"
-
 using namespace std;
 
 
@@ -23,7 +22,7 @@ Uint32 frameStart;
 int main(int argc, char* argv[]) {
 
 	
-	newgame = new Game();
+
 	newgame->init("ah finally", false);
 	newgame->loadMedia();
 
@@ -52,6 +51,6 @@ int main(int argc, char* argv[]) {
 
 	SDL_Delay(2000);
 	newgame->clean();
-	
+	delete newgame;
 	return 0;
 }

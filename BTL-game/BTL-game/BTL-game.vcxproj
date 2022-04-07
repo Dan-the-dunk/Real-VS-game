@@ -148,8 +148,8 @@
     <ClCompile Include="SDL_Ultis.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h" />
     <ClInclude Include="Hero.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SDL_Ultis.h" />
   </ItemGroup>
@@ -161,7 +161,6 @@
     <Image Include="gameover.jpg" />
     <Image Include="image\arnold.png" />
     <Image Include="image\colors.png" />
-    <Image Include="image\enemy.png" />
     <Image Include="image\gameover.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

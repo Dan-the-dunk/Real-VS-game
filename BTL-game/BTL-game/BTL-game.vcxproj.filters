@@ -21,10 +21,10 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SDL_Ultis.cpp">
+    <ClCompile Include="Hero.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Hero.cpp">
+    <ClCompile Include="SDL_Ultis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,10 +35,10 @@
     <ClInclude Include="Game.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="SDL_Ultis.h">
+    <ClInclude Include="Hero.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Hero.h">
+    <ClInclude Include="SDL_Ultis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -61,9 +61,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="image\arnold.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="image\enemy.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

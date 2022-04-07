@@ -2,15 +2,15 @@
 #include"SDL_Ultis.h"
 #include<iostream>
 #include"Hero.h"
+
 using namespace std;
 
+Hero* hero1;
 
 
-Hero* hero1 = nullptr;
-Hero* hero2 = nullptr;
 
 Game::Game() {
-	isRunning = true;
+
 }
 
 Game::~Game() {
@@ -62,7 +62,7 @@ void Game::init(const char* title, bool fullscreen) {
 				}
 
 				
-				
+				hero1 = new Hero("image/arnold.png",gRenderer, 0 , 0);
 
 				//load media o day;
 				
@@ -80,8 +80,6 @@ void Game::init(const char* title, bool fullscreen) {
 void Game::loadMedia() {
 	backgroundTxt = loadTexture(backgroundImagePath, gRenderer);
 	gameOverTxt = loadTexture(gameOverImagePath, gRenderer);
-	hero1 = new Hero("image/arnold.png", gRenderer, 0, 0);
-	hero2 = new Hero("image/enemy.png", gRenderer, 200, 200);
 	
 }
 
@@ -102,7 +100,6 @@ void Game::update() {
 	cnt++;
 	cout << cnt<<endl;
 	hero1->update();
-	hero2->update();
 
 	
 };
@@ -112,7 +109,6 @@ void Game::render() {
 	//add things to render 
 	SDL_RenderCopy(gRenderer, backgroundTxt, NULL, NULL);
 	hero1->render();
-	hero2->render();
 	SDL_RenderPresent(gRenderer);
 };
 
