@@ -3,6 +3,7 @@
 #include<SDL_image.h>
 #include"Game.h"
 #include"SDL_Ultis.h"
+#include"Hero.h"
 using namespace std;
 
 
@@ -20,16 +21,20 @@ Uint32 frameStart;
 //initialize window,texture etc..
 int main(int argc, char* argv[]) {
 
-	newgame = new Game();
-	newgame->init();
+	
+
+	newgame->init("ah finally", false);
+	newgame->loadMedia();
 
 	
 	while (newgame->running()) {
+
 		frameStart = SDL_GetTicks();
 		newgame->handleEvents();
 		
 		
 		newgame->update();
+
 		newgame->render();
 
 
@@ -42,7 +47,10 @@ int main(int argc, char* argv[]) {
 
 		
 	}
+	newgame->renderGameover();
 
+	SDL_Delay(2000);
 	newgame->clean();
+	delete newgame;
 	return 0;
 }

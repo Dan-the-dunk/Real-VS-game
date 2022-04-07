@@ -146,19 +146,20 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="SDL_Ultis.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SDL_Ultis.h" />
-    <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BTL-game.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="colors.png" />
+    <Image Include="gameover.jpg" />
+    <Image Include="image\arnold.png" />
     <Image Include="image\colors.png" />
     <Image Include="image\gameover.jpg" />
   </ItemGroup>

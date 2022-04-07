@@ -3,10 +3,8 @@
 
 #include <SDL.h>
 #include<SDL_image.h>
-#include<iostream>
-
 #include<SDL.h>
-
+#include"Hero.h"
 
 
 const int SCREEN_WIDTH = 1080;
@@ -18,8 +16,7 @@ class Game
 public:
 
 
-	SDL_Renderer* gRenderer = NULL;
-	SDL_Window* gWindow = NULL;
+	
 	const char* backgroundImagePath = "image/gameover.jpg";
 	const char* gameOverImagePath = "image/colors.png";
 	SDL_Texture* backgroundTxt;
@@ -29,12 +26,15 @@ public:
 
 	Game();
 	~Game();
-	void init();
+	void init(const char* title , bool fullscreen );
+	
 	void handleEvents();
 	void update();
 	void render();
 	void renderGameover();
 	void clean();
+	void loadMedia();
+	
 
 	
 	bool running(){
@@ -44,8 +44,8 @@ public:
 private:
 	int cnt = 0;
 	bool isRunning;
-	
-	
+	SDL_Renderer* gRenderer;
+	SDL_Window* gWindow;
 	
 
 	//Testing zone

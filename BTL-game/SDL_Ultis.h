@@ -13,9 +13,9 @@ using namespace std;
 
 const int FRAME_NUMBER = 4;
 
+SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer);
 
 
-bool initSDL(const char* title, SDL_Window* gWindow, SDL_Renderer* gRenderer, int width, int height, bool fullscreen) ;
 
 
 

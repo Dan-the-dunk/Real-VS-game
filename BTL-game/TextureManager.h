@@ -5,9 +5,14 @@
 #include <string>
 #include<iostream>
 #include "Game.h"
+using namespace std;
 
+class TexManager
+{
+public:
+	static SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer);
 
-SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer);
+};
 
 #endif // !
 
