@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include<SDL_image.h>
 #include<SDL.h>
-#include"Hero.h"
+
 
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1080;
@@ -38,7 +38,7 @@ public:
 	void renderGameover();
 	void clean();
 	void loadMedia();
-	void loadMap();
+	
 	static SDL_Renderer* gRenderer;
 	
 	bool running(){

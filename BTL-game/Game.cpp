@@ -1,18 +1,16 @@
 #include"Game.h"
 #include"SDL_Ultis.h"
 #include<iostream>
-#include"Hero.h"
 #include"Map.h"
-#include"ECS.h"
-#include"Components.h"
+#include"ECS/Components.h"
+
 
 
 using namespace std;
 
 
 
-Hero* hero1 = nullptr;
-Hero* hero2 = nullptr;
+
 SDL_Renderer* Game::gRenderer = nullptr;
 Map* maplv1 = nullptr;
 
@@ -89,21 +87,17 @@ void Game::init(const char* title, bool fullscreen) {
 };
 
 
-void Game::loadMap() {
-	maplv1 = new Map();
-	
-}
+
 
 
 void Game::loadMedia() {
 	backgroundTxt = loadTexture(backgroundImagePath);
 	gameOverTxt = loadTexture(gameOverImagePath);
-	hero1 = new Hero("image/arnold.png" , 0, 0);
-	hero2 = new Hero("image/enemy.png", 200, 200);
-	
-	//load ecs
+	maplv1 = new Map();
+	//load component(pos , sprite)
 
 	newPlayer.addComponent<PositionComponent>();
+	newPlayer.addComponent<SpriteComponent>("image/arnold.png");
 	
 }
 
@@ -121,20 +115,25 @@ void Game::handleEvents() {
 
 
 void Game::update() {
-	hero1->update();
-	hero2->update();
+	
+	//sprite component
+	
+	manager.refresh();
 	manager.update();
 	cout << newPlayer.getComponent<PositionComponent>().getXpos() << " , "
 		<< newPlayer.getComponent<PositionComponent>().getYpos() << endl;
 
+	 
 };
 
 void Game::render() {
 	SDL_RenderClear(gRenderer);
 	//add things to render 
 	maplv1->drawmap();
-	hero1->render();
-	hero2->render();
+	//
+	//sprite component
+	manager.draw();
+	
 	SDL_RenderPresent(gRenderer);
 };
 

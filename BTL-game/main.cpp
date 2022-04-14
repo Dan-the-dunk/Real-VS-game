@@ -27,7 +27,6 @@ int main(int argc, char* argv[]) {
 	
 	newgame = new Game();
 	newgame->init("ah finally", false);
-	newgame->loadMap();
 	newgame->loadMedia();
 	
 	while (newgame->running()) {
