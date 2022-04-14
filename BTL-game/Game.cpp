@@ -3,6 +3,10 @@
 #include<iostream>
 #include"Hero.h"
 #include"Map.h"
+#include"ECS.h"
+#include"Components.h"
+
+
 using namespace std;
 
 
@@ -11,6 +15,11 @@ Hero* hero1 = nullptr;
 Hero* hero2 = nullptr;
 SDL_Renderer* Game::gRenderer = nullptr;
 Map* maplv1 = nullptr;
+
+Manager manager;
+auto& newPlayer(manager.addEntity());
+
+
 
 Game::Game() {
 	
@@ -92,7 +101,9 @@ void Game::loadMedia() {
 	hero1 = new Hero("image/arnold.png" , 0, 0);
 	hero2 = new Hero("image/enemy.png", 200, 200);
 	
-	
+	//load ecs
+
+	newPlayer.addComponent<PositionComponent>();
 	
 }
 
@@ -110,12 +121,12 @@ void Game::handleEvents() {
 
 
 void Game::update() {
-	cnt++;
-	cout << cnt<<endl;
 	hero1->update();
 	hero2->update();
+	manager.update();
+	cout << newPlayer.getComponent<PositionComponent>().getXpos() << " , "
+		<< newPlayer.getComponent<PositionComponent>().getYpos() << endl;
 
-	
 };
 
 void Game::render() {

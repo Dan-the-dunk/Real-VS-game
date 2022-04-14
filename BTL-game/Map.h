@@ -16,7 +16,7 @@ public:
 	SDL_Texture* dirtTxt;
 	SDL_Texture* waterTxt;
 
-
+	
 	int map[32][18];
 
 private:
