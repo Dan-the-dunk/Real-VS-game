@@ -10,8 +10,8 @@ using namespace std;
 
 
 
-
 SDL_Renderer* Game::gRenderer = nullptr;
+SDL_Event Game::ev ;
 Map* maplv1 = nullptr;
 
 Manager manager;
@@ -96,20 +96,23 @@ void Game::loadMedia() {
 	maplv1 = new Map();
 	//load component(pos , sprite)
 
-	newPlayer.addComponent<TransformComponent>(250,250);
+	newPlayer.addComponent<TransformComponent>();
 	newPlayer.addComponent<SpriteComponent>("image/arnold.png");
-	
+	newPlayer.addComponent<KeyboardController>();
 }
 
 void Game::handleEvents() {
-	SDL_Event ev;
-	while (SDL_PollEvent(&ev)) {
-		if (ev.type == SDL_QUIT) {
-			isRunning = false;
-		}
-		else {
+	
+	SDL_PollEvent(&ev);
 
-		}
+	switch (ev.type)
+	{
+	case SDL_QUIT:
+		isRunning = false;
+		break;
+
+	default:
+		break;
 	}
 };
 
@@ -120,7 +123,7 @@ void Game::update() {
 	
 	manager.refresh();
 	manager.update();
-	newPlayer.getComponent<TransformComponent>().position.add(Vector2D(2,2));
+	
 
 	cout << newPlayer.getComponent<TransformComponent>().position.x << " , "
 		<< newPlayer.getComponent<TransformComponent>().position.y << endl;

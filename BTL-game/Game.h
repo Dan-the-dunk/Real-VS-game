@@ -19,7 +19,7 @@ public:
 	const char* backgroundImagePath = "image/colors.png";
 	const char* gameOverImagePath = "image/gameover.jpg";
 	SDL_Texture* backgroundTxt;
-
+	SDL_Texture* gameOverTxt;
 	
 
 
@@ -40,14 +40,15 @@ public:
 	void loadMedia();
 	
 	static SDL_Renderer* gRenderer;
-	
+	static SDL_Event ev;
+
 	bool running(){
 		return isRunning;
 	};
 
 private:
 	int cnt = 0;
-	SDL_Texture* gameOverTxt;
+	
 	bool isRunning ;
 	
 	SDL_Window* gWindow;

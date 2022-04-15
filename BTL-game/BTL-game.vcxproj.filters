@@ -62,6 +62,9 @@
     <ClInclude Include="Physics\Vector2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECS\KeyboardController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BTL-game.rc">
