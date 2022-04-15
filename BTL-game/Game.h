@@ -16,8 +16,8 @@ public:
 
 
 	
-	const char* backgroundImagePath = "image/gameover.jpg";
-	const char* gameOverImagePath = "image/colors.png";
+	const char* backgroundImagePath = "image/colors.png";
+	const char* gameOverImagePath = "image/gameover.jpg";
 	SDL_Texture* backgroundTxt;
 
 	

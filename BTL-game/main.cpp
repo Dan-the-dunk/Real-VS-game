@@ -49,9 +49,9 @@ int main(int argc, char* argv[]) {
 
 		
 	}
-	newgame->renderGameover();
+	
 
-	SDL_Delay(2000);
+
 	newgame->clean();
 	
 	return 0;

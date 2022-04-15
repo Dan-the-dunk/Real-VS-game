@@ -3,7 +3,7 @@
 #include<iostream>
 #include"Map.h"
 #include"ECS/Components.h"
-
+#include"Physics/Vector2D.h"
 
 
 using namespace std;
@@ -96,7 +96,7 @@ void Game::loadMedia() {
 	maplv1 = new Map();
 	//load component(pos , sprite)
 
-	newPlayer.addComponent<PositionComponent>();
+	newPlayer.addComponent<TransformComponent>(250,250);
 	newPlayer.addComponent<SpriteComponent>("image/arnold.png");
 	
 }
@@ -120,9 +120,22 @@ void Game::update() {
 	
 	manager.refresh();
 	manager.update();
-	cout << newPlayer.getComponent<PositionComponent>().getXpos() << " , "
-		<< newPlayer.getComponent<PositionComponent>().getYpos() << endl;
+	newPlayer.getComponent<TransformComponent>().position.add(Vector2D(2,2));
 
+	cout << newPlayer.getComponent<TransformComponent>().position.x << " , "
+		<< newPlayer.getComponent<TransformComponent>().position.y << endl;
+
+
+	if (newPlayer.getComponent<TransformComponent>().position.x >= 300) {
+		newPlayer.getComponent<SpriteComponent>().setText("image/dirt_txt.png");
+	}
+
+
+	if (newPlayer.getComponent<TransformComponent>().position.x >= 600) {
+		renderGameover();
+		SDL_Delay(2000);
+		isRunning = false;
+	}
 	 
 };
 
