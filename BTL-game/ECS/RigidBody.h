@@ -5,16 +5,17 @@
 
 constexpr float GRAVITY = 2.0f;
 
-const float CHAR_SIZE = 140;
+const int CHAR_SIZE = 140;
 
 
-class RigidBody : public Component {
+class RigidBody : public Component 
+{
 
 public:
+
+
 	RigidBody() = default;
 	virtual  ~RigidBody() = default;
-
-
 
 
 	RigidBody(float g) {
@@ -25,9 +26,11 @@ public:
 		transform = &entity->getComponent<TransformComponent>();
 	}
 	 
-	void update() override {
+	void update() override 
+	{
 		//Thay doi true false;
-		if ((transform->position.y + transform->velocity.y * speed + CHAR_SIZE < SCREEN_HEIGHT)) {
+		if ((transform->position.y + transform->velocity.y * speed + CHAR_SIZE < SCREEN_HEIGHT)) 
+		{
 			onground = false;
 		}
 
@@ -35,28 +38,26 @@ public:
 			transform->velocity.y += gravity_scale * GRAVITY;
 			cout << "Not on ground" << endl;
 		}
-		
+
 
 		if ((transform->position.y + transform->velocity.y * speed < 0) || (transform->position.y + transform->velocity.y * speed + CHAR_SIZE > SCREEN_HEIGHT))
 		{
 			//Move back
-			transform->position.y -= transform->velocity.y*speed;
+			transform->position.y -= transform->velocity.y * speed;
 			onground = true;
-			if (onground == true ) cout << "Im on ground " << endl;
+			if (onground == true) cout << "Im on ground " << endl;
 		}
-		
-		
 
+	}
+
+	bool onGround()
+	{
+		return onground;
 	}
 
 	void setForce(const Vector2D f) {
 		force = f;
 	}
-
-	
-
-
-
 
 private:
 	bool onground = false;

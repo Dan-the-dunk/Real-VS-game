@@ -97,7 +97,7 @@ void Game::loadMedia() {
 	//load component(pos , sprite)
 
 	newPlayer.addComponent<TransformComponent>();
-	newPlayer.addComponent<SpriteComponent>("image/peter.png");
+	newPlayer.addComponent<SpriteComponent>("image/arnold.png");
 	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<RigidBody>(0.2f);
 }
@@ -131,11 +131,11 @@ void Game::update() {
 
 
 	if (newPlayer.getComponent<TransformComponent>().position.x >= 300) {
-		newPlayer.getComponent<SpriteComponent>().setText("image/dirt_txt.png");
+		newPlayer.getComponent<SpriteComponent>().setText("image/cbum.png");
 	}
 
 
-	if (newPlayer.getComponent<TransformComponent>().position.x >= 600) {
+	if (newPlayer.getComponent<TransformComponent>().position.x >= SCREEN_WIDTH) {
 		renderGameover();
 		SDL_Delay(2000);
 		isRunning = false;

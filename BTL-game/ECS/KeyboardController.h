@@ -7,23 +7,35 @@
 class KeyboardController : public Component{
 public:
 	TransformComponent* transform;
+	
 
 	void init() override
 	{
 		transform = &entity->getComponent<TransformComponent>();
+		
 	}
 
 	void update() override 
 	{
 		if (Game::ev.type == SDL_KEYDOWN) 
-		{
+		{	
+			
+
 			switch (Game::ev.key.keysym.sym)
 			{
-
 			case SDLK_UP:
 			case SDLK_SPACE:
+				
 				cout << "UP" << endl;
-				transform->velocity.y = -7;
+				if ((transform->position.y + transform->velocity.y * speed + 140 < SCREEN_HEIGHT))
+				{
+
+				}
+				else
+				{
+					transform->velocity.y = -7;
+				}
+				
 				break;
 
 			case SDLK_DOWN:
@@ -44,6 +56,9 @@ public:
 			default:
 				break;
 			}
+
+			
+
 		}
 
 		if (Game::ev.type == SDL_KEYUP) 
