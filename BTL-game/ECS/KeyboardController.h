@@ -21,22 +21,23 @@ public:
 			{
 
 			case SDLK_UP:
-			
-				transform->velocity.y = -1;
+			case SDLK_SPACE:
+				cout << "UP" << endl;
+				transform->velocity.y = -7;
 				break;
 
 			case SDLK_DOWN:
-			
+				cout << "DOWN" << endl;
 				transform->velocity.y = 1;
 				break;
 
 			case SDLK_LEFT:
-			
+				cout << "LEFT" << endl;
 				transform->velocity.x = -1;
 				break;
 
 			case SDLK_RIGHT:
-			
+				cout << "RIGHT" << endl;
 				transform->velocity.x = 1;
 				break;
 
@@ -50,6 +51,7 @@ public:
 			switch (Game::ev.key.keysym.sym)
 			{
 
+			/*
 			case SDLK_UP:
 			
 				transform->velocity.y = 0;
@@ -59,6 +61,7 @@ public:
 			
 				transform->velocity.y = 0;
 				break;
+				*/
 
 			case SDLK_LEFT:
 			

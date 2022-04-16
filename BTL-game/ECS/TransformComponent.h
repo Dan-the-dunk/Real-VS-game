@@ -2,14 +2,16 @@
 
 #include"Components.h"
 #include"../Physics/Vector2D.h"
+//testing zone
+
+const int speed = 4;
+
 class TransformComponent : public Component
 {
 public:
 	Vector2D position;
 	Vector2D velocity;
 	
-	int speed = 4;
-
 
 
 
@@ -36,6 +38,19 @@ public:
 	{
 		position.x += velocity.x * speed;
 		position.y += velocity.y * speed;
+
+
+		/*/testing
+
+		if ((position.y < 0) || (position.y + CHAR_SIZE > SCREEN_HEIGHT))
+		{
+			//Move back
+			position.y -= velocity.y*speed;
+		}
+
+		*/
+
+
 	}
 
 	

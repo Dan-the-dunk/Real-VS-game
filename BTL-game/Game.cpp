@@ -97,8 +97,9 @@ void Game::loadMedia() {
 	//load component(pos , sprite)
 
 	newPlayer.addComponent<TransformComponent>();
-	newPlayer.addComponent<SpriteComponent>("image/arnold.png");
+	newPlayer.addComponent<SpriteComponent>("image/peter.png");
 	newPlayer.addComponent<KeyboardController>();
+	newPlayer.addComponent<RigidBody>(0.2f);
 }
 
 void Game::handleEvents() {
