@@ -4,15 +4,14 @@
 #include"../Physics/Vector2D.h"
 
 constexpr float GRAVITY = 2.0f;
-
 const int CHAR_SIZE = 140;
-
 
 class RigidBody : public Component 
 {
 
 public:
-
+	
+	
 
 	RigidBody() = default;
 	virtual  ~RigidBody() = default;
@@ -54,6 +53,9 @@ public:
 	{
 		return onground;
 	}
+
+
+
 
 	void setForce(const Vector2D f) {
 		force = f;

@@ -130,9 +130,14 @@ void Game::update() {
 		<< newPlayer.getComponent<TransformComponent>().position.y << endl;
 
 
+	/*
+	Memory leak.
+
 	if (newPlayer.getComponent<TransformComponent>().position.x >= 300) {
 		newPlayer.getComponent<SpriteComponent>().setText("image/cbum.png");
 	}
+
+	*/
 
 
 	if (newPlayer.getComponent<TransformComponent>().position.x >= SCREEN_WIDTH) {

@@ -7,12 +7,11 @@
 class KeyboardController : public Component{
 public:
 	TransformComponent* transform;
-	
 
 	void init() override
 	{
 		transform = &entity->getComponent<TransformComponent>();
-		
+
 	}
 
 	void update() override 
@@ -27,9 +26,10 @@ public:
 			case SDLK_SPACE:
 				
 				cout << "UP" << endl;
+				//140 = char_size
 				if ((transform->position.y + transform->velocity.y * speed + 140 < SCREEN_HEIGHT))
 				{
-
+					
 				}
 				else
 				{
