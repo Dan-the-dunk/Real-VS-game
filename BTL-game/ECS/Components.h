@@ -5,4 +5,5 @@
 #include"SpriteComponent.h"
 #include"KeyboardController.h"
 #include"RigidBody.h"
+#include"ColliderComponent.h"
 

@@ -4,15 +4,15 @@
 #include"../Physics/Vector2D.h"
 
 constexpr float GRAVITY = 2.0f;
-const int CHAR_SIZE = 140;
+
 
 class RigidBody : public Component 
 {
 
 public:
 	
+	static float CHAR_SIZE;
 	
-
 	RigidBody() = default;
 	virtual  ~RigidBody() = default;
 
@@ -22,27 +22,37 @@ public:
 	}
 
 	void init() override {
-		transform = &entity->getComponent<TransformComponent>();
+		
+		if (!entity->hasComponent<TransformComponent>()) {
+			entity->addComponent < TransformComponent>();
+		}
+		transform = &entity->getComponent < TransformComponent>();
 	}
 	 
 	void update() override 
 	{
+
+		// CHAR_SIZE *= (float)transform->scale; dung r nhung tai arnold o trung tam hinh nen bi chim xuong.
+
 		//Thay doi true false;
-		if ((transform->position.y + transform->velocity.y * speed + CHAR_SIZE < SCREEN_HEIGHT)) 
+		if ((transform->position.y + CHAR_SIZE*transform->scale < SCREEN_HEIGHT))
 		{
 			onground = false;
 		}
 
 		if (onground == false) {
 			transform->velocity.y += gravity_scale * GRAVITY;
-			cout << "Not on ground" << endl;
+			//cout << "Not on ground" << endl;
 		}
 
 
-		if ((transform->position.y + transform->velocity.y * speed < 0) || (transform->position.y + transform->velocity.y * speed + CHAR_SIZE > SCREEN_HEIGHT))
+		if ((transform->position.y + transform->velocity.y * TransformComponent::speed < 0) ||
+			(transform->position.y + CHAR_SIZE*transform->scale > SCREEN_HEIGHT))
 		{
-			//Move back
-			transform->position.y -= transform->velocity.y * speed;
+			//Move back a const gap
+			transform->velocity.y = 0;
+			transform->position.y = SCREEN_HEIGHT - CHAR_SIZE* transform->scale;
+			
 			onground = true;
 			if (onground == true) cout << "Im on ground " << endl;
 		}
@@ -68,3 +78,7 @@ private:
 	Vector2D force = Vector2D();
 	TransformComponent* transform;
 };
+
+
+
+float RigidBody::CHAR_SIZE = 140;

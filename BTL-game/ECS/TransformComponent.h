@@ -4,7 +4,7 @@
 #include"../Physics/Vector2D.h"
 //testing zone
 
-const int speed = 4;
+
 
 class TransformComponent : public Component
 {
@@ -12,14 +12,31 @@ public:
 	Vector2D position;
 	Vector2D velocity;
 	
+	int height = 140;
+	int width = 140;
+	float scale = 1 ;
 
-
+	static int speed ;
 
 	TransformComponent(float x, float y) 
 	{
 		position.x = x;
 		position.y = y;
 	}
+
+	TransformComponent(float x, float y, int w, int h , float scale)
+	{
+		position.x = x;
+		position.y = y;
+		width = w;
+		height = h;
+	}
+
+	TransformComponent(float sc)
+	{
+		scale = sc;
+	}
+
 	TransformComponent() 
 	{
 		position.x = 0.0f;
@@ -54,5 +71,7 @@ public:
 	}
 
 	
-
 };
+
+// khu de variable
+int TransformComponent::speed = 4;

@@ -4,6 +4,7 @@
 #include"Map.h"
 #include"ECS/Components.h"
 #include"Physics/Vector2D.h"
+#include"Collision.h"
 
 
 using namespace std;
@@ -17,7 +18,7 @@ Map* maplv1 = nullptr;
 Manager manager;
 auto& newPlayer(manager.addEntity());
 
-
+auto& wall(manager.addEntity());
 
 Game::Game() {
 	
@@ -97,9 +98,22 @@ void Game::loadMedia() {
 	//load component(pos , sprite)
 
 	newPlayer.addComponent<TransformComponent>();
-	newPlayer.addComponent<SpriteComponent>("image/arnold.png");
+	newPlayer.addComponent<SpriteComponent>("image/Grass_txt.png");
 	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<RigidBody>(0.2f);
+	newPlayer.addComponent<ColliderComponent>("player");
+
+
+
+	wall.addComponent<TransformComponent>((float)SCREEN_WIDTH/2, (float)SCREEN_HEIGHT/2, 100, 1000, 1.0f);
+	wall.addComponent<SpriteComponent>("image/dirt_Txt.png");
+	wall.addComponent<ColliderComponent>("wall");
+
+
+
+
+
+
 }
 
 void Game::handleEvents() {
@@ -125,19 +139,29 @@ void Game::update() {
 	manager.refresh();
 	manager.update();
 	
+	if ( Collision::AABB( wall.getComponent<ColliderComponent>().collider , newPlayer.getComponent<ColliderComponent>().collider ) )
+	{
+		newPlayer.getComponent<TransformComponent>().scale = 0.5f;
+		cout << "Player hit a wall !" << endl;
+	}
+
+
 
 	cout << newPlayer.getComponent<TransformComponent>().position.x << " , "
 		<< newPlayer.getComponent<TransformComponent>().position.y << endl;
 
 
-	/*
-	Memory leak.
-
+	
+	
+	/*mm leak
 	if (newPlayer.getComponent<TransformComponent>().position.x >= 300) {
+	
 		newPlayer.getComponent<SpriteComponent>().setText("image/cbum.png");
-	}
+	}*/
+	
+	
 
-	*/
+	
 
 
 	if (newPlayer.getComponent<TransformComponent>().position.x >= SCREEN_WIDTH) {

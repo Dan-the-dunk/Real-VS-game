@@ -56,6 +56,9 @@ Map::Map()
 
 Map::~Map()
 {
+	SDL_DestroyTexture(grassTxt);
+	SDL_DestroyTexture(dirtTxt);
+	SDL_DestroyTexture(waterTxt);
 }
 
 

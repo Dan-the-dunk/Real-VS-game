@@ -7,11 +7,18 @@
 class KeyboardController : public Component{
 public:
 	TransformComponent* transform;
+	
+	//test ri tao rigidbody
+
+	
 
 	void init() override
 	{
-		transform = &entity->getComponent<TransformComponent>();
-
+		if (!entity->hasComponent<TransformComponent>()) {
+			entity->addComponent < TransformComponent>();
+		}
+		transform = &entity->getComponent < TransformComponent>();
+		
 	}
 
 	void update() override 
@@ -27,7 +34,7 @@ public:
 				
 				cout << "UP" << endl;
 				//140 = char_size
-				if ((transform->position.y + transform->velocity.y * speed + 140 < SCREEN_HEIGHT))
+				if ((transform->position.y + 140*transform->scale  < SCREEN_HEIGHT))
 				{
 					
 				}

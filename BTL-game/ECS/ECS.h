@@ -61,9 +61,9 @@ public:
 	bool isActive() const { return active; }
 	void destroy() { active = false; }
 
-	template<typename T> bool hasComponents() const 
+	template <typename T> bool hasComponent() const 
 	{
-		return componentBitset[getComponentTypeID<T>];
+		return componentBitset[getComponentTypeID<T>()];
 
 	}
 

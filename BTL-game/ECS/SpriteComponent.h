@@ -20,23 +20,37 @@ public:
 		setText(path);
 	}
 
+	~SpriteComponent()
+	{
+		SDL_DestroyTexture(texture);
+	}
+
 	void setText(const char* path) {
 		texture = loadTexture(path);
 	}
 
 
+	SDL_Rect getRect() {
+		return desRect;
+	}
+
+
 	void init() override
 	{
+		
+		
+
 		transform = &entity->getComponent<TransformComponent>();
 		srcRect = { 0,0,140,140 };
-		desRect.w = 140;
-		desRect.h = 140;
+		desRect.w = (int)transform->width;
+		desRect.h = (int)transform->height;
 	}
 	void update() override
 	{
 		desRect.x = (int)transform->position.x;
 		desRect.y = (int)transform->position.y;
-
+		desRect.w = (int)transform->width* transform->scale;
+		desRect.h = (int)transform->height* transform->scale;
 	}
 	void draw() override
 	{
