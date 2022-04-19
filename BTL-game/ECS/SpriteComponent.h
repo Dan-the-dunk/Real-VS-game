@@ -12,13 +12,47 @@ private:
 	SDL_Texture* texture;
 	SDL_Rect srcRect, desRect;
 
+	bool animated = false;
+	bool pAnimated = false;
+	int frame = 0;
+	int speed = 100;
+	//Khu thu nghiem
+	int spaceX = 0;
+	int spaceY = 0;
+
+
 public:
 	SpriteComponent() = default;
+
+
+
+
 
 	SpriteComponent(const char* path)
 	{
 		setText(path);
 	}
+
+	SpriteComponent(const char* path, int mFrames, int mSpeed , int mSpaceX, int mSpaceY )
+	{
+		pAnimated = true;
+		frame = mFrames;
+		speed = mSpeed;
+		spaceX = mSpaceX;
+		spaceY = mSpaceY;
+		setText(path);
+	}
+
+	SpriteComponent(const char* path, int mFrames, int mSpeed)
+	{
+		animated = true;
+		frame = mFrames;
+		speed = mSpeed;
+		setText(path);
+	}
+
+
+
 
 	~SpriteComponent()
 	{
@@ -41,12 +75,30 @@ public:
 		
 
 		transform = &entity->getComponent<TransformComponent>();
-		srcRect = { 0,0,140,140 };
+
+		//90,77 la info cua o dau tien phan walk;
+		srcRect = { 90 ,196 ,64, 92 };
 		desRect.w = (int)transform->width;
 		desRect.h = (int)transform->height;
 	}
 	void update() override
 	{
+
+
+		if (animated)
+		{
+			srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed) % frame );
+		}
+
+
+		if (pAnimated)
+		{
+			srcRect.x = 90 + 72*static_cast<int>((SDL_GetTicks() / speed) % frame);
+		}
+
+
+
+
 		desRect.x = static_cast<int>(transform->position.x);
 		desRect.y = static_cast<int>(transform->position.y);
 		desRect.w = static_cast<int>(transform->width* transform->scale);
