@@ -4,10 +4,18 @@
 #include <SDL.h>
 #include<SDL_image.h>
 #include<SDL.h>
+#include<vector>
+
 
 
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1080;
+
+
+class ColliderComponent;
+
+
+
 
 
 class Game
@@ -16,13 +24,12 @@ public:
 
 
 	
-	const char* backgroundImagePath = "image/colors.png";
-	const char* gameOverImagePath = "image/gameover.jpg";
+	const char* backgroundImagePath = "assets/image/colors.png";
+	const char* gameOverImagePath = "assets/image/gameover.jpg";
 	SDL_Texture* backgroundTxt;
 	SDL_Texture* gameOverTxt;
-	
-
-
+	static std::vector<ColliderComponent*> colliders;
+	static void AddTitle(int id, int x, int y);
 
 
 

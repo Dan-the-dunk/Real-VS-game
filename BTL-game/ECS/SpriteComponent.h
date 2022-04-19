@@ -3,7 +3,7 @@
 
 #include"Components.h"
 #include<SDL.h>
-#include"../SDL_Ultis.h"
+#include"../assets/AssetsManager.h"
 
 class SpriteComponent : public Component
 {
@@ -47,10 +47,10 @@ public:
 	}
 	void update() override
 	{
-		desRect.x = (int)transform->position.x;
-		desRect.y = (int)transform->position.y;
-		desRect.w = (int)transform->width* transform->scale;
-		desRect.h = (int)transform->height* transform->scale;
+		desRect.x = static_cast<int>(transform->position.x);
+		desRect.y = static_cast<int>(transform->position.y);
+		desRect.w = static_cast<int>(transform->width* transform->scale);
+		desRect.h = static_cast<int>(transform->height* transform->scale);
 	}
 	void draw() override
 	{

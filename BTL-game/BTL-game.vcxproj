@@ -148,7 +148,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Physics\Vector2D.cpp" />
-    <ClCompile Include="SDL_Ultis.cpp" />
+    <ClCompile Include="assets\AssetsManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ECS\ColliderComponent.h" />
@@ -157,26 +157,27 @@
     <ClInclude Include="ECS\ECS.h" />
     <ClInclude Include="ECS\KeyboardController.h" />
     <ClInclude Include="ECS\RigidBody.h" />
+    <ClInclude Include="ECS\TitleComponent.h" />
     <ClInclude Include="ECS\TransformComponent.h" />
     <ClInclude Include="ECS\SpriteComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Physics\Vector2D.h" />
-    <ClInclude Include="SDL_Ultis.h" />
+    <ClInclude Include="assets\AssetsManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BTL-game.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="colors.png" />
-    <Image Include="image\arnold.png" />
-    <Image Include="image\colors.png" />
-    <Image Include="image\dirt_txt.png" />
+    <Image Include="assets\image\arnold.png" />
+    <Image Include="assets\image\colors.png" />
+    <Image Include="assets\image\dirt_txt.png" />
     <Image Include="image\enemy.png" />
-    <Image Include="image\gameover.jpg" />
-    <Image Include="image\grass_txt.png" />
-    <Image Include="image\water_txt.png" />
+    <Image Include="assets\image\gameover.jpg" />
+    <Image Include="assets\image\grass_txt.png" />
+    <Image Include="assets\image\water_txt.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,7 +16,7 @@ public:
 	int width = 140;
 	float scale = 1 ;
 
-	static int speed ;
+	const int speed = 4;
 
 	TransformComponent(float x, float y) 
 	{
@@ -39,15 +39,13 @@ public:
 
 	TransformComponent() 
 	{
-		position.x = 0.0f;
-		position.y = 0.0f;
+		position.zero();
 	}
 
 	
 	void init() override
 	{
-		velocity.x = 0;
-		velocity.y = 0;
+		velocity.zero();
 	}
 
 
@@ -74,4 +72,4 @@ public:
 };
 
 // khu de variable
-int TransformComponent::speed = 4;
+

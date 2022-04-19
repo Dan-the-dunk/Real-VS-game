@@ -21,7 +21,7 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SDL_Ultis.cpp">
+    <ClCompile Include="assets\AssetsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Hero.cpp">
@@ -44,7 +44,7 @@
     <ClInclude Include="Game.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="SDL_Ultis.h">
+    <ClInclude Include="assets\AssetsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Hero.h">
@@ -77,6 +77,9 @@
     <ClInclude Include="Collision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECS\TitleComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BTL-game.rc">
@@ -84,28 +87,28 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="image\colors.png">
+    <Image Include="assets\image\colors.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="image\gameover.jpg">
+    <Image Include="assets\image\gameover.jpg">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="colors.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="image\arnold.png">
+    <Image Include="assets\image\arnold.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="image\enemy.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="image\dirt_txt.png">
+    <Image Include="assets\image\dirt_txt.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="image\grass_txt.png">
+    <Image Include="assets\image\grass_txt.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="image\water_txt.png">
+    <Image Include="assets\image\water_txt.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

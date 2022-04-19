@@ -11,7 +11,7 @@ class RigidBody : public Component
 
 public:
 	
-	static float CHAR_SIZE;
+	const float CHAR_SIZE = 140; 
 	
 	RigidBody() = default;
 	virtual  ~RigidBody() = default;
@@ -46,7 +46,7 @@ public:
 		}
 
 
-		if ((transform->position.y + transform->velocity.y * TransformComponent::speed < 0) ||
+		if ((transform->position.y + transform->velocity.y * transform->speed < 0) ||
 			(transform->position.y + CHAR_SIZE*transform->scale > SCREEN_HEIGHT))
 		{
 			//Move back a const gap
@@ -81,4 +81,3 @@ private:
 
 
 
-float RigidBody::CHAR_SIZE = 140;

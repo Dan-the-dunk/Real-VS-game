@@ -1,0 +1,3 @@
+Bug:
+
+load map o loadmedia

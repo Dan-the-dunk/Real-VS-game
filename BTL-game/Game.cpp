@@ -1,5 +1,5 @@
 #include"Game.h"
-#include"SDL_Ultis.h"
+#include"assets/AssetsManager.h"
 #include<iostream>
 #include"Map.h"
 #include"ECS/Components.h"
@@ -11,14 +11,18 @@ using namespace std;
 
 
 
+vector<ColliderComponent*>Game::colliders;
+
+
 SDL_Renderer* Game::gRenderer = nullptr;
 SDL_Event Game::ev ;
 Map* maplv1 = nullptr;
 
 Manager manager;
 auto& newPlayer(manager.addEntity());
-
 auto& wall(manager.addEntity());
+
+
 
 Game::Game() {
 	
@@ -72,11 +76,7 @@ void Game::init(const char* title, bool fullscreen) {
 					isRunning = false;
 				}
 
-				
-				
-
-				//load media o day;
-				
+								
 
 			}
 		}
@@ -97,16 +97,25 @@ void Game::loadMedia() {
 	maplv1 = new Map();
 	//load component(pos , sprite)
 
+
+
+
+	Map::loadmap("assets/mapdm16_16.map", 16, 16);
+
+
+
+
+
 	newPlayer.addComponent<TransformComponent>();
-	newPlayer.addComponent<SpriteComponent>("image/Grass_txt.png");
+	newPlayer.addComponent<SpriteComponent>("assets/image/grass_txt.png");
 	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<RigidBody>(0.2f);
 	newPlayer.addComponent<ColliderComponent>("player");
 
 
 
-	wall.addComponent<TransformComponent>((float)SCREEN_WIDTH/2, (float)SCREEN_HEIGHT/2, 100, 1000, 1.0f);
-	wall.addComponent<SpriteComponent>("image/dirt_Txt.png");
+	wall.addComponent<TransformComponent>((float)SCREEN_WIDTH/2, (float)SCREEN_HEIGHT - 200 , 100, 200, 1.0f);
+	wall.addComponent<SpriteComponent>("assets/image/dirt_txt.png");
 	wall.addComponent<ColliderComponent>("wall");
 
 
@@ -139,11 +148,14 @@ void Game::update() {
 	manager.refresh();
 	manager.update();
 	
-	if ( Collision::AABB( wall.getComponent<ColliderComponent>().collider , newPlayer.getComponent<ColliderComponent>().collider ) )
+
+
+	for (auto cc : colliders)
 	{
-		newPlayer.getComponent<TransformComponent>().scale = 0.5f;
-		cout << "Player hit a wall !" << endl;
+		Collision::AABB(newPlayer.getComponent<ColliderComponent>(), *cc);
+	
 	}
+	
 
 
 
@@ -174,10 +186,6 @@ void Game::update() {
 
 void Game::render() {
 	SDL_RenderClear(gRenderer);
-	//add things to render 
-	maplv1->drawmap();
-	//
-	//sprite component
 	manager.draw();
 	
 	SDL_RenderPresent(gRenderer);
@@ -203,7 +211,11 @@ void Game::clean() {
 	cout << "SDL has been cleaned";
 };
 
-
+void Game::AddTitle(int id, int x, int y) 
+{
+	auto& title(manager.addEntity());
+	title.addComponent<TitleComponenet>(x, y, 30, 30, id);
+}
 
 
 

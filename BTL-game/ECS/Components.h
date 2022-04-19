@@ -6,4 +6,5 @@
 #include"KeyboardController.h"
 #include"RigidBody.h"
 #include"ColliderComponent.h"
+#include"TitleComponent.h"
 

@@ -7,7 +7,7 @@
 #include <SDL_image.h>
 #include <string>
 #include<iostream>
-#include "Game.h"
+#include "../Game.h"
 using namespace std;
 
 
