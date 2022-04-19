@@ -24,6 +24,17 @@ auto& wall(manager.addEntity());
 
 
 
+enum groupLabels : std::size_t
+{
+	groupMap,
+	groupPlayers,
+	groupEnemies,
+	groupColliders,
+	groupProjectitles
+};
+
+
+
 Game::Game() {
 	
 }
@@ -111,13 +122,13 @@ void Game::loadMedia() {
 	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<RigidBody>(0.2f);
 	newPlayer.addComponent<ColliderComponent>("player");
-
+	newPlayer.addGroup(groupPlayers);
 
 
 	wall.addComponent<TransformComponent>((float)SCREEN_WIDTH/2, (float)SCREEN_HEIGHT - 200 , 100, 200, 1.0f);
 	wall.addComponent<SpriteComponent>("assets/image/dirt_txt.png");
 	wall.addComponent<ColliderComponent>("wall");
-
+	wall.addGroup(groupMap);
 
 
 
@@ -184,10 +195,28 @@ void Game::update() {
 	 
 };
 
+
+auto& titles(manager.getGroup(groupMap));
+auto& players(manager.getGroup(groupPlayers));
+auto& enemies(manager.getGroup(groupEnemies));
+
+
 void Game::render() {
 	SDL_RenderClear(gRenderer);
-	manager.draw();
 	
+	for (auto& t : titles)
+	{
+		t->draw();
+	}
+	for (auto& p : players)
+	{
+		p->draw();
+	}
+	for (auto& e : enemies)
+	{
+		e->draw();
+	}
+
 	SDL_RenderPresent(gRenderer);
 };
 
@@ -215,6 +244,7 @@ void Game::AddTitle(int id, int x, int y)
 {
 	auto& title(manager.addEntity());
 	title.addComponent<TitleComponenet>(x, y, 30, 30, id);
+	title.addGroup(groupMap);
 }
 
 
