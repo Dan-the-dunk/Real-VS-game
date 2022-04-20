@@ -152,6 +152,7 @@
     <ClCompile Include="assets\AssetsManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ECS\Animation.h" />
     <ClInclude Include="ECS\ColliderComponent.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="ECS\Components.h" />
@@ -171,6 +172,7 @@
     <ResourceCompile Include="BTL-game.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\image\f_petersprite.png" />
     <Image Include="colors.png" />
     <Image Include="assets\image\arnold.png" />
     <Image Include="assets\image\colors.png" />

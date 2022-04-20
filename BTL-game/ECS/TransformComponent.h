@@ -12,8 +12,8 @@ public:
 	Vector2D position;
 	Vector2D velocity;
 	
-	int height = 140;
-	int width = 140;
+	int height = 119;
+	int width = 72;
 	float scale = 1 ;
 
 	const int speed = 4;
@@ -22,6 +22,12 @@ public:
 	{
 		position.x = x;
 		position.y = y;
+	}
+
+	TransformComponent(int w, int h)
+	{
+		width = w;
+		height = h;
 	}
 
 	TransformComponent(float x, float y, int w, int h , float scale)

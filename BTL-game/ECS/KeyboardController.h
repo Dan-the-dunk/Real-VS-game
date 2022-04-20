@@ -7,7 +7,7 @@
 class KeyboardController : public Component{
 public:
 	TransformComponent* transform;
-	
+	SpriteComponent* sprite;
 	//test ri tao rigidbody
 
 	
@@ -18,6 +18,12 @@ public:
 			entity->addComponent < TransformComponent>();
 		}
 		transform = &entity->getComponent < TransformComponent>();
+
+		
+		sprite = &entity->getComponent <SpriteComponent>();
+
+
+
 		
 	}
 
@@ -45,18 +51,18 @@ public:
 				
 				break;
 
-			case SDLK_DOWN:
-				cout << "DOWN" << endl;
-				transform->velocity.y = 1;
-				break;
+			
 
 			case SDLK_LEFT:
 				cout << "LEFT" << endl;
+				sprite->play("Walk");
+
 				transform->velocity.x = -1;
 				break;
 
 			case SDLK_RIGHT:
 				cout << "RIGHT" << endl;
+				sprite->play("Walk");
 				transform->velocity.x = 1;
 				break;
 
@@ -86,12 +92,13 @@ public:
 				*/
 
 			case SDLK_LEFT:
-			
+				
+				sprite->play("Idle");
 				transform->velocity.x = 0;
 				break;
 
 			case SDLK_RIGHT:
-			
+				sprite->play("Idle");
 				transform->velocity.x = 0;
 				break;
 

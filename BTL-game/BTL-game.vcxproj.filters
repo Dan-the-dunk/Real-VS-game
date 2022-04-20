@@ -83,6 +83,9 @@
     <ClInclude Include="ECS\TitleComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECS\Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BTL-game.rc">
@@ -112,6 +115,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\image\water_txt.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\image\f_petersprite.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

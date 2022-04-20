@@ -117,8 +117,8 @@ void Game::loadMedia() {
 
 
 
-	newPlayer.addComponent<TransformComponent>();
-	newPlayer.addComponent<SpriteComponent>("assets/image/f_petersprite.png",7,100);
+	newPlayer.addComponent<TransformComponent>(72,119);
+	newPlayer.addComponent<SpriteComponent>("assets/image/f_petersprite.png",true);
 	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<RigidBody>(0.2f);
 	newPlayer.addComponent<ColliderComponent>("player");
