@@ -16,6 +16,10 @@ x = 72
 
 x+=
 
+3: y = 315
+
+4: y = 434
+
 
 line walk
 
@@ -24,3 +28,9 @@ line walk
 
 mai:keo 90,77 ve 0,0;
 chia sprite lam 4 phan doc va 11 phan ngang de ez chia hon, co dinh luong pixel moi o cua nv
+
+
+
+
+SIZE SAU KHI CHIA: W: ;
+H:

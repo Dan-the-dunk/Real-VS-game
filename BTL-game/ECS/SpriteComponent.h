@@ -76,8 +76,8 @@ public:
 
 		transform = &entity->getComponent<TransformComponent>();
 
-		//90,77 la info cua o dau tien phan walk;
-		srcRect = { 90 ,196 ,64, 92 };
+		//72,119 la info cua o dau tien phan walk;
+		srcRect = { 0 ,119 ,72, 119};
 		desRect.w = (int)transform->width;
 		desRect.h = (int)transform->height;
 	}
@@ -88,12 +88,6 @@ public:
 		if (animated)
 		{
 			srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed) % frame );
-		}
-
-
-		if (pAnimated)
-		{
-			srcRect.x = 90 + 72*static_cast<int>((SDL_GetTicks() / speed) % frame);
 		}
 
 

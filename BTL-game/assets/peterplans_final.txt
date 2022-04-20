@@ -1,0 +1,30 @@
+new peter griffin plan:
+
+
+lam thanh 1 sprite sheet xin.
+
+
+most reliable, xo pixel tren hinh
+
+y0 = 64 -64 = 0.
+
+y1 = 183 - 64 = 119.
+
+y2 = 299 (119*2).
+
+y3 = 415(119*3).
+
+y4 = 534(119*4)
+
+x2 = 232/ 227.
+
+x1 = 152
+
+
+w = 72;
+
+x1 = 156
+
+x2 = 228
+
+x3 = 300
