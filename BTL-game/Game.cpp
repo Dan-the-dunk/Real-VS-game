@@ -9,7 +9,7 @@
 
 using namespace std;
 
-
+const char* mapFile = "assets/terrain_ss.png";
 
 vector<ColliderComponent*>Game::colliders;
 
@@ -103,7 +103,6 @@ void Game::init(const char* title, bool fullscreen) {
 
 
 void Game::loadMedia() {
-	backgroundTxt = loadTexture(backgroundImagePath);
 	gameOverTxt = loadTexture(gameOverImagePath);
 	maplv1 = new Map();
 	//load component(pos , sprite)
@@ -111,7 +110,7 @@ void Game::loadMedia() {
 
 
 
-	Map::loadmap("assets/mapdm16_16.map", 16, 16);
+	Map::loadmap("assets/map.map", 36, 24);
 
 
 
@@ -125,10 +124,6 @@ void Game::loadMedia() {
 	newPlayer.addGroup(groupPlayers);
 
 
-	wall.addComponent<TransformComponent>((float)SCREEN_WIDTH/2, (float)SCREEN_HEIGHT - 200 , 100, 200, 1.0f);
-	wall.addComponent<SpriteComponent>("assets/image/dirt_txt.png");
-	wall.addComponent<ColliderComponent>("wall");
-	wall.addGroup(groupMap);
 
 
 
@@ -240,10 +235,10 @@ void Game::clean() {
 	cout << "SDL has been cleaned";
 };
 
-void Game::AddTitle(int id, int x, int y) 
+void Game::AddTitle(int srcX, int srcY , int xpos , int ypos ) 
 {
 	auto& title(manager.addEntity());
-	title.addComponent<TitleComponenet>(x, y, 30, 30, id);
+	title.addComponent<TitleComponenet>(srcX, srcY, xpos, ypos,mapFile);
 	title.addGroup(groupMap);
 }
 

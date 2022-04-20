@@ -56,6 +56,7 @@ public:
 			case SDLK_LEFT:
 				cout << "LEFT" << endl;
 				sprite->play("Walk");
+				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 
 				transform->velocity.x = -1;
 				break;
@@ -63,6 +64,8 @@ public:
 			case SDLK_RIGHT:
 				cout << "RIGHT" << endl;
 				sprite->play("Walk");
+				sprite->spriteFlip = SDL_FLIP_NONE;
+
 				transform->velocity.x = 1;
 				break;
 
@@ -95,6 +98,7 @@ public:
 				
 				sprite->play("Idle");
 				transform->velocity.x = 0;
+				//sprite->spriteFlip = SDL_FLIP_NONE;
 				break;
 
 			case SDLK_RIGHT:

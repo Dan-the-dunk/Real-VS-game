@@ -4,54 +4,43 @@
 #include"TransformComponent.h"
 #include"SpriteComponent.h"
 #include<SDL.h>
-
+#include"../assets/AssetsManager.h"
 class TitleComponenet : public Component {
 public:
-	TransformComponent* transform;
-	SpriteComponent* sprite;
-	
-	const char* path;
 
-	SDL_Rect titleRect;
-	int titleID;
+	SDL_Texture* texture;
+	SDL_Rect srcRect, desRect;
+
 
 	TitleComponenet() = default;
 
-	TitleComponenet(int x, int y, int w, int h, int id) 
+
+	TitleComponenet(int srcX, int srcY, int xpos, int ypos, const char* path)
 	{
-		titleRect = { x, y,w,h };
-		titleID = id;
-	
-		switch (titleID)
-		{
-			case 0:
-				path = "assets/image/water_txt.png";
-				break;
+		texture = loadTexture(path);
 
-			case 1:
-				path = "assets/image/grass_txt.png";
-			break;
+		srcRect = { srcX, srcY , 64 , 64 };
 
-			case 2:
-				path = "assets/image/dirt_txt.png";
-				break;
-			default:
-				break;
+		desRect = { xpos, ypos , 64 , 64 };
 
-		}
-	
+
 	}
 
 
-	void init() override
-	{
-		entity->addComponent<TransformComponent>((float)titleRect.x, (float)titleRect.y, titleRect.w, titleRect.h , 1);
-		transform = &entity->getComponent<TransformComponent>();
-		
-		entity->addComponent<SpriteComponent>(path);
-		sprite = &entity->getComponent<SpriteComponent>();
 
+	~TitleComponenet()
+	{
+		SDL_DestroyTexture(texture);
 	}
+
+	
+
+	void draw() override
+	{
+		drawTexture(texture, srcRect, desRect, SDL_FLIP_NONE);
+	}
+
+
 
 
 

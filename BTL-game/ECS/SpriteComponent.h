@@ -15,12 +15,11 @@ private:
 	SDL_Rect srcRect, desRect;
 
 	bool animated = false;
-	bool pAnimated = false;
 	int frames = 0;
 	int speed = 100;
 	//Khu thu nghiem
-	int spaceX = 0;
-	int spaceY = 0;
+	
+
 
 
 public:
@@ -30,22 +29,14 @@ public:
 	
 	std::map<const char*, Animation> animations;
 
-
+	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
 	SpriteComponent(const char* path)
 	{
 		setText(path);
 	}
 
-	SpriteComponent(const char* path, int mFrames, int mSpeed , int mSpaceX, int mSpaceY )
-	{
-		pAnimated = true;
-		frames = mFrames;
-		speed = mSpeed;
-		spaceX = mSpaceX;
-		spaceY = mSpaceY;
-		setText(path);
-	}
+	
 
 	SpriteComponent(const char* path, bool isAnimated)
 	{
@@ -111,7 +102,7 @@ public:
 	}
 	void draw() override
 	{
-		drawTexture(texture, srcRect, desRect);
+		drawTexture(texture, srcRect, desRect, spriteFlip);
 	}
 
 

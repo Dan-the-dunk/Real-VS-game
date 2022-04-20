@@ -22,15 +22,24 @@ Map::~Map()
 
 void Map::loadmap(std::string path, int sizeX, int sizeY)
 {
-	char title;
+	char c;
 	std::fstream mapFile;
 	mapFile.open(path);
 
 
+	int srcX, srcY;
+
+
 	for (int y = 0; y < sizeY; y++) {
 		for (int x = 0; x < sizeX; x++) {
-			mapFile.get(title);
-			Game::AddTitle(atoi(&title), x*30, y*30);
+			mapFile.get(c);
+			srcY = atoi(&c) * 32;
+			mapFile.get(c);
+			srcX = atoi(&c) * 32;
+
+
+
+			Game::AddTitle(srcX,srcY, x*32, y*32);
 			mapFile.ignore();
 		}
 	}
