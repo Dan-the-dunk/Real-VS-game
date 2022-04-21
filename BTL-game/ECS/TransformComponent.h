@@ -40,6 +40,9 @@ public:
 
 	TransformComponent(float sc)
 	{
+		//(1080,720)
+		position.x = 1080 / 2;
+		position.y = 720 / 2;
 		scale = sc;
 	}
 

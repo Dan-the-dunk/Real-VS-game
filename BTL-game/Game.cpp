@@ -9,7 +9,7 @@
 
 using namespace std;
 
-const char* mapFile = "assets/terrain_ss.png";
+const char* mapFile = "assets/terrain2_ss.png";
 
 vector<ColliderComponent*>Game::colliders;
 
@@ -33,7 +33,9 @@ enum groupLabels : std::size_t
 	groupProjectitles
 };
 
-
+auto& titles(manager.getGroup(groupMap));
+auto& players(manager.getGroup(groupPlayers));
+auto& enemies(manager.getGroup(groupEnemies));
 
 Game::Game() {
 	
@@ -108,10 +110,10 @@ void Game::loadMedia() {
 	//load component(pos , sprite)
 
 
+	//qua ton ram, nen de background thi hon/.
 
-
-	Map::loadmap("assets/map.map", 36, 24);
-
+	Map::loadmap("assets/map_l0.map", 36, 24);
+	
 
 
 
@@ -147,14 +149,23 @@ void Game::handleEvents() {
 };
 
 
-void Game::update() {
+void Game::update() 
+{
 	
 	//sprite component
 	
 	manager.refresh();
 	manager.update();
 	
+	Vector2D pVel = newPlayer.getComponent<TransformComponent>().velocity;
+	int pSpeed = newPlayer.getComponent<TransformComponent>().speed;
 
+
+	for (auto t : titles)
+	{
+		t->getComponent<TitleComponenet>().desRect.x += -(pVel.x * pSpeed);
+		//t->getComponent<TitleComponenet>().desRect.y += -(pVel.y * pSpeed);
+	}
 
 	for (auto cc : colliders)
 	{
@@ -191,9 +202,7 @@ void Game::update() {
 };
 
 
-auto& titles(manager.getGroup(groupMap));
-auto& players(manager.getGroup(groupPlayers));
-auto& enemies(manager.getGroup(groupEnemies));
+
 
 
 void Game::render() {
