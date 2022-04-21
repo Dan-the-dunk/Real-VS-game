@@ -121,4 +121,7 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="ECS\test.txt" />
+  </ItemGroup>
 </Project>

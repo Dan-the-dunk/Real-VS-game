@@ -104,7 +104,7 @@ void Game::init(const char* title, bool fullscreen) {
 
 void Game::loadMedia() {
 	gameOverTxt = loadTexture(gameOverImagePath);
-	maplv1 = new Map();
+	
 	//load component(pos , sprite)
 
 
