@@ -14,9 +14,13 @@ const char* mapFile = "assets/terrain2_ss.png";
 vector<ColliderComponent*>Game::colliders;
 
 
+bool Game::isRunning = false;
+SDL_Rect Game::camera = { 0,0,SCREEN_WIDTH  , SCREEN_HEIGHT };
+
 SDL_Renderer* Game::gRenderer = nullptr;
 SDL_Event Game::ev ;
 Map* maplv1 = nullptr;
+
 
 Manager manager;
 auto& newPlayer(manager.addEntity());
@@ -116,8 +120,6 @@ void Game::loadMedia() {
 	
 
 
-
-
 	newPlayer.addComponent<TransformComponent>(72,119);
 	newPlayer.addComponent<SpriteComponent>("assets/image/f_petersprite.png",true);
 	newPlayer.addComponent<KeyboardController>();
@@ -157,15 +159,13 @@ void Game::update()
 	manager.refresh();
 	manager.update();
 	
-	Vector2D pVel = newPlayer.getComponent<TransformComponent>().velocity;
-	int pSpeed = newPlayer.getComponent<TransformComponent>().speed;
+	camera.x = newPlayer.getComponent<TransformComponent>().position.x;
+	camera.y = newPlayer.getComponent<TransformComponent>().position.y - SCREEN_HEIGHT;
 
-
-	for (auto t : titles)
-	{
-		t->getComponent<TitleComponenet>().desRect.x += -(pVel.x * pSpeed);
-		//t->getComponent<TitleComponenet>().desRect.y += -(pVel.y * pSpeed);
-	}
+	if (camera.x < 0) camera.x = 0;
+	if (camera.x > camera.w) camera.x = camera.w;
+	if (camera.y < 0) camera.y = 0;
+	if (camera.y > camera.h) camera.y = camera.h;
 
 	for (auto cc : colliders)
 	{

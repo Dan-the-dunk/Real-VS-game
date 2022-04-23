@@ -22,6 +22,8 @@ class Game
 {
 public:
 
+	static bool isRunning;
+	static SDL_Rect camera;
 
 	
 	const char* gameOverImagePath = "assets/image/gameover.jpg";
@@ -55,7 +57,7 @@ public:
 private:
 	int cnt = 0;
 	
-	bool isRunning ;
+	
 	
 	SDL_Window* gWindow;
 	

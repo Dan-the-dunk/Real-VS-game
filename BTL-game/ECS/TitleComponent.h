@@ -10,6 +10,7 @@ public:
 
 	SDL_Texture* texture;
 	SDL_Rect srcRect, desRect;
+	Vector2D position;
 
 
 	TitleComponenet() = default;
@@ -19,9 +20,13 @@ public:
 	{
 		texture = loadTexture(path);
 
-		srcRect = { srcX, srcY , 64 , 64 };
+		position.x = xpos;
+		position.y = ypos;
 
-		desRect = { xpos, ypos , 64 , 64 };
+
+		srcRect = { srcX, srcY , 32 , 32 };
+
+		desRect = { xpos, ypos , 32 , 32 };
 
 
 	}
@@ -31,6 +36,13 @@ public:
 	~TitleComponenet()
 	{
 		SDL_DestroyTexture(texture);
+	}
+
+
+	void update() override
+	{
+		desRect.x = position.x - Game::camera.x;
+		desRect.y = position.y - Game::camera.y;
 	}
 
 	
