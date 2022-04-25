@@ -5,6 +5,10 @@
 #include"SpriteComponent.h"
 #include<SDL.h>
 #include"../assets/AssetsManager.h"
+
+
+const char title_size = 32;
+
 class TitleComponenet : public Component {
 public:
 
@@ -24,9 +28,9 @@ public:
 		position.y = ypos;
 
 
-		srcRect = { srcX, srcY , 32 , 32 };
+		srcRect = { srcX, srcY , title_size , title_size };
 
-		desRect = { xpos, ypos , 32 , 32 };
+		desRect = { xpos, ypos , title_size , title_size };
 
 
 	}
@@ -38,6 +42,7 @@ public:
 		SDL_DestroyTexture(texture);
 	}
 
+	//Camera
 
 	void update() override
 	{

@@ -26,6 +26,10 @@ public:
 
 	TransformComponent(int w, int h)
 	{
+		//new shit : fix camera
+		position.x = 1080 / 3;
+
+
 		width = w;
 		height = h;
 	}
@@ -48,7 +52,8 @@ public:
 
 	TransformComponent() 
 	{
-		position.zero();
+		position.x = 1080 / 2;
+		position.y = 0;
 	}
 
 	

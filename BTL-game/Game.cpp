@@ -159,12 +159,14 @@ void Game::update()
 	manager.refresh();
 	manager.update();
 	
-	camera.x = newPlayer.getComponent<TransformComponent>().position.x;
+	camera.x = newPlayer.getComponent<TransformComponent>().position.x - SCREEN_WIDTH/2; // gioi han vi tri nhan vat.
 	camera.y = newPlayer.getComponent<TransformComponent>().position.y - SCREEN_HEIGHT;
 
-	if (camera.x < 0) camera.x = 0;
+
+	//Camera
+	if (camera.x < 0) camera.x = 0;// 0 tac dong gi
 	if (camera.x > camera.w) camera.x = camera.w;
-	if (camera.y < 0) camera.y = 0;
+	if (camera.y < 0) camera.y = 0;// 0 tac dong gi
 	if (camera.y > camera.h) camera.y = camera.h;
 
 	for (auto cc : colliders)

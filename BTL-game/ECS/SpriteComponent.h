@@ -94,9 +94,9 @@ public:
 
 		srcRect.y = animIndex * transform->height;
 
-
-		desRect.x = static_cast<int>(transform->position.x);
-		desRect.y = static_cast<int>(transform->position.y);
+		//Camera.
+		desRect.x = static_cast<int>(transform->position.x) - Game::camera.x;
+		desRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
 		desRect.w = static_cast<int>(transform->width* transform->scale);
 		desRect.h = static_cast<int>(transform->height* transform->scale);
 	}

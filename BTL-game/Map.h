@@ -3,6 +3,10 @@
 #include"assets//AssetsManager.h"
 #include"Game.h"
 #include<string>
+
+
+const int tile_size = 32;
+
 class Map
 {
 public:
