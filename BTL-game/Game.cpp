@@ -9,9 +9,8 @@
 
 using namespace std;
 
-const char* mapFile = "assets/terrain2_ss.png";
-
-vector<ColliderComponent*>Game::colliders;
+Map* maplv1 = nullptr;
+Manager manager;
 
 
 bool Game::isRunning = false;
@@ -19,27 +18,14 @@ SDL_Rect Game::camera = { 0,0,SCREEN_WIDTH  , SCREEN_HEIGHT };
 
 SDL_Renderer* Game::gRenderer = nullptr;
 SDL_Event Game::ev ;
-Map* maplv1 = nullptr;
 
-
-Manager manager;
 auto& newPlayer(manager.addEntity());
-auto& wall(manager.addEntity());
 
 
 
-enum groupLabels : std::size_t
-{
-	groupMap,
-	groupPlayers,
-	groupEnemies,
-	groupColliders,
-	groupProjectitles
-};
 
-auto& titles(manager.getGroup(groupMap));
-auto& players(manager.getGroup(groupPlayers));
-auto& enemies(manager.getGroup(groupEnemies));
+
+
 
 Game::Game() {
 	
@@ -111,12 +97,16 @@ void Game::init(const char* title, bool fullscreen) {
 void Game::loadMedia() {
 	gameOverTxt = loadTexture(gameOverImagePath);
 	
+	
+
+
+
 	//load component(pos , sprite)
 
-
+	maplv1 = new Map("assets/map_terrain.png", 1, 32);
 	//qua ton ram, nen de background thi hon/.
 
-	Map::loadmap("assets/map_l0.map", 36, 24);
+	maplv1 -> loadmap("assets/map_col.map", 36, 24);
 	
 
 
@@ -134,6 +124,12 @@ void Game::loadMedia() {
 
 
 }
+
+
+
+auto& titles(manager.getGroup(Game::groupMap));
+auto& players(manager.getGroup(Game::groupPlayers));
+auto& colliders(manager.getGroup(Game::groupColliders));
 
 void Game::handleEvents() {
 	
@@ -155,10 +151,25 @@ void Game::update()
 {
 	
 	//sprite component
+
+	SDL_Rect playerCol = newPlayer.getComponent<ColliderComponent>().collider;
+	Vector2D playerPos = newPlayer.getComponent<TransformComponent>().position;
 	
 	manager.refresh();
 	manager.update();
 	
+	for (auto& c : colliders)
+	{
+		SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
+		if (Collision::AABB(cCol, playerCol))
+		{
+			newPlayer.getComponent<TransformComponent>().position = playerPos;
+		}
+	}
+
+
+
+
 	camera.x = newPlayer.getComponent<TransformComponent>().position.x - SCREEN_WIDTH/2; // gioi han vi tri nhan vat.
 	camera.y = newPlayer.getComponent<TransformComponent>().position.y - SCREEN_HEIGHT;
 
@@ -169,11 +180,7 @@ void Game::update()
 	if (camera.y < 0) camera.y = 0;// 0 tac dong gi
 	if (camera.y > camera.h) camera.y = camera.h;
 
-	for (auto cc : colliders)
-	{
-		Collision::AABB(newPlayer.getComponent<ColliderComponent>(), *cc);
 	
-	}
 	
 
 
@@ -218,9 +225,9 @@ void Game::render() {
 	{
 		p->draw();
 	}
-	for (auto& e : enemies)
+	for (auto& c : colliders)
 	{
-		e->draw();
+		c->draw();
 	}
 
 	SDL_RenderPresent(gRenderer);
@@ -246,12 +253,9 @@ void Game::clean() {
 	cout << "SDL has been cleaned";
 };
 
-void Game::AddTitle(int srcX, int srcY , int xpos , int ypos ) 
-{
-	auto& title(manager.addEntity());
-	title.addComponent<TitleComponenet>(srcX, srcY, xpos, ypos,mapFile);
-	title.addGroup(groupMap);
-}
+
+
+	
 
 
 

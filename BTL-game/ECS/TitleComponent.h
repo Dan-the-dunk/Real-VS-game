@@ -20,7 +20,7 @@ public:
 	TitleComponenet() = default;
 
 
-	TitleComponenet(int srcX, int srcY, int xpos, int ypos, const char* path)
+	TitleComponenet(int srcX, int srcY, int xpos, int ypos, int tsize, int tscale , const char* path)
 	{
 		texture = loadTexture(path);
 
@@ -28,9 +28,9 @@ public:
 		position.y = ypos;
 
 
-		srcRect = { srcX, srcY , title_size , title_size };
+		srcRect = { srcX, srcY , tsize , tsize };
 
-		desRect = { xpos, ypos , title_size , title_size };
+		desRect = { xpos, ypos , tsize*tscale , tsize * tscale };
 
 
 	}

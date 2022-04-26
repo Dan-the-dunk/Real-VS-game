@@ -29,8 +29,14 @@ public:
 	const char* gameOverImagePath = "assets/image/gameover.jpg";
 	SDL_Texture* backgroundTxt;
 	SDL_Texture* gameOverTxt;
-	static std::vector<ColliderComponent*> colliders;
-	static void AddTitle(int srcX , int srcY , int xpos , int ypos);
+	enum groupLabels : std::size_t
+	{
+		groupMap,
+		groupPlayers,
+		groupEnemies,
+		groupColliders,
+		groupProjectitles
+	};
 
 
 
