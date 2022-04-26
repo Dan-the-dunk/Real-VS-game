@@ -153,6 +153,7 @@ void Game::update()
 	//sprite component
 
 	// xem truoc khi update y nam o dau
+
 	manager.refresh();
 	manager.update();
 
@@ -168,20 +169,18 @@ void Game::update()
 
 		{
 			cout << "HIT" << endl;
-			newPlayer.getComponent<TransformComponent>().position.y = cCol.y - newPlayer.getComponent<RigidBody>().CHAR_SIZE; 
+			newPlayer.getComponent<TransformComponent>().velocity.y = 0;
+			newPlayer.getComponent<TransformComponent>().position.y = cCol.y - newPlayer.getComponent<RigidBody>().CHAR_SIZE - 1; 
 			newPlayer.getComponent<RigidBody>().onground = true;
 			break;
 		}
 
 		else {
-			newPlayer.getComponent<RigidBody>().onground = false;
+			if (newPlayer.getComponent<TransformComponent>().position.y + newPlayer.getComponent<RigidBody>().CHAR_SIZE  < cCol.y - 1)
+			{
+				newPlayer.getComponent<RigidBody>().onground = false;
+			}
 		}
-
-		
-
-
-
-
 	}
 
 

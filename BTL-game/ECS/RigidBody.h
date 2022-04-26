@@ -13,8 +13,6 @@ class RigidBody : public Component
 
 public:
 	
-
-	bool cls = false;
 	const float CHAR_SIZE = 32; 
 	bool onground = false;
 
@@ -47,10 +45,8 @@ public:
 		}
 
 		
-		if (onground == true) 
-		{
-			transform->velocity.y = 0;
-			cout << "Im on ground " << endl;
+		if (onground == true) {
+			cout << "Im on ground" << endl;
 		}
 
 	}
