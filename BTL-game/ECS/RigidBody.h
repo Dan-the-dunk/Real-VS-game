@@ -6,13 +6,18 @@
 constexpr float GRAVITY = 2.0f;
 
 
+
+
 class RigidBody : public Component 
 {
 
 public:
 	
-	const float CHAR_SIZE = 140; 
-	
+
+	bool cls = false;
+	const float CHAR_SIZE = 32; 
+	bool onground = false;
+
 	RigidBody() = default;
 	virtual  ~RigidBody() = default;
 
@@ -34,27 +39,18 @@ public:
 
 		// CHAR_SIZE *= (float)transform->scale; dung r nhung tai arnold o trung tam hinh nen bi chim xuong.
 
-		//Thay doi true false;
-		if ((transform->position.y + CHAR_SIZE*transform->scale < SCREEN_HEIGHT))
-		{
-			onground = false;
-		}
+
 
 		if (onground == false) {
 			transform->velocity.y += gravity_scale * GRAVITY;
-			//cout << "Not on ground" << endl;
+			cout << "Not on ground" << endl;
 		}
 
-
-		if ((transform->position.y + transform->velocity.y * transform->speed < 0) ||
-			(transform->position.y + CHAR_SIZE*transform->scale > SCREEN_HEIGHT))
+		
+		if (onground == true) 
 		{
-			//Move back a const gap
 			transform->velocity.y = 0;
-			transform->position.y = SCREEN_HEIGHT - CHAR_SIZE* transform->scale;
-			
-			onground = true;
-			if (onground == true) cout << "Im on ground " << endl;
+			cout << "Im on ground " << endl;
 		}
 
 	}
@@ -64,6 +60,7 @@ public:
 		return onground;
 	}
 
+	
 
 
 
@@ -72,7 +69,8 @@ public:
 	}
 
 private:
-	bool onground = false;
+
+	
 	float gravity_scale = 1.0f;
 	Vector2D drag = Vector2D();
 	Vector2D force = Vector2D();

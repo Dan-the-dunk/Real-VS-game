@@ -12,8 +12,8 @@ public:
 	Vector2D position;
 	Vector2D velocity;
 	
-	int height = 119;
-	int width = 72;
+	int height = 32;
+	int width = 32;
 	float scale = 1 ;
 
 	const int speed = 4;
@@ -27,8 +27,8 @@ public:
 	TransformComponent(int w, int h)
 	{
 		//new shit : fix camera
-		position.x = 1080 / 3;
-
+		position.x = 1080 /3;
+		position.y = 720 *2 / 3;
 
 		width = w;
 		height = h;

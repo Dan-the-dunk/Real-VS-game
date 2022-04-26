@@ -23,8 +23,8 @@ auto& newPlayer(manager.addEntity());
 
 
 
-
-
+//testing extern
+extern bool onground;
 
 
 Game::Game() {
@@ -109,9 +109,9 @@ void Game::loadMedia() {
 	maplv1 -> loadmap("assets/map_col.map", 36, 24);
 	
 
-
-	newPlayer.addComponent<TransformComponent>(72,119);
-	newPlayer.addComponent<SpriteComponent>("assets/image/f_petersprite.png",true);
+	//thu picture perfect
+	newPlayer.addComponent<TransformComponent>(32,32);
+	newPlayer.addComponent<SpriteComponent>("assets/image/dirt_txt.png",false);
 	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<RigidBody>(0.2f);
 	newPlayer.addComponent<ColliderComponent>("player");
@@ -152,19 +152,36 @@ void Game::update()
 	
 	//sprite component
 
-	SDL_Rect playerCol = newPlayer.getComponent<ColliderComponent>().collider;
-	Vector2D playerPos = newPlayer.getComponent<TransformComponent>().position;
-	
+	// xem truoc khi update y nam o dau
 	manager.refresh();
 	manager.update();
+
+	SDL_Rect playerCol = newPlayer.getComponent<ColliderComponent>().collider;
+	Vector2D playerPos = newPlayer.getComponent<TransformComponent>().position;
+
 	
+
 	for (auto& c : colliders)
 	{
 		SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
 		if (Collision::AABB(cCol, playerCol))
+
 		{
-			newPlayer.getComponent<TransformComponent>().position = playerPos;
+			cout << "HIT" << endl;
+			newPlayer.getComponent<TransformComponent>().position.y = cCol.y - newPlayer.getComponent<RigidBody>().CHAR_SIZE; 
+			newPlayer.getComponent<RigidBody>().onground = true;
+			break;
 		}
+
+		else {
+			newPlayer.getComponent<RigidBody>().onground = false;
+		}
+
+		
+
+
+
+
 	}
 
 

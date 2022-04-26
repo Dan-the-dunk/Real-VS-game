@@ -40,18 +40,9 @@ public:
 				
 				cout << "UP" << endl;
 				//140 = char_size
-				if ((transform->position.y + 140*transform->scale  < SCREEN_HEIGHT))
-				{
-					
-				}
-				else
-				{
-					transform->velocity.y = -7;
-				}
 				
+				transform->velocity.y = -4;				
 				break;
-
-			
 
 			case SDLK_LEFT:
 				cout << "LEFT" << endl;
@@ -84,17 +75,20 @@ public:
 			switch (Game::ev.key.keysym.sym)
 			{
 
+			
 			/*
-			case SDLK_UP:
+				case SDLK_UP:
 			
 				transform->velocity.y = 0;
 				break;
+			*/
 
-			case SDLK_DOWN:
+			/*case SDLK_DOWN:
 			
 				transform->velocity.y = 0;
 				break;
-				*/
+			*/
+			
 
 			case SDLK_LEFT:
 				
