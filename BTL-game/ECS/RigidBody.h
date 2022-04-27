@@ -42,7 +42,7 @@ public:
 
 
 		if (onground == false) {
-			transform->velocity.y += gravity_scale * GRAVITY;
+			// transform->velocity.y += gravity_scale * GRAVITY;
 			cout << "Not on ground" << endl;
 		}
 

@@ -3,6 +3,7 @@
 #include<fstream>
 #include"ECS/ECS.h"
 #include"ECS/Components.h"
+#include"assets/AssetsManager.h"
 
 extern Manager manager;
 			  
@@ -12,7 +13,8 @@ extern Manager manager;
 Map::Map(const char* mfp, int ms, int ts , int sX , int sY) : mapFilepath(mfp), mapScale(ms), tileSize(ts), sizeX(sX) , sizeY(sY)
 {
 	scaledSize = ms * ts;
-
+	mapXmax = sX * ts;
+	texture = loadTexture(mapFilepath);
 }
 
 Map::~Map()
@@ -27,13 +29,11 @@ Map::~Map()
 
 void Map::loadmap(std::string path)
 {
-	
+
 	char c;
 	std::fstream mapFile;
 	mapFile.open(path);
 
-
-	int srcX, srcY;
 
 	for (int y = 0; y < sizeY; y++)
 	{
@@ -41,43 +41,59 @@ void Map::loadmap(std::string path)
 		{
 			mapFile.get(c);
 			cMap[y][x] = atoi(&c) * 10;
-		
-			//srcY = atoi(&c) * tileSize;
+
+			
 
 			mapFile.get(c);
-			//srcX = atoi(&c) * tileSize;
+			
 			cMap[y][x] += atoi(&c);
-			cout << cMap[y][x]<<" ";
-			//AddTitle(srcX, srcY, x * scaledSize, y * scaledSize);
+			cout << cMap[y][x] << " ";
+			
 			mapFile.ignore();
 		}
 		cout << endl;
 	}
 
-	mapFile.ignore();
+	startX = 0;
+	startY = 0;
 
-	for (int y = 0; y < sizeY; y++)
-	{
-		for (int x = 0; x < sizeX; x++)
-		{
-			mapFile.get(c);
-			if (c == '1')
-			{
-				auto& tcol(manager.addEntity());
-				tcol.addComponent<ColliderComponent>("terrain", x * scaledSize, y * scaledSize, scaledSize);
-				tcol.addGroup(Game::groupColliders);
-			}
-			mapFile.ignore();
-		}
-	}
-
-	mapFile.close();
 
 }
 
-void Map::AddTitle(int srcX, int srcY, int xpos, int ypos)
-{
-	auto& tile(manager.addEntity());
-	tile.addComponent<TitleComponenet>(srcX, srcY, xpos, ypos, tileSize, mapScale, mapFilepath);
-	tile.addGroup(Game::groupMap);
+
+
+
+void Map::drawMap() {
+	
+	int x1 = startX / tileSize ;
+	int x2 = x1 + SCREEN_WIDTH / tileSize + 1 > mapXmax ? mapXmax : x1 + SCREEN_WIDTH / tileSize + 1;
+
+	int y1 = startY / tileSize;
+	int y2 = y1 + SCREEN_HEIGHT / tileSize - 1 ;
+
+
+	for (int y = y1; y <= y2; y++)
+	{
+		for (int x = x1; x <= x2; x++)
+		{
+			SDL_Rect srcRect, desRect;
+
+			int yval = cMap[y][x] / 10;
+			int xval = cMap[y][x] % 10;
+
+			srcRect = { xval * tileSize , yval * tileSize , tileSize , tileSize };
+			desRect = { x * tileSize - Game::camera.x , y * tileSize - Game::camera.y , scaledSize , scaledSize };
+			
+			
+			drawTexture(texture, srcRect, desRect, SDL_FLIP_NONE);
+		}
+	}
+		
+
+
+
+
+
+
+
 }

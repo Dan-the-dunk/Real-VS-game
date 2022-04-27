@@ -13,19 +13,29 @@ const int yMax = 30;
 class Map
 {
 public:
+	
 
 	int cMap[xMax][yMax];
 	Map(const char* mfp, int ms , int ts , int sizeX , int sizeY);
 	~Map();
 
 	void loadmap(std::string path );
-	void AddTitle(int srcX, int srcY, int xpos, int ypos);
+	
+
+	void drawMap();
 
 	
 
 // stop at 11:33
 
 private:
+
+	//co the can xMax = (sizeX + 1) * tileSize;
+
+	SDL_Texture* texture;
+	
+	int startX, startY;
+	int mapXmax;
 	const char* mapFilepath;
 	int sizeX;
 	int sizeY;

@@ -50,7 +50,11 @@ public:
 				//140 = char_size
 				
 				
-				transform->velocity.y = -4;				
+				transform->velocity.y = -2;				
+				break;
+			case SDLK_DOWN:
+
+				transform->velocity.y = 1;
 				break;
 
 			case SDLK_LEFT:
@@ -85,18 +89,18 @@ public:
 			{
 
 			
-			/*
-				case SDLK_UP:
+			
+			case SDLK_UP:
 			
 				transform->velocity.y = 0;
 				break;
-			*/
+			
 
-			/*case SDLK_DOWN:
+			case SDLK_DOWN:
 			
 				transform->velocity.y = 0;
 				break;
-			*/
+			
 			
 
 			case SDLK_LEFT:

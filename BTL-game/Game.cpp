@@ -127,7 +127,6 @@ void Game::loadMedia() {
 
 
 
-auto& titles(manager.getGroup(Game::groupMap));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
 
@@ -162,27 +161,7 @@ void Game::update()
 
 	
 
-	for (auto& c : colliders)
-	{
-
-
-		SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
-		if (Collision::AABB(cCol, playerCol))
-
-		{
-			cout << "HIT" << endl;
-			newPlayer.getComponent<TransformComponent>().velocity.y = 0;
-			newPlayer.getComponent<TransformComponent>().position.y = cCol.y - newPlayer.getComponent<RigidBody>().CHAR_SIZE - 1;
-			newPlayer.getComponent<RigidBody>().onground = true;
-			newPlayer.getComponent<RigidBody>().lockGround = true;
-			break;
-		}
-		else {
-
-			newPlayer.getComponent<RigidBody>().onground = false;
-		}
-		
-	}
+	
 
 
 
@@ -220,12 +199,7 @@ void Game::update()
 	
 
 
-	if (newPlayer.getComponent<TransformComponent>().position.x >= SCREEN_WIDTH) {
-		renderGameover();
-		SDL_Delay(2000);
-		isRunning = false;
-	}
-	 
+	
 };
 
 
@@ -235,10 +209,8 @@ void Game::update()
 void Game::render() {
 	SDL_RenderClear(gRenderer);
 	
-	for (auto& t : titles)
-	{
-		t->draw();
-	}
+	maplv1->drawMap();
+	
 	for (auto& p : players)
 	{
 		p->draw();
