@@ -2,12 +2,17 @@
 #include"ECS.h"
 #include"Components.h"
 #include"../Game.h"
+#include"RigidBody.h"
+
+
+
 
 
 class KeyboardController : public Component{
 public:
 	TransformComponent* transform;
 	SpriteComponent* sprite;
+	RigidBody* body;
 	//test ri tao rigidbody
 
 	
@@ -20,6 +25,8 @@ public:
 		transform = &entity->getComponent < TransformComponent>();
 
 		
+		body = &entity->getComponent <RigidBody>();
+
 		sprite = &entity->getComponent <SpriteComponent>();
 
 
@@ -37,9 +44,11 @@ public:
 			{
 			case SDLK_UP:
 			case SDLK_SPACE:
-				
+	
+				body->onground = false;
 				cout << "UP" << endl;
 				//140 = char_size
+				
 				
 				transform->velocity.y = -4;				
 				break;

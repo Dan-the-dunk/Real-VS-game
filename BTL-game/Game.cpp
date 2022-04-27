@@ -103,17 +103,17 @@ void Game::loadMedia() {
 
 	//load component(pos , sprite)
 
-	maplv1 = new Map("assets/map_terrain.png", 1, 32);
+	maplv1 = new Map("assets/map_terrain.png", 1, 32 , 36 , 24);
 	//qua ton ram, nen de background thi hon/.
 
-	maplv1 -> loadmap("assets/map_col.map", 36, 24);
+	maplv1 -> loadmap("assets/map_col.map");
 	
 
 	//thu picture perfect
 	newPlayer.addComponent<TransformComponent>(32,32);
 	newPlayer.addComponent<SpriteComponent>("assets/image/dirt_txt.png",false);
-	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<RigidBody>(0.2f);
+	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<ColliderComponent>("player");
 	newPlayer.addGroup(groupPlayers);
 
@@ -164,24 +164,26 @@ void Game::update()
 
 	for (auto& c : colliders)
 	{
+
+
 		SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
 		if (Collision::AABB(cCol, playerCol))
 
 		{
 			cout << "HIT" << endl;
 			newPlayer.getComponent<TransformComponent>().velocity.y = 0;
-			newPlayer.getComponent<TransformComponent>().position.y = cCol.y - newPlayer.getComponent<RigidBody>().CHAR_SIZE - 1; 
+			newPlayer.getComponent<TransformComponent>().position.y = cCol.y - newPlayer.getComponent<RigidBody>().CHAR_SIZE - 1;
 			newPlayer.getComponent<RigidBody>().onground = true;
+			newPlayer.getComponent<RigidBody>().lockGround = true;
 			break;
 		}
-
 		else {
-			if (newPlayer.getComponent<TransformComponent>().position.y + newPlayer.getComponent<RigidBody>().CHAR_SIZE  < cCol.y - 1)
-			{
-				newPlayer.getComponent<RigidBody>().onground = false;
-			}
+
+			newPlayer.getComponent<RigidBody>().onground = false;
 		}
+		
 	}
+
 
 
 

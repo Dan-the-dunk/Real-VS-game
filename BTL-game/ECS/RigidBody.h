@@ -15,6 +15,8 @@ public:
 	
 	const float CHAR_SIZE = 32; 
 	bool onground = false;
+	bool lockGround = false;
+
 
 	RigidBody() = default;
 	virtual  ~RigidBody() = default;
