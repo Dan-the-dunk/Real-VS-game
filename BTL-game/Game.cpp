@@ -115,7 +115,7 @@ void Game::loadMedia() {
 	//thu picture perfect
 	newPlayer.addComponent<TransformComponent>(32,32);
 	newPlayer.addComponent<SpriteComponent>("assets/image/dirt_txt.png",false);
-	newPlayer.addComponent<RigidBody>(0.2f);
+	newPlayer.addComponent<RigidBody>(1);
 	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<ColliderComponent>("player");
 	newPlayer.addGroup(groupPlayers);
@@ -156,6 +156,8 @@ void checkCollsionMap(Map* map)
 	int x1 = 0, x2 = 0;
 	int y1 = 0, y2 = 0;
 
+	newPlayer.getComponent<RigidBody>().onground = false;
+
 	Vector2D pos = newPlayer.getComponent<TransformComponent>().position;
 	Vector2D vel = newPlayer.getComponent<TransformComponent>().velocity;
 	
@@ -181,7 +183,7 @@ void checkCollsionMap(Map* map)
 			if (map->cMap[y2][x1] != map->BLANK_TILE || map->cMap[y2][x2] != map->BLANK_TILE)
 			{
 				pos.y = y2 * map->tileSize;
-				pos.y -= cHeight + 1;
+				pos.y -= cHeight ;
 				vel.y = 0;
 				newPlayer.getComponent<RigidBody>().onground = true;
 			}
@@ -227,6 +229,7 @@ void checkCollsionMap(Map* map)
 				pos.x = x2 * map->tileSize;
 				pos.x -= cWidth + 1;
 				vel.x = 0;
+
 			}
 		}
 		else if (vel.x < 0)
@@ -273,13 +276,8 @@ void Game::update()
 	
 	checkCollsionMap(maplv1);
 
-	SDL_Rect playerCol = newPlayer.getComponent<ColliderComponent>().collider;
-	Vector2D playerPos = newPlayer.getComponent<TransformComponent>().position;
 
 	
-
-	
-
 
 
 

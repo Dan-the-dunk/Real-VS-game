@@ -15,7 +15,7 @@ Game* newgame = nullptr;
 
 
 const int FPS = 60;
-const int frameDelay = 1000 / FPS;
+const int frameDelay = 1500 / FPS;
 int frameTime;
 
 Uint32 frameStart;

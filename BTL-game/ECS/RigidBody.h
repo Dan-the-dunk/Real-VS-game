@@ -3,7 +3,7 @@
 #include"Components.h"
 #include"../Physics/Vector2D.h"
 
-constexpr float GRAVITY = 2.0f;
+constexpr float GRAVITY = 1.0f;
 const float max_fall_speed = 30;
 
 
@@ -22,7 +22,7 @@ public:
 	virtual  ~RigidBody() = default;
 
 
-	RigidBody(float g) {
+	RigidBody(int g) {
 		gravity_scale = g;
 	}
 
@@ -70,7 +70,7 @@ public:
 private:
 
 	
-	float gravity_scale = 1.0f;
+	int gravity_scale = 1;
 	Vector2D drag = Vector2D();
 	Vector2D force = Vector2D();
 	TransformComponent* transform;

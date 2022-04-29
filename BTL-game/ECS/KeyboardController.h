@@ -42,15 +42,17 @@ public:
 
 			switch (Game::ev.key.keysym.sym)
 			{
+
+			
 			case SDLK_UP:
 			case SDLK_SPACE:
-	
-				body->onground = false;
-				cout << "UP" << endl;
-				//140 = char_size
-				
-				
-				transform->velocity.y = -6;				
+				if (body->onground == true)
+				{
+					body->onground = false;
+					cout << "UP" << endl;
+					//140 = char_size
+					transform->velocity.y = -7;
+				}
 				break;
 			case SDLK_DOWN:
 
@@ -89,18 +91,7 @@ public:
 			{
 
 			
-			
-			case SDLK_UP:
-			
-				transform->velocity.y = 0;
-				break;
-			
-
-			case SDLK_DOWN:
-			
-				transform->velocity.y = 0;
-				break;
-			
+		
 			
 
 			case SDLK_LEFT:
