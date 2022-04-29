@@ -50,7 +50,7 @@ public:
 				//140 = char_size
 				
 				
-				transform->velocity.y = -2;				
+				transform->velocity.y = -6;				
 				break;
 			case SDLK_DOWN:
 

@@ -65,6 +65,11 @@ void Map::loadmap(std::string path)
 
 void Map::drawMap() {
 	
+
+	//drawbackground shiet;
+
+
+	//
 	int x1 = startX / tileSize ;
 	int x2 = x1 + SCREEN_WIDTH / tileSize + 1 > mapXmax ? mapXmax : x1 + SCREEN_WIDTH / tileSize + 1;
 

@@ -27,6 +27,7 @@ public:
 
 	
 	const char* gameOverImagePath = "assets/image/gameover.jpg";
+	const char* backGroundImagePath = "assets/image/3.png";
 	SDL_Texture* backgroundTxt;
 	SDL_Texture* gameOverTxt;
 	enum groupLabels : std::size_t
@@ -53,6 +54,7 @@ public:
 	void clean();
 	void loadMedia();
 	
+
 	static SDL_Renderer* gRenderer;
 	static SDL_Event ev;
 

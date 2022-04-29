@@ -4,7 +4,7 @@
 #include"../Physics/Vector2D.h"
 
 constexpr float GRAVITY = 2.0f;
-
+const float max_fall_speed = 30;
 
 
 
@@ -42,7 +42,8 @@ public:
 
 
 		if (onground == false) {
-			// transform->velocity.y += gravity_scale * GRAVITY;
+			transform->velocity.y += gravity_scale * GRAVITY;
+			if (transform->velocity.y >= max_fall_speed) transform->velocity.y = max_fall_speed;
 			cout << "Not on ground" << endl;
 		}
 
