@@ -151,6 +151,7 @@ void Game::handleEvents() {
 
 void checkCollsionMap(Map* map) 
 {
+	bool check_onground = false;
 
 	int x1 = 0, x2 = 0;
 	int y1 = 0, y2 = 0;
@@ -161,13 +162,58 @@ void checkCollsionMap(Map* map)
 	int cWidth = newPlayer.getComponent<TransformComponent>().width;
 	int cHeight = newPlayer.getComponent<TransformComponent>().height;
 
+
+	// check vertical
+
+
+	int min_width = cWidth > map->tileSize ? map->tileSize : cWidth;
+
+	x1 = (pos.x) / map->tileSize;
+	x2 = (pos.x + min_width) / map->tileSize;
+
+	y1 = (pos.y + vel.y) / map->tileSize;
+	y2 = (pos.y + vel.y + cHeight - 1) / map->tileSize;
+
+	if (x1 >= 0 && x2 <= map->sizeX && y1 >= 0 && y2 <= map->sizeY)
+	{
+		if (vel.y > 0)
+		{
+			if (map->cMap[y2][x1] != map->BLANK_TILE || map->cMap[y2][x2] != map->BLANK_TILE)
+			{
+				pos.y = y2 * map->tileSize;
+				pos.y -= cHeight + 1;
+				vel.y = 0;
+				newPlayer.getComponent<RigidBody>().onground = true;
+			}
+		}
+
+		else if (vel.y < 0)
+		{
+			if (map->cMap[y1][x1] != map->BLANK_TILE || map->cMap[y1][x2] != map->BLANK_TILE)
+			{
+				pos.y = (y1 + 1) * map->tileSize;
+				vel.y = 0;
+			}
+		}
+
+
+
+	}
+
+
+
+
+
+
+
+
 	x1 = (pos.x + vel.x) / map->tileSize;
-	x2 = (pos.x + vel.x + cWidth - 1 ) / map->tileSize;
+	x2 = (pos.x + vel.x + cWidth  - 1 ) / map->tileSize;
 
 	int min_height = cHeight > map->tileSize ? map->tileSize : cHeight;
 
-	y1 = (pos.y + vel.y) / map->tileSize;
-	y2 = (pos.y + vel.y + min_height - 1) / map->tileSize;
+	y1 = (pos.y ) / map->tileSize;
+	y2 = (pos.y + min_height - 1) / map->tileSize;
 
 
 
@@ -194,42 +240,7 @@ void checkCollsionMap(Map* map)
 			}
 		}
 	}
-	// check vertical
-
-
-	int min_width = cWidth > map->tileSize ? map->tileSize : cWidth;
-
-	x1 = (pos.x) / map->tileSize;
-	x2 = (pos.x + min_width) / map->tileSize;
-
-	y1 = (pos.y + vel.y) / map->tileSize;
-	y2 = (pos.y + vel.y + cHeight - 1 ) / map->tileSize;
-
-	if (x1 >= 0 && x2 <= map->sizeX && y1 >= 0 && y2 <= map->sizeY)
-	{
-		if (vel.y > 0)
-		{
-			if (map->cMap[y2][x1] != map->BLANK_TILE || map->cMap[y2][x2] != map->BLANK_TILE)
-			{
-				pos.y = y2 * map->tileSize;
-				pos.y -= cHeight + 1;
-				vel.y = 0;
-				newPlayer.getComponent<RigidBody>().onground = true;
-			}
-		}
-
-		else if (vel.y < 0)
-		{
-			if (map->cMap[y1][x1] != map->BLANK_TILE || map->cMap[y1][x2] != map->BLANK_TILE)
-			{
-				pos.y = (y1 + 1) * map->tileSize;
-				vel.y = 0;
-			}
-		}
-
-		
-
-	}
+	
 
 	if (pos.x < 0) pos.x = 0;
 	else if (pos.x + cWidth >= map->sizeX * map->tileSize) pos.x = map->sizeX * map->tileSize - cWidth - 1;
