@@ -7,4 +7,4 @@
 #include"RigidBody.h"
 #include"ColliderComponent.h"
 #include"TitleComponent.h"
-
+#include"Stats.h"

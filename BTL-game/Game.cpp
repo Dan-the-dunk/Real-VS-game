@@ -5,6 +5,8 @@
 #include"ECS/Components.h"
 #include"Physics/Vector2D.h"
 #include"Collision.h"
+#include<cmath>
+
 
 
 using namespace std;
@@ -116,6 +118,7 @@ void Game::loadMedia() {
 	newPlayer.addComponent<TransformComponent>(32,32);
 	newPlayer.addComponent<SpriteComponent>("assets/image/dirt_txt.png",false);
 	newPlayer.addComponent<RigidBody>(1);
+	newPlayer.addComponent<Stats>();
 	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<ColliderComponent>("player");
 	newPlayer.addGroup(groupPlayers);
@@ -288,7 +291,7 @@ void Game::update()
 	
 
 
-
+	
 
 	camera.x = newPlayer.getComponent<TransformComponent>().position.x - SCREEN_WIDTH/2; // gioi han vi tri nhan vat.
 	camera.y = newPlayer.getComponent<TransformComponent>().position.y - SCREEN_HEIGHT/2;
@@ -304,8 +307,8 @@ void Game::update()
 
 
 
-	cout << newPlayer.getComponent<TransformComponent>().position.x << " , "
-		<< newPlayer.getComponent<TransformComponent>().position.y << endl;
+	//cout << newPlayer.getComponent<TransformComponent>().position.x << " , "
+		//<< newPlayer.getComponent<TransformComponent>().position.y << endl;
 
 
 	

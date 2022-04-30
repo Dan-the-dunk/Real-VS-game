@@ -83,7 +83,7 @@ void Map::drawMap(SDL_Rect cam) {
 
 	y1 = cam.y / tileSize;
 	y2 = y1 + (SCREEN_HEIGHT)/tileSize + 1 ;
-	cout << y1 << " " << y2<<endl ;
+
 
 	for (int y = y1; y <= y2; y++)
 	{

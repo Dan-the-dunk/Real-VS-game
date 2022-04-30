@@ -86,6 +86,9 @@
     <ClInclude Include="ECS\Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECS\Stats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BTL-game.rc">

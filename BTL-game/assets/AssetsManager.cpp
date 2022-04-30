@@ -36,6 +36,7 @@ SDL_Texture* loadTexture(const char* path) {
 void drawTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des , SDL_RendererFlip flip)
 {
 	SDL_RenderCopyEx(Game::gRenderer,texture, &scr,& des,NULL,NULL,flip);
+	
 }
 ;
 

@@ -44,12 +44,12 @@ public:
 		if (onground == false) {
 			transform->velocity.y += gravity_scale * GRAVITY;
 			if (transform->velocity.y >= max_fall_speed) transform->velocity.y = max_fall_speed;
-			cout << "Not on ground" << endl;
+			//cout << "Not on ground" << endl;
 		}
 
 		
 		if (onground == true) {
-			cout << "Im on ground" << endl;
+			//cout << "Im on ground" << endl;
 		}
 
 	}

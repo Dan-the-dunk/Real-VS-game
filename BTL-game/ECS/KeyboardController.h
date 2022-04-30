@@ -3,8 +3,7 @@
 #include"Components.h"
 #include"../Game.h"
 #include"RigidBody.h"
-
-
+#include"Stats.h"
 
 
 
@@ -13,6 +12,7 @@ public:
 	TransformComponent* transform;
 	SpriteComponent* sprite;
 	RigidBody* body;
+	Stats* stats;
 	//test ri tao rigidbody
 
 	
@@ -26,7 +26,7 @@ public:
 
 		
 		body = &entity->getComponent <RigidBody>();
-
+		stats = &entity->getComponent <Stats>();
 		sprite = &entity->getComponent <SpriteComponent>();
 
 
@@ -83,8 +83,14 @@ public:
 
 				transform->velocity.x = 2;
 				break;
+
+			case SDLK_f:
+				stats->charging = true;
+				break;
+
 			case SDLK_ESCAPE:
 				Game::isRunning = false;
+
 
 			default:
 				break;
@@ -120,6 +126,9 @@ public:
 				sprite->play("Idle");
 				transform->velocity.x = 0;
 				break;
+
+			case SDLK_f:
+				stats->charging = false;
 
 			default:
 				break;
