@@ -106,10 +106,10 @@ void Game::loadMedia() {
 
 	//load component(pos , sprite)
 
-	maplv1 = new Map("assets/map_terrain.png", 1, 32 , 36 , 24);
+	maplv1 = new Map("assets/ntileset.png", 1, 32 , 75 , 40);
 	//qua ton ram, nen de background thi hon/.
 
-	maplv1 -> loadmap("assets/map_col.map");
+	maplv1 -> loadmap("assets/map_l0.map");
 	
 
 	//thu picture perfect
@@ -180,6 +180,7 @@ void checkCollsionMap(Map* map)
 	{
 		if (vel.y >= 0)
 		{
+
 			if (map->cMap[y2][x1] != map->BLANK_TILE || map->cMap[y2][x2] != map->BLANK_TILE)
 			{
 				pos.y = y2 * map->tileSize;
@@ -279,9 +280,6 @@ void Game::update()
 
 	manager.update();
 	
-	cout << "Before check Coliison:" << newPlayer.getComponent<TransformComponent>().position.x << " , "
-		<< newPlayer.getComponent<TransformComponent>().position.y <<" "<< newPlayer.getComponent<TransformComponent>().velocity.y << endl;
-		
 
 
 	checkCollsionMap(maplv1);
@@ -293,15 +291,14 @@ void Game::update()
 
 
 	camera.x = newPlayer.getComponent<TransformComponent>().position.x - SCREEN_WIDTH/2; // gioi han vi tri nhan vat.
-	camera.y = newPlayer.getComponent<TransformComponent>().position.y - SCREEN_HEIGHT;
+	camera.y = newPlayer.getComponent<TransformComponent>().position.y - SCREEN_HEIGHT/2;
 
 
-	//Camera
+	//Camera( can sua lai cho fit map to hon.
 	if (camera.x < 0) camera.x = 0;// 0 tac dong gi
-	if (camera.x > camera.w) camera.x = camera.w;
+	if (camera.x > maplv1->mapXmax - SCREEN_WIDTH) camera.x = maplv1->mapXmax - SCREEN_WIDTH;
 	if (camera.y < 0) camera.y = 0;// 0 tac dong gi
-	if (camera.y > camera.h) camera.y = camera.h;
-
+	if (camera.y > maplv1->mapYmax - SCREEN_HEIGHT) camera.y = maplv1->mapYmax - SCREEN_HEIGHT;
 	
 	
 
@@ -334,7 +331,7 @@ void Game::update()
 void Game::render() {
 	SDL_RenderClear(gRenderer);
 	
-	maplv1->drawMap();
+	maplv1->drawMap(camera);
 
 
 	

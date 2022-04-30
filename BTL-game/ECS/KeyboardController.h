@@ -42,6 +42,7 @@ public:
 
 			switch (Game::ev.key.keysym.sym)
 			{
+			
 
 			
 			case SDLK_UP:
@@ -50,14 +51,23 @@ public:
 				{
 					cout << "UP" << endl;
 					//140 = char_size
-					transform->velocity.y = -10;
+					transform->velocity.y = -12;
 				}
 				break;
+			
+			
+			
+			
+			
+
+			/*
 			case SDLK_DOWN:
 
-				transform->velocity.y = 30;
+				transform->velocity.y = 2;
 				break;
 
+			
+			*/
 			case SDLK_LEFT:
 				cout << "LEFT" << endl;
 				sprite->play("Walk");
@@ -90,8 +100,14 @@ public:
 			{
 
 			
-		
-			
+			/*
+			case SDLK_DOWN:
+			case SDLK_UP:
+				sprite->play("Idle");
+				transform->velocity.y = 0;
+				//sprite->spriteFlip = SDL_FLIP_NONE;
+				break;
+			*/
 
 			case SDLK_LEFT:
 				

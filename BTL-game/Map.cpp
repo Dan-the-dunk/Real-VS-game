@@ -14,6 +14,7 @@ Map::Map(const char* mfp, int ms, int ts , int sX , int sY) : mapFilepath(mfp), 
 {
 	scaledSize = ms * ts;
 	mapXmax = sX * ts;
+	mapYmax = sY * ts;
 	texture = loadTexture(mapFilepath);
 }
 
@@ -47,6 +48,8 @@ void Map::loadmap(std::string path)
 			mapFile.get(c);
 			
 			cMap[y][x] += atoi(&c);
+
+			cMap[y][x] -= 1;
 			cout << cMap[y][x] << " ";
 			
 			mapFile.ignore();
@@ -63,19 +66,24 @@ void Map::loadmap(std::string path)
 
 
 
-void Map::drawMap() {
+void Map::drawMap(SDL_Rect cam) {
 	
 
 	//drawbackground shiet;
+	int x1 = 0, x2 = 0;
+	int y1 = 0, y2 = 0;
+
+
+
 
 
 	//
-	int x1 = startX / tileSize ;
-	int x2 = x1 + SCREEN_WIDTH / tileSize + 1 > mapXmax ? mapXmax : x1 + SCREEN_WIDTH / tileSize + 1;
+	x1 = cam.x / tileSize ;
+	x2 = x1 + SCREEN_WIDTH / tileSize + 1 > mapXmax ? mapXmax : x1 + SCREEN_WIDTH / tileSize + 1;
 
-	int y1 = startY / tileSize;
-	int y2 = y1 + SCREEN_HEIGHT / tileSize - 1 ;
-
+	y1 = cam.y / tileSize;
+	y2 = y1 + (SCREEN_HEIGHT)/tileSize + 1 ;
+	cout << y1 << " " << y2<<endl ;
 
 	for (int y = y1; y <= y2; y++)
 	{
