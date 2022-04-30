@@ -16,7 +16,7 @@ public:
 	int width = 32;
 	float scale = 1 ;
 
-	const int speed = 4;
+	const int speed = 2;
 
 	TransformComponent(float x, float y) 
 	{

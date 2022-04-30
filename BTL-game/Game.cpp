@@ -157,7 +157,7 @@ void checkCollsionMap(Map* map)
 	int y1 = 0, y2 = 0;
 
 	newPlayer.getComponent<RigidBody>().onground = false;
-
+	
 	Vector2D pos = newPlayer.getComponent<TransformComponent>().position;
 	Vector2D vel = newPlayer.getComponent<TransformComponent>().velocity;
 	
@@ -174,11 +174,11 @@ void checkCollsionMap(Map* map)
 	x2 = (pos.x + min_width) / map->tileSize;
 
 	y1 = (pos.y + vel.y) / map->tileSize;
-	y2 = (pos.y + vel.y + cHeight - 1) / map->tileSize;
+	y2 = (pos.y + vel.y + cHeight  ) / map->tileSize;
 
 	if (x1 >= 0 && x2 <= map->sizeX && y1 >= 0 && y2 <= map->sizeY)
 	{
-		if (vel.y > 0)
+		if (vel.y >= 0)
 		{
 			if (map->cMap[y2][x1] != map->BLANK_TILE || map->cMap[y2][x2] != map->BLANK_TILE)
 			{
@@ -201,6 +201,7 @@ void checkCollsionMap(Map* map)
 
 
 	}
+
 
 
 
@@ -272,8 +273,17 @@ void Game::update()
 	
 
 	manager.refresh();
+
+	
+
+
 	manager.update();
 	
+	cout << "Before check Coliison:" << newPlayer.getComponent<TransformComponent>().position.x << " , "
+		<< newPlayer.getComponent<TransformComponent>().position.y <<" "<< newPlayer.getComponent<TransformComponent>().velocity.y << endl;
+		
+
+
 	checkCollsionMap(maplv1);
 
 

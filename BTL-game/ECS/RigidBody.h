@@ -4,7 +4,7 @@
 #include"../Physics/Vector2D.h"
 
 constexpr float GRAVITY = 1.0f;
-const float max_fall_speed = 30;
+const float max_fall_speed = 20;
 
 
 
@@ -38,7 +38,7 @@ public:
 	{
 
 		// CHAR_SIZE *= (float)transform->scale; dung r nhung tai arnold o trung tam hinh nen bi chim xuong.
-
+		
 
 
 		if (onground == false) {
