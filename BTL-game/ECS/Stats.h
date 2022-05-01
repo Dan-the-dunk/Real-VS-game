@@ -18,7 +18,7 @@ public:
 	{
 		pTexture = loadTexture("assets/image/f_powerbar.png");
 		currentCharge = 0;
-		fart_lv = 60;
+		fart_lv = 80;
 		if (!entity->hasComponent<TransformComponent>())
 		{
 			entity->addComponent < TransformComponent>();
@@ -35,7 +35,6 @@ public:
 		
 		if (charging)
 		{
-			cout << "Charging"<<" ";
 			if (isUp)
 			{
 				
@@ -60,19 +59,29 @@ public:
 
 		}
 
+		if (!charging) currentCharge = 0;
+
 		desRect.x = transform->position.x - Game::camera.x ;
 		desRect.y = transform->position.y - bar_height * 2 - Game::camera.y ;
 		// dong nay de bi lech du lieu
-		//srcRect.w = (currentCharge / fartMax) * 32;
+		
 		srcRect.w = (currentCharge / fartMax) * 32;
+		desRect.w = (currentCharge / fartMax) * 32;
+
 		//cout << srcRect.w << endl;
 
 		
 	}
 
+
+	int getFartPercent()
+	{
+		return (currentCharge / fartMax) * 100;
+	}
+
 	void draw() override
 	{
-		cout << srcRect.h << endl;
+		
 		if (charging)
 		{
 			drawTexture(pTexture, srcRect, desRect, SDL_FLIP_NONE);
@@ -84,7 +93,7 @@ private:
 	SpriteComponent* sprite;
 	SDL_Texture* pTexture;
 	SDL_Rect desRect, srcRect;
-	const int fart_charge_speed = 1;
+	const int fart_charge_speed = 2;
 	float fartMax = 120.0f ;
 	float fart_lv;
 	float currentCharge ;

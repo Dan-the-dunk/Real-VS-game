@@ -13,6 +13,7 @@ public:
 	SpriteComponent* sprite;
 	RigidBody* body;
 	Stats* stats;
+	bool turnLeft = false;
 	//test ri tao rigidbody
 
 	
@@ -70,6 +71,7 @@ public:
 			*/
 			case SDLK_LEFT:
 				cout << "LEFT" << endl;
+				turnLeft = true;
 				sprite->play("Walk");
 				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 
@@ -78,6 +80,7 @@ public:
 
 			case SDLK_RIGHT:
 				cout << "RIGHT" << endl;
+				turnLeft = false;
 				sprite->play("Walk");
 				sprite->spriteFlip = SDL_FLIP_NONE;
 
@@ -128,6 +131,9 @@ public:
 				break;
 
 			case SDLK_f:
+				if(turnLeft) transform->velocity.x = -(stats->getFartPercent() * 12) / 100;
+				else transform->velocity.x = (stats->getFartPercent() * 12) / 100;
+				transform->velocity.y = -2*(stats->getFartPercent() * 12) / 100;
 				stats->charging = false;
 
 			default:

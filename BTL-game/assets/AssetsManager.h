@@ -15,6 +15,12 @@ const int FRAME_NUMBER = 4;
 
 SDL_Texture* loadTexture(const char* path);
 
+void setBlendMode(SDL_BlendMode blending,SDL_Texture* mTexture)
+{
+    //Set blending function
+    SDL_SetTextureBlendMode(mTexture, blending);
+}
+
 void drawTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des, SDL_RendererFlip flip );
 
 
