@@ -38,6 +38,19 @@ void drawTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des , SDL_Renderer
 	SDL_RenderCopyEx(Game::gRenderer,texture, &scr,& des,NULL,NULL,flip);
 	
 }
+
+
+void setBlendMode(SDL_BlendMode blending, SDL_Texture** mTexture)
+{
+	//Set blending function
+	SDL_SetTextureBlendMode(*mTexture, blending);
+}
+
+void setAlpha(Uint8 alpha, SDL_Texture** mTexture)
+{
+	//Modulate texture alpha
+	SDL_SetTextureAlphaMod(*mTexture, alpha);
+}
 ;
 
 

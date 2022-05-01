@@ -17,6 +17,8 @@ public:
 	void init() override 
 	{
 		pTexture = loadTexture("assets/image/f_powerbar.png");
+		setBlendMode(SDL_BLENDMODE_BLEND, &pTexture);
+
 		currentCharge = 0;
 		fart_lv = 80;
 		if (!entity->hasComponent<TransformComponent>())
@@ -35,6 +37,9 @@ public:
 		
 		if (charging)
 		{
+			//set alphablending;
+			a = 255;
+
 			if (isUp)
 			{
 				
@@ -56,18 +61,26 @@ public:
 
 				}
 			}
+			srcRect.w = (currentCharge / fartMax) * 32;
+			desRect.w = (currentCharge / fartMax) * 32;
+
 
 		}
 
-		if (!charging) currentCharge = 0;
+		if (!charging) 
+		{
+			a = 100;
+			currentCharge = 0;
+			srcRect.w = (fart_lv / fartMax) * 32;
+			desRect.w = (fart_lv / fartMax) * 32;
+
+		}
 
 		desRect.x = transform->position.x - Game::camera.x ;
 		desRect.y = transform->position.y - bar_height * 2 - Game::camera.y ;
 		// dong nay de bi lech du lieu
 		
-		srcRect.w = (currentCharge / fartMax) * 32;
-		desRect.w = (currentCharge / fartMax) * 32;
-
+		
 		//cout << srcRect.w << endl;
 
 		
@@ -82,20 +95,21 @@ public:
 	void draw() override
 	{
 		
-		if (charging)
-		{
-			drawTexture(pTexture, srcRect, desRect, SDL_FLIP_NONE);
-		}
+		setAlpha(a, &pTexture);
+		drawTexture(pTexture, srcRect, desRect, SDL_FLIP_NONE);
 	}
 
 private:
 	TransformComponent* transform;
 	SpriteComponent* sprite;
 	SDL_Texture* pTexture;
+	SDL_Texture* p0Texture;
+
 	SDL_Rect desRect, srcRect;
 	const int fart_charge_speed = 2;
 	float fartMax = 120.0f ;
 	float fart_lv;
 	float currentCharge ;
 	bool isUp = true;
+	Uint8 a = 255;
 };
