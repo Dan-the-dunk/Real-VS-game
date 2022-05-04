@@ -1,21 +1,35 @@
+#pragma warning(disable : 4996)
 #include"Map.h"
 #include"Game.h"
 #include<fstream>
 #include"ECS/ECS.h"
 #include"ECS/Components.h"
 #include"assets/AssetsManager.h"
-
+#include<format>
 extern Manager manager;
 			  
 
 
 
-Map::Map(const char* mfp, int ms, int ts , int sX , int sY) : mapFilepath(mfp), mapScale(ms), tileSize(ts), sizeX(sX) , sizeY(sY)
+Map::Map(const char* mfp, int ms, int ts , int sX , int sY , int nol) : mapFilepath(mfp), mapScale(ms), tileSize(ts), sizeX(sX) , sizeY(sY) , num_of_layers(nol)
 {
 	scaledSize = ms * ts;
 	mapXmax = sX * ts;
 	mapYmax = sY * ts;
 	texture = loadTexture(mapFilepath);
+	
+	string str;
+	for (int i = 0; i < nol; i++)
+	{
+		string str;
+		str =  format("assets/tileset/bg_l{}.png", i);
+		
+		bgTex[i] = loadTexture(str.c_str());
+
+	}
+
+	//bgTex[1] = loadTexture("assets/tileset/bg_l0.png");
+
 }
 
 Map::~Map()
@@ -66,10 +80,48 @@ void Map::loadmap(std::string path)
 
 
 
-void Map::drawMap(SDL_Rect cam) {
+void Map::drawMap(int velx) {
 	
 
 	//drawbackground shiet;
+
+
+
+
+	//SDL_Rect bgSrcRect ;
+	//SDL_Rect bgResRect ;
+	// scrolling n shiet. da xong pseudo parallax, bay h chi can them vao keyboardinpu.
+	for (int i = 0; i < num_of_layers; i++)
+	{
+		
+
+		SDL_Rect bgDesRect1 , bgDesRect2 ;
+		if(Game::camera.x > 0 && Game:: camera.x < mapXmax - SCREEN_WIDTH ) scrollingOffset[i] -= i * velx / 2; //i*velocity.x;
+
+		if (scrollingOffset[i] < -SCREEN_WIDTH)
+		{
+			scrollingOffset[i] = 0;
+		}
+
+		if (scrollingOffset[i] > 0)
+		{
+			scrollingOffset[i] = 0;
+		}
+		
+
+		//them 1 gioi han cho background.
+
+		bgDesRect1 = { scrollingOffset[i] , 0  , SCREEN_WIDTH , SCREEN_HEIGHT};
+		bgDesRect2 = { scrollingOffset[i] + SCREEN_WIDTH , 0  , SCREEN_WIDTH , SCREEN_HEIGHT};
+
+
+		SDL_RenderCopy(Game::gRenderer, bgTex[i], NULL, &bgDesRect1);
+
+		SDL_RenderCopy(Game::gRenderer, bgTex[i], NULL, &bgDesRect2);
+	}
+	
+
+	//
 	int x1 = 0, x2 = 0;
 	int y1 = 0, y2 = 0;
 
@@ -78,10 +130,10 @@ void Map::drawMap(SDL_Rect cam) {
 
 
 	//
-	x1 = cam.x / tileSize ;
+	x1 = Game::camera.x / tileSize ;
 	x2 = x1 + SCREEN_WIDTH / tileSize + 1 > mapXmax ? mapXmax : x1 + SCREEN_WIDTH / tileSize + 1;
 
-	y1 = cam.y / tileSize;
+	y1 = Game::camera.y / tileSize;
 	y2 = y1 + (SCREEN_HEIGHT)/tileSize + 1 ;
 
 

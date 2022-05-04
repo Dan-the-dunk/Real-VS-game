@@ -16,8 +16,11 @@ public:
 	
 	void init() override 
 	{
-		pTexture = loadTexture("assets/image/f_powerbar.png");
+		pTexture = loadTexture("assets/image/pbar_slider.png");
+		p0Texture = loadTexture("assets/image/pbar_base.png");
+
 		setBlendMode(SDL_BLENDMODE_BLEND, &pTexture);
+		setBlendMode(SDL_BLENDMODE_BLEND, &p0Texture);
 
 		currentCharge = 0;
 		fart_lv = 80;
@@ -29,7 +32,11 @@ public:
 		sprite = &entity->getComponent <SpriteComponent>();
 
 		srcRect = { 0 , 0 , 0 , 12 };
+		bSrcRect = { 0 , 0 , bar_width , bar_height };
+
 		desRect = { transform->position.x , transform->position.y - bar_height * 2 , bar_width , bar_height };
+
+		bDesRect = { transform->position.x , transform->position.y - bar_height * 2 , bar_width , bar_height };
 	}
 
 	void update() override
@@ -77,7 +84,10 @@ public:
 		}
 
 		desRect.x = transform->position.x - Game::camera.x ;
+		bDesRect.x = desRect.x;
+
 		desRect.y = transform->position.y - bar_height * 2 - Game::camera.y ;
+		bDesRect.y = desRect.y;
 		// dong nay de bi lech du lieu
 		
 		
@@ -96,7 +106,12 @@ public:
 	{
 		
 		setAlpha(a, &pTexture);
+		setAlpha(a, &p0Texture);
+
+		drawTexture(p0Texture,bSrcRect , bDesRect, SDL_FLIP_NONE);
 		drawTexture(pTexture, srcRect, desRect, SDL_FLIP_NONE);
+		SDL_SetRenderDrawColor(Game::gRenderer, 0, 0, 255, 255);
+		SDL_RenderDrawLine(Game::gRenderer, desRect.x + (fart_lv / fartMax) * 32, desRect.y, desRect.x + (fart_lv / fartMax) * 32, desRect.y + 12);
 	}
 
 private:
@@ -106,6 +121,7 @@ private:
 	SDL_Texture* p0Texture;
 
 	SDL_Rect desRect, srcRect;
+	SDL_Rect bDesRect, bSrcRect;
 	const int fart_charge_speed = 2;
 	float fartMax = 120.0f ;
 	float fart_lv;

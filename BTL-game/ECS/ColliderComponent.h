@@ -37,7 +37,7 @@ public:
 		}
 		transform = &entity->getComponent < TransformComponent>();
 
-		tex = loadTexture("assets/col_txt.png");
+		//tex = loadTexture("assets/col_txt.png");
 
 		srcR = { 0, 0, 32, 32 };
 		desR = { collider.x, collider.y, collider.w, collider.h };

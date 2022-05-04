@@ -33,6 +33,7 @@ Game::Game() {
 	
 }
 
+
 Game::~Game() {
 
 }
@@ -108,7 +109,7 @@ void Game::loadMedia() {
 
 	//load component(pos , sprite)
 
-	maplv1 = new Map("assets/ntileset.png", 1, 32 , 75 , 40);
+	maplv1 = new Map("assets/ntileset.png", 1, 32 , 75 , 40 , 3);
 	//qua ton ram, nen de background thi hon/.
 
 	maplv1 -> loadmap("assets/map_l0.map");
@@ -334,7 +335,7 @@ void Game::update()
 void Game::render() {
 	SDL_RenderClear(gRenderer);
 	
-	maplv1->drawMap(camera);
+	maplv1->drawMap(newPlayer.getComponent<TransformComponent>().velocity.x) ;
 
 
 	
