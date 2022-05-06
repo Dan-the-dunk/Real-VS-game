@@ -57,3 +57,11 @@ private:
 };
 
 
+class gMap
+{
+
+
+};
+
+
+

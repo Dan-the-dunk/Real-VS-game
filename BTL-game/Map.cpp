@@ -96,17 +96,22 @@ void Map::drawMap(int velx) {
 		
 
 		SDL_Rect bgDesRect1 , bgDesRect2 ;
-		if(Game::camera.x > 0 && Game:: camera.x < mapXmax - SCREEN_WIDTH ) scrollingOffset[i] -= i * velx / 2; //i*velocity.x;
+		scrollingOffset[i] = (float)i / 2 * Game::camera.x;
+		scrollingOffset[i] =  -(scrollingOffset[i] % SCREEN_WIDTH ); //i*velocity.x;
+		
 
+
+		/*
 		if (scrollingOffset[i] < -SCREEN_WIDTH)
 		{
 			scrollingOffset[i] = 0;
-		}
+		}*/
 
+		/*
 		if (scrollingOffset[i] > 0)
 		{
 			scrollingOffset[i] = 0;
-		}
+		}*/
 		
 
 		//them 1 gioi han cho background.
