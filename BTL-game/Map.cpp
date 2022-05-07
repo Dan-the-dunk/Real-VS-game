@@ -11,15 +11,18 @@ extern Manager manager;
 
 
 
-Map::Map(const char* mfp, int ms, int ts , int sX , int sY , int nol) : mapFilepath(mfp), mapScale(ms), tileSize(ts), sizeX(sX) , sizeY(sY) , num_of_layers(nol)
+Map::Map(const char* mfp, int ms, int ts , int sX , int sY ) : mapFilepath(mfp), mapScale(ms), tileSize(ts), sizeX(sX) , sizeY(sY) 
 {
 	scaledSize = ms * ts;
 	mapXmax = sX * ts;
 	mapYmax = sY * ts;
+	
+	
 	texture = loadTexture(mapFilepath);
 	
+	
 	string str;
-	for (int i = 0; i < nol; i++)
+	for (int i = 0; i < num_bg_layers; i++)
 	{
 		string str;
 		str =  format("assets/tileset/bg_l{}.png", i);
@@ -45,87 +48,67 @@ Map::~Map()
 void Map::loadmap(std::string path)
 {
 
-	char c;
+	
+	
+	
 	std::fstream mapFile;
 	mapFile.open(path);
 
-
-	for (int y = 0; y < sizeY; y++)
+	for (int i = 0; i < num_of_mlayers; i++)
 	{
-		for (int x = 0; x < sizeX; x++)
-		{
-			mapFile.get(c);
-			cMap[y][x] = atoi(&c) * 10;
+		
+		map[i].load(path , &mapFile , sizeX , sizeY);
 
-			
-
-			mapFile.get(c);
-			
-			cMap[y][x] += atoi(&c);
-
-			cMap[y][x] -= 1;
-			cout << cMap[y][x] << " ";
-			
-			mapFile.ignore();
-		}
-		cout << endl;
 	}
-
-	startX = 0;
-	startY = 0;
-
+	cout << "load xong 3 layer";
 
 }
 
 
 
 
-void Map::drawMap(int velx) {
-	
-
-	//drawbackground shiet;
 
 
 
 
-	//SDL_Rect bgSrcRect ;
-	//SDL_Rect bgResRect ;
-	// scrolling n shiet. da xong pseudo parallax, bay h chi can them vao keyboardinpu.
-	for (int i = 0; i < num_of_layers; i++)
+
+void gMap::load(string path, fstream* mapFile, int sizeX, int sizeY)
+{
+	char c;
+
+	for (int y = 0; y < sizeY; y++)
 	{
-		
-
-		SDL_Rect bgDesRect1 , bgDesRect2 ;
-		scrollingOffset[i] = (float)i / 2 * Game::camera.x;
-		scrollingOffset[i] =  -(scrollingOffset[i] % SCREEN_WIDTH ); //i*velocity.x;
-		
-
-
-		/*
-		if (scrollingOffset[i] < -SCREEN_WIDTH)
+		for (int x = 0; x < sizeX; x++)
 		{
-			scrollingOffset[i] = 0;
-		}*/
-
-		/*
-		if (scrollingOffset[i] > 0)
-		{
-			scrollingOffset[i] = 0;
-		}*/
-		
-
-		//them 1 gioi han cho background.
-
-		bgDesRect1 = { scrollingOffset[i] , 0  , SCREEN_WIDTH , SCREEN_HEIGHT};
-		bgDesRect2 = { scrollingOffset[i] + SCREEN_WIDTH , 0  , SCREEN_WIDTH , SCREEN_HEIGHT};
+			mapFile->get(c);
+			cMap[y][x] = atoi(&c) * 10;
 
 
-		SDL_RenderCopy(Game::gRenderer, bgTex[i], NULL, &bgDesRect1);
 
-		SDL_RenderCopy(Game::gRenderer, bgTex[i], NULL, &bgDesRect2);
+			mapFile->get(c);
+
+			cMap[y][x] += atoi(&c);
+
+			cMap[y][x] -= 1;
+			cout << cMap[y][x] << " ";
+
+			mapFile->ignore();
+		}
+		cout << endl;
 	}
+
+	mapFile->ignore();
+
+
+}
+
+
+
+void gMap::draw(SDL_Texture* tex, int velx , int mapXmax , int scaledSize)
+{
 	
 
+	
 	//
 	int x1 = 0, x2 = 0;
 	int y1 = 0, y2 = 0;
@@ -135,11 +118,11 @@ void Map::drawMap(int velx) {
 
 
 	//
-	x1 = Game::camera.x / tileSize ;
-	x2 = x1 + SCREEN_WIDTH / tileSize + 1 > mapXmax ? mapXmax : x1 + SCREEN_WIDTH / tileSize + 1;
+	x1 = Game::camera.x / tile_size;
+	x2 = x1 + SCREEN_WIDTH / tile_size + 1 > mapXmax ? mapXmax : x1 + SCREEN_WIDTH / tile_size + 1;
 
-	y1 = Game::camera.y / tileSize;
-	y2 = y1 + (SCREEN_HEIGHT)/tileSize + 1 ;
+	y1 = Game::camera.y / tile_size;
+	y2 = y1 + (SCREEN_HEIGHT) / tile_size + 1;
 
 
 	for (int y = y1; y <= y2; y++)
@@ -151,19 +134,13 @@ void Map::drawMap(int velx) {
 			int yval = cMap[y][x] / 10;
 			int xval = cMap[y][x] % 10;
 
-			srcRect = { xval * tileSize , yval * tileSize , tileSize , tileSize };
-			desRect = { x * tileSize - Game::camera.x , y * tileSize - Game::camera.y , scaledSize , scaledSize };
-			
-			
-			drawTexture(texture, srcRect, desRect, SDL_FLIP_NONE);
+			srcRect = { xval * tile_size , yval * tile_size , tile_size , tile_size };
+			desRect = { x * tile_size - Game::camera.x , y * tile_size - Game::camera.y , scaledSize , scaledSize };
+
+
+			drawTexture(tex, srcRect, desRect, SDL_FLIP_NONE);
 		}
 	}
-		
-
-
-
-
-
-
-
 }
+
+

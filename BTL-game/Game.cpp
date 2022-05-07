@@ -109,10 +109,10 @@ void Game::loadMedia() {
 
 	//load component(pos , sprite)
 
-	maplv1 = new Map("assets/ntileset.png", 1, 32 , 75 , 40 , 3);
+	maplv1 = new Map("assets/tileset_items.png", 1, 32 , 90 , 40 );
 	//qua ton ram, nen de background thi hon/.
 
-	maplv1 -> loadmap("assets/map_l0.map");
+	maplv1 -> loadmap("assets/map_items.map");
 	
 
 	//thu picture perfect
@@ -155,7 +155,10 @@ void Game::handleEvents() {
 
 void checkCollsionMap(Map* map) 
 {
+
+	//->map[0] check lai thanh map[i];
 	bool check_onground = false;
+	// 3 = const num ;
 
 	int x1 = 0, x2 = 0;
 	int y1 = 0, y2 = 0;
@@ -185,7 +188,7 @@ void checkCollsionMap(Map* map)
 		if (vel.y >= 0)
 		{
 
-			if (map->cMap[y2][x1] != map->BLANK_TILE || map->cMap[y2][x2] != map->BLANK_TILE)
+			if (map->map[0].cMap[y2][x1] != map->BLANK_TILE || map->map[0].cMap[y2][x2] != map->BLANK_TILE)
 			{
 				pos.y = y2 * map->tileSize;
 				pos.y -= cHeight ;
@@ -196,7 +199,7 @@ void checkCollsionMap(Map* map)
 
 		else if (vel.y < 0)
 		{
-			if (map->cMap[y1][x1] != map->BLANK_TILE || map->cMap[y1][x2] != map->BLANK_TILE)
+			if (map->map[0].cMap[y1][x1] != map->BLANK_TILE || map->map[0].cMap[y1][x2] != map->BLANK_TILE)
 			{
 				pos.y = (y1 + 1) * map->tileSize;
 				vel.y = 0;
@@ -206,11 +209,6 @@ void checkCollsionMap(Map* map)
 
 
 	}
-
-
-
-
-
 
 
 
@@ -230,7 +228,7 @@ void checkCollsionMap(Map* map)
 		if (vel.x > 0)
 		{
 			//check move right
-			if (map->cMap[y1][x2] != map->BLANK_TILE || map->cMap[y2][x2] != map->BLANK_TILE)
+			if (map->map[0].cMap[y1][x2] != map->BLANK_TILE || map->map[0].cMap[y2][x2] != map->BLANK_TILE)
 			{
 				pos.x = x2 * map->tileSize;
 				pos.x -= cWidth + 1;
@@ -241,7 +239,7 @@ void checkCollsionMap(Map* map)
 		else if (vel.x < 0)
 		{
 			//check move right
-			if (map->cMap[y1][x1] != map->BLANK_TILE || map->cMap[y2][x1] != map->BLANK_TILE)
+			if (map->map[0].cMap[y1][x1] != map->BLANK_TILE || map->map[0].cMap[y2][x1] != map->BLANK_TILE)
 			{
 				pos.x = (x1 + 1) * map->tileSize;
 				vel.x = 0;
@@ -275,7 +273,7 @@ void Game::update()
 
 	// xem truoc khi update y nam o dau
 
-	
+	//delete maplv1;
 
 	manager.refresh();
 
