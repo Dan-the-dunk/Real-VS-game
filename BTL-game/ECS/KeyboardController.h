@@ -50,7 +50,6 @@ public:
 			case SDLK_SPACE:
 				if (body->onground == true)
 				{
-					cout << "UP" << endl;
 					//140 = char_size
 					transform->velocity.y = -12;
 				}
@@ -70,7 +69,7 @@ public:
 			
 			*/
 			case SDLK_LEFT:
-				cout << "LEFT" << endl;
+			
 				turnLeft = true;
 				sprite->play("Walk");
 				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
@@ -79,7 +78,7 @@ public:
 				break;
 
 			case SDLK_RIGHT:
-				cout << "RIGHT" << endl;
+				
 				turnLeft = false;
 				sprite->play("Walk");
 				sprite->spriteFlip = SDL_FLIP_NONE;

@@ -10,7 +10,7 @@ class Stats : public Component
 public:
 	const int bar_width = 32, bar_height = 12;
 	int hp;
-	
+	float fart_lv;
 	bool charging = false;
 
 	
@@ -42,6 +42,8 @@ public:
 	void update() override
 	{
 		
+		if (fart_lv > fartMax) fart_lv = fartMax;
+
 		if (charging)
 		{
 			//set alphablending;
@@ -122,10 +124,12 @@ private:
 
 	SDL_Rect desRect, srcRect;
 	SDL_Rect bDesRect, bSrcRect;
+	
 	const int fart_charge_speed = 2;
+	float currentCharge;
 	float fartMax = 120.0f ;
-	float fart_lv;
-	float currentCharge ;
+	
+	
 	bool isUp = true;
 	Uint8 a = 255;
 };
