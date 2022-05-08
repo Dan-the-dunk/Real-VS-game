@@ -95,6 +95,9 @@
     <ClInclude Include="assets\AssetsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECS\ProjectileComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BTL-game.rc">

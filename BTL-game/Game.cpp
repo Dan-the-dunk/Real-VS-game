@@ -14,7 +14,7 @@ using namespace std;
 Map* maplv1 = nullptr;
 Manager manager;
 
-AssetsManager* Game::assets = new AssetsManager(manager);
+AssetsManager* Game::assets = new AssetsManager(&manager);
 
 
 bool Game::isRunning = false;
@@ -106,7 +106,8 @@ void Game::loadMedia() {
 	gameOverTxt = loadTexture(gameOverImagePath);
 	
 	
-
+	assets->AddText("terrain", "assets/tileset_items.png");
+	assets->AddText("player", "assets/image/dirt_txt.png");
 
 
 	//load component(pos , sprite)
@@ -119,7 +120,7 @@ void Game::loadMedia() {
 
 	//thu picture perfect
 	newPlayer.addComponent<TransformComponent>(32,32);
-	newPlayer.addComponent<SpriteComponent>("assets/image/dirt_txt.png",false);
+	newPlayer.addComponent<SpriteComponent>("player",false);
 	newPlayer.addComponent<RigidBody>(1);
 	newPlayer.addComponent<Stats>();
 	newPlayer.addComponent<KeyboardController>();
@@ -127,6 +128,8 @@ void Game::loadMedia() {
 	newPlayer.addGroup(groupPlayers);
 
 
+
+	assets->CreateProjectile(Vector2D(600, 600), 200, 2, "projectile");
 
 
 
@@ -138,7 +141,7 @@ void Game::loadMedia() {
 
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
-
+auto& projectiles(manager.getGroup(Game::groupProjectitles));
 void Game::handleEvents() {
 	
 	SDL_PollEvent(&ev);
@@ -335,7 +338,17 @@ void Game::update()
 
 
 	
+	
+	for (auto p : projectiles)
+	{
+		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider) )
+		{
+			p->destroy();
+		}
 
+		//Stats change, components.\
+		//Add diff type for projectile for diff effects
+	}
 
 	
 
@@ -355,7 +368,7 @@ void Game::update()
 	//Game over shiet.
 	
 
-	/*
+	
 	if (newPlayer.getComponent<TransformComponent>().position.y >= maplv1->death_lv) {
 
 		renderGameover();
@@ -364,7 +377,7 @@ void Game::update()
 		isRunning = false;
 	}
 	
-	*/
+	
 	
 	
 	
@@ -397,6 +410,12 @@ void Game::render() {
 	{
 		c->draw();
 	}
+	
+	for (auto& p : projectiles)
+	{
+		p->draw();
+	}
+
 
 	SDL_RenderPresent(gRenderer);
 };
