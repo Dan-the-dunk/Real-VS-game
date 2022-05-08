@@ -1,18 +1,20 @@
 #include"Game.h"
-#include"assets/AssetsManager.h"
+#include"assets/TextureManager.h"
 #include<iostream>
 #include"Map.h"
 #include"ECS/Components.h"
 #include"Physics/Vector2D.h"
 #include"Collision.h"
 #include<cmath>
-
+#include"assets/AssetsManager.h"
 
 
 using namespace std;
 
 Map* maplv1 = nullptr;
 Manager manager;
+
+AssetsManager* Game::assets = new AssetsManager(manager);
 
 
 bool Game::isRunning = false;
@@ -288,10 +290,10 @@ void checkCollsionMap(Map* map)
 				{
 					if (map->map[1].cMap[y][x] != map->BLANK_TILE)
 					{
-						cout << "Hit food" << endl;
 						int f_gain = map->map[1].cMap[y][x] - 50 + 1;
 						f_gain *= 12;
 						newPlayer.getComponent<Stats>().fart_lv += f_gain;
+						cout << newPlayer.getComponent<Stats>().fart_lv << endl;
 						map->map[1].cMap[y][x] = map->BLANK_TILE;
 
 						//play noise.//
@@ -351,6 +353,9 @@ void Game::update()
 
 
 	//Game over shiet.
+	
+
+	/*
 	if (newPlayer.getComponent<TransformComponent>().position.y >= maplv1->death_lv) {
 
 		renderGameover();
@@ -358,8 +363,8 @@ void Game::update()
 		SDL_RenderClear(gRenderer);
 		isRunning = false;
 	}
-
-
+	
+	*/
 	
 	
 	

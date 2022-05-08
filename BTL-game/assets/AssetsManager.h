@@ -1,32 +1,24 @@
-#ifndef SDL_ULTIS_H
-#define SDL_ULTIS_H
+#pragma once
+
+#include<map>
+#include<string>
+#include"TextureManager.h"
+#include"../Physics/Vector2D.h"
+#include"../ECS/ECS.h"
+
+class AssetsManager
+{
+public:
+
+	AssetsManager(Manager* man);
+	~AssetsManager();
+
+	void AddText(std::string id, const char* path);
+
+	SDL_Texture* GetTexture(std::string id);
+private:
+	Manager* manager;
+	std::map<std::string, SDL_Texture*> textures;
 
 
-
-#include <SDL.h>
-#include <SDL_image.h>
-#include <string>
-#include<iostream>
-#include "../Game.h"
-using namespace std;
-
-
-const int FRAME_NUMBER = 4;
-
-SDL_Texture* loadTexture(const char* path);
-
-void setBlendMode(SDL_BlendMode blending, SDL_Texture** mTexture);
-
-
-void setAlpha(Uint8 alpha, SDL_Texture** mTexture);
-
-
-
-void drawTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des, SDL_RendererFlip flip );
-
-
-
-
-
-
-#endif 
+};

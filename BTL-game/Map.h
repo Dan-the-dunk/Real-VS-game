@@ -1,6 +1,6 @@
 #pragma once
 #include<SDL.h>
-#include"assets//AssetsManager.h"
+#include"assets/TextureManager.h"
 #include"Game.h"
 #include<string>
 

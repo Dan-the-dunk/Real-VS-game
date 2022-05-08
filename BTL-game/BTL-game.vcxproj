@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\SDL_VS\SDL2-2.0.20\include;C:\SDL_VS\SDL2_image-2.0.5\include;C:\SDL_VS\SDL2_mixer-2.0.4\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL_VS\SDL2_mixer-2.0.4\lib\x64;C:\SDL_VS\SDL2_image-2.0.5\lib\x64;C:\SDL_VS\SDL2-2.0.20\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SDL_VS\SDL2_ttf-2.0.18\include;C:\SDL_VS\SDL2-2.0.20\include;C:\SDL_VS\SDL2_image-2.0.5\include;C:\SDL_VS\SDL2_mixer-2.0.4\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL_VS\SDL2_ttf-2.0.18\lib\x64;C:\SDL_VS\SDL2_mixer-2.0.4\lib\x64;C:\SDL_VS\SDL2_image-2.0.5\lib\x64;C:\SDL_VS\SDL2-2.0.20\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -123,7 +123,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="assets\AssetsManger.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ECS\ECS.cpp" />
     <ClCompile Include="Hero.cpp" />
@@ -150,9 +151,10 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Physics\Vector2D.cpp" />
-    <ClCompile Include="assets\AssetsManager.cpp" />
+    <ClCompile Include="assets\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="assets\AssetsManager.h" />
     <ClInclude Include="ECS\Animation.h" />
     <ClInclude Include="ECS\ColliderComponent.h" />
     <ClInclude Include="Collision.h" />
@@ -168,7 +170,7 @@
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Physics\Vector2D.h" />
-    <ClInclude Include="assets\AssetsManager.h" />
+    <ClInclude Include="assets\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BTL-game.rc" />

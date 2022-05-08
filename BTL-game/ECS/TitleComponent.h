@@ -4,7 +4,7 @@
 #include"TransformComponent.h"
 #include"SpriteComponent.h"
 #include<SDL.h>
-#include"../assets/AssetsManager.h"
+#include"../assets/TextureManager.h"
 
 
 const char title_size = 32;

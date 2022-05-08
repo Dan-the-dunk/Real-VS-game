@@ -2,7 +2,7 @@
 #include<SDL.h>
 #include<SDL_image.h>
 #include"Game.h"
-#include"assets/AssetsManager.h"
+#include"assets/TextureManager.h"
 #include"Map.h"
 #include<SDL_mixer.h>
 

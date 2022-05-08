@@ -24,8 +24,11 @@ public:
 
 	static bool isRunning;
 	static SDL_Rect camera;
+	static AssetsManager* assets;
+	static SDL_Renderer* gRenderer;
+	static SDL_Event ev;
 
-	
+
 	const char* gameOverImagePath = "assets/image/gameover.jpg";
 	const char* backGroundImagePath = "assets/image/3.png";
 	SDL_Texture* backgroundTxt;
@@ -55,8 +58,7 @@ public:
 	void loadMedia();
 	
 
-	static SDL_Renderer* gRenderer;
-	static SDL_Event ev;
+	
 
 	bool running(){
 		return isRunning;
