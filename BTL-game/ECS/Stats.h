@@ -42,8 +42,12 @@ public:
 	void update() override
 	{
 		
-		if (fart_lv > fartMax) fart_lv = fartMax;
-
+		if (fart_lv > fartMax)
+		{
+		
+			transform->velocity.y = -20;
+			fart_lv = fartMax/2;
+		}
 		if (charging)
 		{
 			//set alphablending;

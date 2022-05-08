@@ -101,7 +101,7 @@ void Game::loadMedia() {
 	
 	//loadbackground;
 	backgroundTxt = loadTexture(backGroundImagePath);
-	
+	gameOverTxt = loadTexture(gameOverImagePath);
 	
 	
 
@@ -350,18 +350,20 @@ void Game::update()
 	
 
 
+	//Game over shiet.
+	if (newPlayer.getComponent<TransformComponent>().position.y >= maplv1->death_lv) {
 
-	//cout << newPlayer.getComponent<TransformComponent>().position.x << " , "
-		//<< newPlayer.getComponent<TransformComponent>().position.y << endl;
+		renderGameover();
+		SDL_Delay(2000);
+		SDL_RenderClear(gRenderer);
+		isRunning = false;
+	}
 
 
 	
 	
-	/*mm leak
-	if (newPlayer.getComponent<TransformComponent>().position.x >= 300) {
 	
-		newPlayer.getComponent<SpriteComponent>().setText("image/cbum.png");
-	}*/
+	
 	
 	
 

@@ -54,7 +54,7 @@ public:
 	
 
 	const int BLANK_TILE = -1;
-	
+	const int death_lv = 960;
 
 	gMap map[num_of_mlayers];
 	SDL_Texture* texture;
@@ -65,7 +65,7 @@ public:
 	int tileSize = 0;
 	int mapXmax = 0, mapYmax = 0;
 	int scaledSize = 0;
-
+	
 	
 	Map(const char* mfp, int ms , int ts , int sizeX , int sizeY );
 	~Map();
