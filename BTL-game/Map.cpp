@@ -5,6 +5,7 @@
 #include"ECS/ECS.h"
 #include"ECS/Components.h"
 #include"assets/TextureManager.h"
+#include"assets/AssetsManager.h"
 #include<format>
 extern Manager manager;
 			  
@@ -57,6 +58,21 @@ void Map::loadmap(std::string path)
 	for (int i = 0; i < num_of_mlayers; i++)
 	{
 		
+		switch (i)
+		{
+		case 0:
+			map[i].tag = "tile";
+			break;
+		case 1:
+			map[i].tag = "item";
+			break;
+		case 2:
+			map[i].tag = "enemy";
+			break;
+
+		default:
+			break;
+		}
 		map[i].load(path , &mapFile , sizeX , sizeY);
 
 	}
@@ -84,17 +100,27 @@ void gMap::load(string path, fstream* mapFile, int sizeX, int sizeY)
 			cMap[y][x] = atoi(&c) * 10;
 
 
-
+			
 			mapFile->get(c);
 
 			cMap[y][x] += atoi(&c);
 
 			cMap[y][x] -= 1;
-			cout << cMap[y][x] << " ";
+
+			int tilecode = cMap[y][x];
+
+			if (tag == "enemy" && tilecode != blank_tile)
+			{
+				string str = format("enemy{}", tilecode);
+				
+				
+				Game::assets->CreateEnemies(Vector2D((x - 1) * tile_size, (y - 1 ) * tile_size), 200, 2, str, Vector2D(1, 0));
+			}
+			//cout << cMap[y][x] << " ";
 
 			mapFile->ignore();
 		}
-		cout << endl;
+		//cout << endl;
 	}
 
 	mapFile->ignore();

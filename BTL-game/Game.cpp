@@ -8,6 +8,8 @@
 #include<cmath>
 #include"assets/AssetsManager.h"
 
+#include<format>
+
 
 using namespace std;
 
@@ -108,16 +110,28 @@ void Game::loadMedia() {
 
 
 
+
+
+	
+	//str = format("number {} , number {}", 1, 2);
+
+
+	assets->AddText("enemy0", "assets/enemies/e0.png");
+
 	assets->AddText("enemy", "assets/image/rl_projectile.jpg");
+
+	assets->AddText("enemy1", "assets/enemies/e1.png");
 	assets->AddText("player", "assets/image/dirt_txt.png");
 	assets->AddText("projectile", "assets/image/rl_projectile.jpg");
+
+
 
 	//load component(pos , sprite)
 
 	maplv1 = new Map("assets/tileset_items.png", 1, 32, 90, 40);
 	//qua ton ram, nen de background thi hon/.
 
-	maplv1->loadmap("assets/map_items.map");
+	maplv1->loadmap("assets/map_enemies.map");
 
 
 	//thu picture perfect
@@ -130,7 +144,7 @@ void Game::loadMedia() {
 	newPlayer.addGroup(groupPlayers);
 
 
-	assets->CreateEnemies(Vector2D(600, 600), 200, 2, "enemy", Vector2D(1, 0));
+	assets->CreateEnemies(Vector2D(600, 600), 200, 2, "enemy0", Vector2D(1, 0));
 
 		//assets->CreateProjectile(Vector2D(600, 600), 600, 2, "projectile", Vector2D(1,0));
 
@@ -425,6 +439,13 @@ void Game::render() {
 
 	for (auto& e : enemies)
 	{
+		//draw hit box;
+		/*e->getComponent<ColliderComponent>().collider.x = e->getComponent<ColliderComponent>().collider.x - camera.x;
+		e->getComponent<ColliderComponent>().collider.y = e->getComponent<ColliderComponent>().collider.y - camera.y;
+		SDL_Rect eRect = e->getComponent<ColliderComponent>().collider;
+		SDL_SetRenderDrawColor(gRenderer,255, 0, 0, 255);
+		SDL_RenderDrawRect(gRenderer, &eRect);*/
+
 		e->draw();
 	}
 

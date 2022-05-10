@@ -30,17 +30,19 @@ public:
 		coss = 32;
 	};
 	int coss ;
+	string tag;
+
 
 	int cMap[yMax][xMax] = { 0 };
 
 	void draw(SDL_Texture* tex, int velx, int mapXmax, int scaledSize);
 
 
-	void load(string path, fstream* mapFile, int sizeX, int sizeY);
+	void load(string path, fstream* mapFile, int sizeX, int sizeY );
 
 private:
 
-	string tag;
+	
 
 
 };
