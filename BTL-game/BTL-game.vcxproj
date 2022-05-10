@@ -160,6 +160,7 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="ECS\Components.h" />
     <ClInclude Include="ECS\ECS.h" />
+    <ClInclude Include="ECS\Enemy.h" />
     <ClInclude Include="ECS\KeyboardController.h" />
     <ClInclude Include="ECS\ProjectileComponent.h" />
     <ClInclude Include="ECS\RigidBody.h" />
@@ -178,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\image\f_petersprite.png" />
+    <Image Include="assets\image\rl_projectile.jpg" />
     <Image Include="colors.png" />
     <Image Include="assets\image\arnold.png" />
     <Image Include="assets\image\colors.png" />

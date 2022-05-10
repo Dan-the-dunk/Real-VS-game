@@ -7,11 +7,6 @@
 #include"Animation.h"
 #include<map>
 #include"../assets/AssetsManager.h"
-#include"../Game.h"
-
-
-
-
 
 class SpriteComponent : public Component
 {
@@ -24,7 +19,7 @@ private:
 	int frames = 0;
 	int speed = 100;
 	//Khu thu nghiem
-	
+
 
 
 
@@ -32,14 +27,17 @@ public:
 	SpriteComponent() = default;
 
 	int animIndex = 0;
-	
+
 	std::map<const char*, Animation> animations;
 
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
+	SpriteComponent(const char* path)
+	{
+		setText(path);
+	}
 
 
-	
 
 	SpriteComponent(std::string id, bool isAnimated)
 	{
@@ -61,7 +59,6 @@ public:
 
 	~SpriteComponent()
 	{
-		//SDL_DestroyTexture(texture);
 	}
 
 	void setText(std::string id) {
@@ -76,13 +73,13 @@ public:
 
 	void init() override
 	{
-		
-		
+
+
 
 		transform = &entity->getComponent<TransformComponent>();
 
 		//72,119 la info cua o dau tien phan walk;
-		srcRect = { 0 ,0 ,transform->width, transform->height};
+		srcRect = { 0 ,0 ,transform->width, transform->height };
 		desRect.w = (int)transform->width;
 		desRect.h = (int)transform->height;
 	}
@@ -92,7 +89,7 @@ public:
 
 		if (animated)
 		{
-			srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed) % frames );
+			srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
 		}
 
 		srcRect.y = animIndex * transform->height;
@@ -100,8 +97,8 @@ public:
 		//Camera.
 		desRect.x = static_cast<int>(transform->position.x) - Game::camera.x;
 		desRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
-		desRect.w = static_cast<int>(transform->width* transform->scale);
-		desRect.h = static_cast<int>(transform->height* transform->scale);
+		desRect.w = static_cast<int>(transform->width * transform->scale);
+		desRect.h = static_cast<int>(transform->height * transform->scale);
 	}
 	void draw() override
 	{

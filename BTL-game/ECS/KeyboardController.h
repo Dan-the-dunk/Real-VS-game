@@ -133,6 +133,7 @@ public:
 				//if(turnLeft) transform->velocity.x = -(stats->getFartPercent() * 12) / 100;
 				//else transform->velocity.x = (stats->getFartPercent() * 12) / 100;
 				transform->velocity.y = -2*(stats->getFartPercent() * 12) / 100;
+				stats->MinusFart();
 				stats->charging = false;
 
 			default:

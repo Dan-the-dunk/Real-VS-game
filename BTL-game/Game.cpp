@@ -100,27 +100,29 @@ void Game::init(const char* title, bool fullscreen) {
 
 
 void Game::loadMedia() {
-	
+
 	//loadbackground;
 	backgroundTxt = loadTexture(backGroundImagePath);
 	gameOverTxt = loadTexture(gameOverImagePath);
-	
-	
-	assets->AddText("terrain", "assets/tileset_items.png");
-	assets->AddText("player", "assets/image/dirt_txt.png");
 
+
+
+
+	assets->AddText("enemy", "assets/image/rl_projectile.jpg");
+	assets->AddText("player", "assets/image/dirt_txt.png");
+	assets->AddText("projectile", "assets/image/rl_projectile.jpg");
 
 	//load component(pos , sprite)
 
-	maplv1 = new Map("assets/tileset_items.png", 1, 32 , 90 , 40 );
+	maplv1 = new Map("assets/tileset_items.png", 1, 32, 90, 40);
 	//qua ton ram, nen de background thi hon/.
 
-	maplv1 -> loadmap("assets/map_items.map");
-	
+	maplv1->loadmap("assets/map_items.map");
+
 
 	//thu picture perfect
-	newPlayer.addComponent<TransformComponent>(32,32);
-	newPlayer.addComponent<SpriteComponent>("player",false);
+	newPlayer.addComponent<TransformComponent>(32, 32);
+	newPlayer.addComponent<SpriteComponent>("player", false);
 	newPlayer.addComponent<RigidBody>(1);
 	newPlayer.addComponent<Stats>();
 	newPlayer.addComponent<KeyboardController>();
@@ -128,20 +130,22 @@ void Game::loadMedia() {
 	newPlayer.addGroup(groupPlayers);
 
 
+	assets->CreateEnemies(Vector2D(600, 600), 200, 2, "enemy", Vector2D(1, 0));
 
-	assets->CreateProjectile(Vector2D(600, 600), 200, 2, "projectile");
+		//assets->CreateProjectile(Vector2D(600, 600), 600, 2, "projectile", Vector2D(1,0));
 
+		//assets->CreateProjectile(Vector2D(300, 600), 600, 2, "projectile", Vector2D(1, 1));
 
-
-
-
-}
+		//assets->CreateProjectile(Vector2D(600, 400), 600, 2, "projectile", Vector2D(1, 4));
+};
 
 
 
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectitles));
+auto& enemies(manager.getGroup(Game::groupEnemies));
+
 void Game::handleEvents() {
 	
 	SDL_PollEvent(&ev);
@@ -337,18 +341,18 @@ void Game::update()
 	checkCollsionMap(maplv1);
 
 
-	
-	
 	for (auto p : projectiles)
 	{
-		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider) )
+		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
 		{
+			cout << "Hit projectile" << endl;
 			p->destroy();
 		}
 
 		//Stats change, components.\
 		//Add diff type for projectile for diff effects
 	}
+
 
 	
 
@@ -368,7 +372,7 @@ void Game::update()
 	//Game over shiet.
 	
 
-	
+	/*
 	if (newPlayer.getComponent<TransformComponent>().position.y >= maplv1->death_lv) {
 
 		renderGameover();
@@ -377,13 +381,16 @@ void Game::update()
 		isRunning = false;
 	}
 	
+	*/
 	
 	
 	
 	
 	
-	
-	
+	/*
+	cout << newPlayer.getComponent<TransformComponent>().position.x << " "
+		<< newPlayer.getComponent<TransformComponent>().position.y << endl;
+		*/
 
 	
 
@@ -410,10 +417,15 @@ void Game::render() {
 	{
 		c->draw();
 	}
-	
+
 	for (auto& p : projectiles)
 	{
 		p->draw();
+	}
+
+	for (auto& e : enemies)
+	{
+		e->draw();
 	}
 
 

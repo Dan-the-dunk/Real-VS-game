@@ -16,17 +16,14 @@ public:
 	
 	void init() override 
 	{
-
-		currentCharge = 0;
-		fart_lv = 80;
-
 		pTexture = loadTexture("assets/image/pbar_slider.png");
 		p0Texture = loadTexture("assets/image/pbar_base.png");
 
 		setBlendMode(SDL_BLENDMODE_BLEND, &pTexture);
 		setBlendMode(SDL_BLENDMODE_BLEND, &p0Texture);
 
-		
+		currentCharge = 0;
+		fart_lv = 80;
 		if (!entity->hasComponent<TransformComponent>())
 		{
 			entity->addComponent < TransformComponent>();
@@ -38,6 +35,7 @@ public:
 		bSrcRect = { 0 , 0 , bar_width , bar_height };
 
 		desRect = { transform->position.x , transform->position.y - bar_height * 2 , bar_width , bar_height };
+
 		bDesRect = { transform->position.x , transform->position.y - bar_height * 2 , bar_width , bar_height };
 	}
 
@@ -108,6 +106,11 @@ public:
 	int getFartPercent()
 	{
 		return (currentCharge / fartMax) * 100;
+	}
+
+	void MinusFart()
+	{
+		fart_lv -= currentCharge;
 	}
 
 	void draw() override
