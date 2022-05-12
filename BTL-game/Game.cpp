@@ -8,28 +8,17 @@
 #include<cmath>
 #include"assets/AssetsManager.h"
 #include<format>
-
+#include"Gamestate.h"
 
 using namespace std;
 
-Map* maplv1 = nullptr;
-Manager manager;
-
-AssetsManager* Game::assets = new AssetsManager(&manager);
-
 
 bool Game::isRunning = false;
-SDL_Rect Game::camera = { 0,0,SCREEN_WIDTH  , SCREEN_HEIGHT };
+
 
 SDL_Renderer* Game::gRenderer = nullptr;
-SDL_Event Game::ev ;
-
-auto& newPlayer(manager.addEntity());
 
 
-
-//testing extern
-extern bool onground;
 
 
 Game::Game() {
@@ -99,384 +88,82 @@ void Game::init(const char* title, bool fullscreen) {
 
 
 
-
-void Game::loadMedia() {
-
-	//loadbackground;
-	backgroundTxt = loadTexture(backGroundImagePath);
-	gameOverTxt = loadTexture(gameOverImagePath);
-
-
-
-
-
-
-	
-	//str = format("number {} , number {}", 1, 2);
-
-
-	assets->AddText("enemy0", "assets/enemies/e0.png");
-
-	assets->AddText("enemy", "assets/image/rl_projectile.jpg");
-
-	assets->AddText("enemy1", "assets/enemies/e1.png");
-	assets->AddText("player", "assets/image/dirt_txt.png");
-	assets->AddText("projectile", "assets/image/rl_projectile.jpg");
-
-
-
-	//load component(pos , sprite)
-
-	maplv1 = new Map("assets/tileset_items.png", 1, 32, 90, 40);
-	//qua ton ram, nen de background thi hon/.
-
-	maplv1->loadmap("assets/map_enemies.map");
-
-
-	//thu picture perfect
-	newPlayer.addComponent<TransformComponent>(32, 32);
-	newPlayer.addComponent<SpriteComponent>("player", false);
-	newPlayer.addComponent<RigidBody>(1);
-	newPlayer.addComponent<Stats>();
-	newPlayer.addComponent<KeyboardController>();
-	newPlayer.addComponent<ColliderComponent>("player");
-	newPlayer.addGroup(groupPlayers);
-
-
-	assets->CreateEnemies(Vector2D(600, 600), 200, 2, "enemy0", Vector2D(1, 0));
-
-		//assets->CreateProjectile(Vector2D(600, 600), 600, 2, "projectile", Vector2D(1,0));
-
-		//assets->CreateProjectile(Vector2D(300, 600), 600, 2, "projectile", Vector2D(1, 1));
-
-		//assets->CreateProjectile(Vector2D(600, 400), 600, 2, "projectile", Vector2D(1, 4));
-};
-
-
-
-auto& players(manager.getGroup(Game::groupPlayers));
-auto& colliders(manager.getGroup(Game::groupColliders));
-auto& projectiles(manager.getGroup(Game::groupProjectitles));
-auto& enemies(manager.getGroup(Game::groupEnemies));
-
-void Game::handleEvents() {
-	
-	SDL_PollEvent(&ev);
-
-	switch (ev.type)
-	{
-	case SDL_QUIT:
-		isRunning = false;
-		break;
-
-	default:
-		break;
-	}
-};
-
-
-void checkCollsionMap(Map* map) 
+void Game::ChangeState(CGameState* state)
 {
-
-	//->map[0] check lai thanh map[i];
-	bool check_onground = false;
-	// 3 = const num ;
-
-	int x1 = 0, x2 = 0;
-	int y1 = 0, y2 = 0;
-
-	Vector2D pos = newPlayer.getComponent<TransformComponent>().position;
-	Vector2D vel = newPlayer.getComponent<TransformComponent>().velocity;
-
-	
-
-
-	int cWidth = newPlayer.getComponent<TransformComponent>().width;
-	int cHeight = newPlayer.getComponent<TransformComponent>().height;
-
-
-
-
-	for (int i = 0; i < 3; i++)
-	{
-
-		
-
-		if (i == 0)
-		{
-			newPlayer.getComponent<RigidBody>().onground = false;
-
-			// check vertical
-
-
-			int min_width = cWidth > map->tileSize ? map->tileSize : cWidth;
-
-			x1 = (pos.x) / map->tileSize;
-			x2 = (pos.x + min_width) / map->tileSize;
-
-			y1 = (pos.y + vel.y) / map->tileSize;
-			y2 = (pos.y + vel.y + cHeight) / map->tileSize;
-
-			if (x1 >= 0 && x2 <= map->sizeX && y1 >= 0 && y2 <= map->sizeY)
-			{
-				if (vel.y >= 0)
-				{
-
-					if (map->map[0].cMap[y2][x1] != map->BLANK_TILE || map->map[0].cMap[y2][x2] != map->BLANK_TILE)
-					{
-						pos.y = y2 * map->tileSize;
-						pos.y -= cHeight;
-						vel.y = 0;
-						newPlayer.getComponent<RigidBody>().onground = true;
-					}
-				}
-
-				else if (vel.y < 0)
-				{
-					if (map->map[0].cMap[y1][x1] != map->BLANK_TILE || map->map[0].cMap[y1][x2] != map->BLANK_TILE)
-					{
-						pos.y = (y1 + 1) * map->tileSize;
-						vel.y = 0;
-					}
-				}
-
-
-
-			}
-
-
-
-
-			x1 = (pos.x + vel.x) / map->tileSize;
-			x2 = (pos.x + vel.x + cWidth - 1) / map->tileSize;
-
-			int min_height = cHeight > map->tileSize ? map->tileSize : cHeight;
-
-			y1 = (pos.y) / map->tileSize;
-			y2 = (pos.y + min_height - 1) / map->tileSize;
-
-
-
-			if (x1 >= 0 && x2 <= map->sizeX && y1 >= 0 && y2 <= map->sizeY)
-			{
-				if (vel.x > 0)
-				{
-					//check move right
-					if (map->map[0].cMap[y1][x2] != map->BLANK_TILE || map->map[0].cMap[y2][x2] != map->BLANK_TILE)
-					{
-						pos.x = x2 * map->tileSize;
-						pos.x -= cWidth + 1;
-						vel.x = 0;
-
-					}
-				}
-				else if (vel.x < 0)
-				{
-					//check move right
-					if (map->map[0].cMap[y1][x1] != map->BLANK_TILE || map->map[0].cMap[y2][x1] != map->BLANK_TILE)
-					{
-						pos.x = (x1 + 1) * map->tileSize;
-						vel.x = 0;
-
-					}
-				}
-			}
-
-
-			if (pos.x < 0) pos.x = 0;
-			else if (pos.x + cWidth >= map->sizeX * map->tileSize) pos.x = map->sizeX * map->tileSize - cWidth - 1;
-
-
-
-
-			//test operator overload
-
-			newPlayer.getComponent<TransformComponent>().position = pos;
-
-			newPlayer.getComponent<TransformComponent>().velocity = vel;
-		}
-
-		if (i == 1)
-		{
-			x1 = (pos.x) / map->tileSize;
-			x2 = (pos.x + cWidth) / map->tileSize;
-
-			y1 = (pos.y ) / map->tileSize;
-			y2 = (pos.y + cHeight) / map->tileSize;
-
-
-
-			if (x1 >= 0 && x2 <= map->sizeX && y1 >= 0 && y2 <= map->sizeY)
-
-			{
-				for (int y = y1; y <= y2; y++)
-				{
-					for (int x = x1; x <= x2; x++)
-					{
-						if (map->map[1].cMap[y][x] != map->BLANK_TILE)
-						{
-							int f_gain = map->map[1].cMap[y][x] - 50 + 1;
-							f_gain *= 12;
-							newPlayer.getComponent<Stats>().fart_lv += f_gain;
-							cout << newPlayer.getComponent<Stats>().fart_lv << endl;
-							map->map[1].cMap[y][x] = map->BLANK_TILE;
-
-							//play noise.//
-
-						}
-					}
-				}
-
-
-			}
-			
-
-
-		}
-
-
+	// cleanup the current state
+	if (!states.empty()) {
+		states.back()->Cleanup();
+		states.pop_back();
 	}
 
-
-
+	// store and init the new state
+	states.push_back(state);
+	states.back()->Init();
 }
 
 
-void Game::update() 
+void Game::PushState(CGameState* state)
 {
-	
-	//sprite component
-
-	// xem truoc khi update y nam o dau
-
-	//delete maplv1;
-
-	manager.refresh();
-
-	
-
-
-	manager.update();
-	
-
-
-	checkCollsionMap(maplv1);
-
-
-	for (auto p : projectiles)
-	{
-		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
-		{
-			cout << "Hit projectile" << endl;
-			p->destroy();
-		}
-
-		//Stats change, components.\
-		//Add diff type for projectile for diff effects
+	// pause current state
+	if (!states.empty()) {
+		states.back()->Pause();
 	}
 
+	// store and init the new state
+	states.push_back(state);
+	states.back()->Init();
+}
 
-	
-
-	camera.x = newPlayer.getComponent<TransformComponent>().position.x - SCREEN_WIDTH/2; // gioi han vi tri nhan vat.
-	camera.y = newPlayer.getComponent<TransformComponent>().position.y - SCREEN_HEIGHT/2;
-
-
-	//Camera( can sua lai cho fit map to hon.
-	if (camera.x < 0) camera.x = 0;// 0 tac dong gi
-	if (camera.x > maplv1->mapXmax - SCREEN_WIDTH) camera.x = maplv1->mapXmax - SCREEN_WIDTH;
-	if (camera.y < 0) camera.y = 0;// 0 tac dong gi
-	if (camera.y > maplv1->mapYmax - SCREEN_HEIGHT) camera.y = maplv1->mapYmax - SCREEN_HEIGHT;
-	
-	
-
-
-	//Game over shiet.
-	
-
-	/*
-	if (newPlayer.getComponent<TransformComponent>().position.y >= maplv1->death_lv) {
-
-		renderGameover();
-		SDL_Delay(2000);
-		SDL_RenderClear(gRenderer);
-		isRunning = false;
-	}
-	
-	*/
-	
-	
-	
-	
-	
-	/*
-	cout << newPlayer.getComponent<TransformComponent>().position.x << " "
-		<< newPlayer.getComponent<TransformComponent>().position.y << endl;
-		*/
-
-	
-
-
-	
-};
-
-
-
-
-
-void Game::render() {
-	SDL_RenderClear(gRenderer);
-	
-	maplv1->drawMap(newPlayer.getComponent<TransformComponent>().velocity.x) ;
-
-
-	
-	for (auto& p : players)
-	{
-		p->draw();
-	}
-	for (auto& c : colliders)
-	{
-		c->draw();
+void Game::PopState()
+{
+	// cleanup the current state
+	if (!states.empty()) {
+		states.back()->Cleanup();
+		states.pop_back();
 	}
 
-	for (auto& p : projectiles)
-	{
-		p->draw();
+	// resume previous state
+	if (!states.empty()) {
+		states.back()->Resume();
 	}
-
-	for (auto& e : enemies)
-	{
-		//draw hit box;
-		/*e->getComponent<ColliderComponent>().collider.x = e->getComponent<ColliderComponent>().collider.x - camera.x;
-		e->getComponent<ColliderComponent>().collider.y = e->getComponent<ColliderComponent>().collider.y - camera.y;
-		SDL_Rect eRect = e->getComponent<ColliderComponent>().collider;
-		SDL_SetRenderDrawColor(gRenderer,255, 0, 0, 255);
-		SDL_RenderDrawRect(gRenderer, &eRect);*/
-
-		e->draw();
-	}
+}
 
 
-	SDL_RenderPresent(gRenderer);
-};
+void Game::handleEvents()
+{
+	// let the state handle events
+	states.back()->HandleEvents(this);
+}
 
-void Game::renderGameover() {
-	SDL_RenderClear(gRenderer);
-	//add things to render 
-	SDL_RenderCopy(gRenderer, gameOverTxt, NULL, NULL);
-	SDL_RenderPresent(gRenderer);
-};
+void Game::update()
+{
+	// let the state update the game
+	states.back()->Update(this);
+}
+
+void Game::render()
+{
+	// let the state draw the screen
+	states.back()->Draw(this);
+}
+
+
+
+
+
 
 void Game::clean() {
+
+	while (!states.empty()) {
+		states.back()->Cleanup();
+		states.pop_back();
+	}
+
+
 	SDL_DestroyWindow(gWindow);
 	gWindow = nullptr;
 	SDL_DestroyRenderer(gRenderer);
 	gRenderer = nullptr;
-	SDL_DestroyTexture(backgroundTxt);
-	backgroundTxt = nullptr;
-	SDL_DestroyTexture(gameOverTxt);
-	gameOverTxt = nullptr;
 	SDL_Quit();
 	cout << "SDL has been cleaned";
 };

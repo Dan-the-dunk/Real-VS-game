@@ -114,7 +114,7 @@ void gMap::load(string path, fstream* mapFile, int sizeX, int sizeY)
 				string str = format("enemy{}", tilecode);
 				
 				
-				Game::assets->CreateEnemies(Vector2D(x  * tile_size, y * tile_size), 200, 2, str, Vector2D(1, 0));
+				CPlayState::assets->CreateEnemies(Vector2D(x  * tile_size, y * tile_size), 200, 2, str, Vector2D(1, 0));
 			}
 			//cout << cMap[y][x] << " ";
 
@@ -144,10 +144,10 @@ void gMap::draw(SDL_Texture* tex, int velx , int mapXmax , int scaledSize)
 
 
 	//
-	x1 = Game::camera.x / tile_size;
+	x1 = CPlayState::camera.x / tile_size;
 	x2 = x1 + SCREEN_WIDTH / tile_size + 1 > mapXmax ? mapXmax : x1 + SCREEN_WIDTH / tile_size + 1;
 
-	y1 = Game::camera.y / tile_size;
+	y1 = CPlayState::camera.y / tile_size;
 	y2 = y1 + (SCREEN_HEIGHT) / tile_size + 1;
 
 
@@ -161,7 +161,7 @@ void gMap::draw(SDL_Texture* tex, int velx , int mapXmax , int scaledSize)
 			int xval = cMap[y][x] % 10;
 
 			srcRect = { xval * tile_size , yval * tile_size , tile_size , tile_size };
-			desRect = { x * tile_size - Game::camera.x , y * tile_size - Game::camera.y , scaledSize , scaledSize };
+			desRect = { x * tile_size - CPlayState::camera.x , y * tile_size - CPlayState::camera.y , scaledSize , scaledSize };
 
 
 			drawTexture(tex, srcRect, desRect, SDL_FLIP_NONE);

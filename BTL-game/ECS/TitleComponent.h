@@ -46,8 +46,8 @@ public:
 
 	void update() override
 	{
-		desRect.x = position.x - Game::camera.x;
-		desRect.y = position.y - Game::camera.y;
+		desRect.x = position.x - CPlayState::camera.x;
+		desRect.y = position.y - CPlayState::camera.y;
 	}
 
 	

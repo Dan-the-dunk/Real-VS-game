@@ -3,7 +3,6 @@
 
 #include <SDL.h>
 #include<SDL_image.h>
-#include<SDL.h>
 #include<vector>
 
 using namespace std;
@@ -25,16 +24,23 @@ class Game
 public:
 	
 	static bool isRunning;
-	static SDL_Rect camera;
-	static AssetsManager* assets;
 	static SDL_Renderer* gRenderer;
-	static SDL_Event ev;
+	
+	
+	// them cai nay.
+	
 
+	//play sate
+	//static SDL_Rect camera;
+	//static AssetsManager* assets;
 
+	/*
 	const char* gameOverImagePath = "assets/image/gameover.jpg";
 	const char* backGroundImagePath = "assets/image/3.png";
 	SDL_Texture* backgroundTxt;
-	SDL_Texture* gameOverTxt;
+	SDL_Texture* gameOverTxt;*/
+
+	/*
 	enum groupLabels : std::size_t
 	{
 		groupMap,
@@ -43,7 +49,9 @@ public:
 		groupColliders,
 		groupProjectitles
 	};
+*/
 
+	
 
 
 
@@ -55,7 +63,10 @@ public:
 	void handleEvents();
 	void update();
 	void render();
-	void renderGameover();
+
+
+	// cho vao playstate
+	//void renderGameover();
 	void clean();
 	void loadMedia();
 	
@@ -73,7 +84,6 @@ public:
 	};
 
 private:
-	int cnt = 0;
 
 	vector<CGameState*> states;
 	

@@ -4,7 +4,8 @@
 #include"../assets/TextureManager.h"
 #include"Animation.h"
 #include"../Game.h"
-
+#include"../Gamestate.h"
+#include"../playState.h"
 class Stats : public Component
 {
 public:
@@ -89,10 +90,10 @@ public:
 
 		}
 
-		desRect.x = transform->position.x - Game::camera.x ;
+		desRect.x = transform->position.x - CPlayState::camera.x ;
 		bDesRect.x = desRect.x;
 
-		desRect.y = transform->position.y - bar_height * 2 - Game::camera.y ;
+		desRect.y = transform->position.y - bar_height * 2 - CPlayState::camera.y ;
 		bDesRect.y = desRect.y;
 		// dong nay de bi lech du lieu
 		

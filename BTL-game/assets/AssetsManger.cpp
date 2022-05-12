@@ -29,7 +29,7 @@ void AssetsManager::CreateProjectile(Vector2D pos, int range, int speed, std::st
 	projectile.addComponent<SpriteComponent>("projectile", false);
 	projectile.addComponent<ProjectileComponent>(range, speed, vel);
 	projectile.addComponent<ColliderComponent>("projectile");
-	projectile.addGroup(Game::groupProjectitles);
+	projectile.addGroup(CPlayState::groupProjectitles);
 
 }
 
@@ -53,7 +53,7 @@ void AssetsManager::CreateEnemies(Vector2D pos, int range, int speed, std::strin
 	enemy.addComponent<SpriteComponent>(id, false);
 	enemy.addComponent<Enemy>(range, speed, vel , pos);
 	enemy.addComponent<ColliderComponent>(id);
-	enemy.addGroup(Game::groupEnemies);
+	enemy.addGroup(CPlayState::groupEnemies);
 }
 
 

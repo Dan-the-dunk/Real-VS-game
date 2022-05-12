@@ -3,7 +3,8 @@
 #include"assets/TextureManager.h"
 #include"Game.h"
 #include<string>
-
+#include"Gamestate.h"
+#include"playState.h"
 
 
 const int tile_size = 32;
@@ -87,7 +88,7 @@ public:
 
 
 			SDL_Rect bgDesRect1, bgDesRect2;
-			scrollingOffset[i] = (float)i / 2 * Game::camera.x;
+			scrollingOffset[i] = (float)i / 2 * CPlayState::camera.x;
 			scrollingOffset[i] = -(scrollingOffset[i] % SCREEN_WIDTH); //i*velocity.x;
 
 

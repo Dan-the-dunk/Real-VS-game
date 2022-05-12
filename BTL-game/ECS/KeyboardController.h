@@ -37,11 +37,11 @@ public:
 
 	void update() override 
 	{
-		if (Game::ev.type == SDL_KEYDOWN) 
+		if (CPlayState::ev.type == SDL_KEYDOWN)
 		{	
 			
 
-			switch (Game::ev.key.keysym.sym)
+			switch (CPlayState::ev.key.keysym.sym)
 			{
 			
 
@@ -102,9 +102,9 @@ public:
 
 		}
 
-		if (Game::ev.type == SDL_KEYUP) 
+		if (CPlayState::ev.type == SDL_KEYUP)
 		{
-			switch (Game::ev.key.keysym.sym)
+			switch (CPlayState::ev.key.keysym.sym)
 			{
 
 			

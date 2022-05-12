@@ -7,7 +7,8 @@
 #include"Animation.h"
 #include<map>
 #include"../assets/AssetsManager.h"
-
+#include"../Gamestate.h"
+#include"../playState.h"
 class SpriteComponent : public Component
 {
 private:
@@ -62,7 +63,7 @@ public:
 	}
 
 	void setText(std::string id) {
-		texture = Game::assets->GetTexture(id);
+		texture = CPlayState::assets->GetTexture(id);
 	}
 
 
@@ -95,8 +96,8 @@ public:
 		srcRect.y = animIndex * transform->height;
 
 		//Camera.
-		desRect.x = static_cast<int>(transform->position.x) - Game::camera.x;
-		desRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+		desRect.x = static_cast<int>(transform->position.x) - CPlayState::camera.x;
+		desRect.y = static_cast<int>(transform->position.y) - CPlayState::camera.y;
 		desRect.w = static_cast<int>(transform->width * transform->scale);
 		desRect.h = static_cast<int>(transform->height * transform->scale);
 	}

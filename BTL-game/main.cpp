@@ -5,6 +5,7 @@
 #include"assets/TextureManager.h"
 #include"Map.h"
 #include<SDL_mixer.h>
+#include"introState.h"
 
 
 using namespace std;
@@ -27,8 +28,8 @@ int main(int argc, char* argv[]) {
 	
 	newgame = new Game();
 	newgame->init("ah finally", false);
-	newgame->loadMedia();
-	
+	newgame->ChangeState(CIntroState::Instance());
+
 	while (newgame->running()) {
 
 		frameStart = SDL_GetTicks();

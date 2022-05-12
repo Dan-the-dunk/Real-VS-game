@@ -2,6 +2,9 @@
 #include<string>
 #include"SDL.h"
 #include"Components.h"
+#include"../Gamestate.h"
+#include"../playState.h"
+
 
 class ColliderComponent : public Component {
 public:
@@ -68,8 +71,8 @@ public:
 		
 
 
-		desR.x = collider.x - Game::camera.x;
-		desR.y = collider.y - Game::camera.y;
+		desR.x = collider.x - CPlayState::camera.x;
+		desR.y = collider.y - CPlayState::camera.y;
 	}
 private:
 

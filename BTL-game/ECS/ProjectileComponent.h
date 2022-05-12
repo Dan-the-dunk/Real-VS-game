@@ -4,6 +4,8 @@
 #include"ECS.h"
 #include"Components.h"
 #include"../Physics/Vector2D.h"
+#include"../Gamestate.h"
+#include"../playState.h"
 
 
 
@@ -38,10 +40,10 @@ public:
 			entity->destroy();
 		}
 
-		else if (transform->position.x > Game::camera.x + Game::camera.w ||
-			transform->position.x < Game::camera.x ||
-			transform->position.y > Game::camera.y + Game::camera.h ||
-			transform->position.y < Game::camera.y 
+		else if (transform->position.x > CPlayState::camera.x + CPlayState::camera.w ||
+			transform->position.x < CPlayState::camera.x ||
+			transform->position.y > CPlayState::camera.y + CPlayState::camera.h ||
+			transform->position.y < CPlayState::camera.y
 			)
 		{
 			cout << "out of window" << endl;
