@@ -305,23 +305,32 @@ void checkCollsionMap(Map* map)
 			y1 = (pos.y ) / map->tileSize;
 			y2 = (pos.y + cHeight) / map->tileSize;
 
-			for (int y = y1; y <= y2; y++)
+
+
+			if (x1 >= 0 && x2 <= map->sizeX && y1 >= 0 && y2 <= map->sizeY)
+
 			{
-				for (int x = x1; x <= x2; x++)
+				for (int y = y1; y <= y2; y++)
 				{
-					if (map->map[1].cMap[y][x] != map->BLANK_TILE)
+					for (int x = x1; x <= x2; x++)
 					{
-						int f_gain = map->map[1].cMap[y][x] - 50 + 1;
-						f_gain *= 12;
-						newPlayer.getComponent<Stats>().fart_lv += f_gain;
-						cout << newPlayer.getComponent<Stats>().fart_lv << endl;
-						map->map[1].cMap[y][x] = map->BLANK_TILE;
+						if (map->map[1].cMap[y][x] != map->BLANK_TILE)
+						{
+							int f_gain = map->map[1].cMap[y][x] - 50 + 1;
+							f_gain *= 12;
+							newPlayer.getComponent<Stats>().fart_lv += f_gain;
+							cout << newPlayer.getComponent<Stats>().fart_lv << endl;
+							map->map[1].cMap[y][x] = map->BLANK_TILE;
 
-						//play noise.//
+							//play noise.//
 
+						}
 					}
 				}
+
+
 			}
+			
 
 
 		}

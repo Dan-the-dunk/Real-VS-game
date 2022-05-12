@@ -36,8 +36,20 @@ void AssetsManager::CreateProjectile(Vector2D pos, int range, int speed, std::st
 
 void AssetsManager::CreateEnemies(Vector2D pos, int range, int speed, std::string id, Vector2D vel)
 {
+	int height = 0, width = 0 ;
+
+	if (id == "enemy0")
+	{
+		height = enemy0_size[1];
+		width = enemy0_size[0];
+	}
+	if (id == "enemy1")
+	{
+		height = enemy1_size[1];
+		width = enemy1_size[0];
+	}
 	auto& enemy(manager->addEntity());
-	enemy.addComponent<TransformComponent>(pos.x, pos.y, 72, 64 , 1);
+	enemy.addComponent<TransformComponent>(pos.x, pos.y - height + title_size, width, height , 1);
 	enemy.addComponent<SpriteComponent>(id, false);
 	enemy.addComponent<Enemy>(range, speed, vel , pos);
 	enemy.addComponent<ColliderComponent>(id);

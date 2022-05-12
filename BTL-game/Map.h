@@ -104,7 +104,7 @@ public:
 		}
 		//
 
-		for (int i = 0; i < num_of_mlayers; i++)
+		for (int i = 0; i < num_of_mlayers - 1; i++)
 			{
 				map[i].draw(texture,velx, mapXmax , scaledSize);
 			}

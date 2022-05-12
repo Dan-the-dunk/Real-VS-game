@@ -136,7 +136,7 @@ private:
 	
 	const int fart_charge_speed = 2;
 	float currentCharge;
-	float fartMax = 120.0f ;
+	const float fartMax = 120.0f ;
 	
 	
 	bool isUp = true;
