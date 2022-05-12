@@ -42,6 +42,15 @@
     <ClCompile Include="assets\AssetsManger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="introState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="menuState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="playState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h">
@@ -99,6 +108,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gamestate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="introState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="menuState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="playState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

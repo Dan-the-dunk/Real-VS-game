@@ -6,14 +6,16 @@
 #include<SDL.h>
 #include<vector>
 
-
+using namespace std;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 640;
 
 
+
 class ColliderComponent;
 
+class CGameState;
 
 
 class AssetsManager;
@@ -21,7 +23,7 @@ class AssetsManager;
 class Game
 {
 public:
-
+	
 	static bool isRunning;
 	static SDL_Rect camera;
 	static AssetsManager* assets;
@@ -58,6 +60,12 @@ public:
 	void loadMedia();
 	
 
+
+	void ChangeState(CGameState* state);
+	void PushState(CGameState* state);
+	void PopState();
+
+
 	
 
 	bool running(){
@@ -66,7 +74,8 @@ public:
 
 private:
 	int cnt = 0;
-	
+
+	vector<CGameState*> states;
 	
 	
 	SDL_Window* gWindow;
