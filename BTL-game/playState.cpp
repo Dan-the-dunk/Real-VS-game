@@ -5,6 +5,7 @@
 #include"menuState.h"
 #include"assets/TextureManager.h"
 #include"Map.h"
+#include"ECS/ECS.h"
 #include"ECS/Components.h"
 #include"Physics/Vector2D.h"
 #include"Collision.h"
@@ -16,6 +17,7 @@
 
 
 
+CPlayState CPlayState::m_PlayState;
 
 using namespace std;
 
@@ -38,6 +40,43 @@ auto& newPlayer(manager.addEntity());
 void CPlayState::Init()
 {
 	bg = loadTexture("assets/image/menu.png");
+
+	backgroundTxt = loadTexture(backGroundImagePath);
+	gameOverTxt = loadTexture(gameOverImagePath);
+	
+	assets->AddText("enemy0", "assets/enemies/e0.png");
+	assets->AddText("enemy", "assets/image/rl_projectile.jpg");
+	assets->AddText("enemy1", "assets/enemies/e1.png");
+	assets->AddText("player", "assets/image/dirt_txt.png");
+	assets->AddText("projectile", "assets/image/rl_projectile.jpg");
+
+
+
+	//str = format("number {} , number {}", 1, 2);
+
+
+	
+
+
+
+	//load component(pos , sprite)
+
+	maplv1 = new Map("assets/tileset_items.png", 1, 32, 90, 40);
+	//qua ton ram, nen de background thi hon/.
+
+	maplv1->loadmap("assets/map_enemies.map");
+
+
+	//thu picture perfect
+	newPlayer.addComponent<TransformComponent>(32, 32);
+	newPlayer.addComponent<SpriteComponent>("player", false);
+	newPlayer.addComponent<RigidBody>(1);
+	newPlayer.addComponent<Stats>();
+	newPlayer.addComponent<KeyboardController>();
+	newPlayer.addComponent<ColliderComponent>("player");
+	newPlayer.addGroup(groupPlayers);
+
+
 
 	printf("CPlayState Init\n");
 
@@ -64,48 +103,6 @@ void CPlayState::Resume()
 
 
 
-
-
-void CPlayState::loadMedia()
-{
-	backgroundTxt = loadTexture(backGroundImagePath);
-	gameOverTxt = loadTexture(gameOverImagePath);
-
-	//str = format("number {} , number {}", 1, 2);
-
-
-	assets->AddText("enemy0", "assets/enemies/e0.png");
-
-	assets->AddText("enemy", "assets/image/rl_projectile.jpg");
-
-	assets->AddText("enemy1", "assets/enemies/e1.png");
-	assets->AddText("player", "assets/image/dirt_txt.png");
-	assets->AddText("projectile", "assets/image/rl_projectile.jpg");
-
-
-
-	//load component(pos , sprite)
-
-	maplv1 = new Map("assets/tileset_items.png", 1, 32, 90, 40);
-	//qua ton ram, nen de background thi hon/.
-
-	maplv1->loadmap("assets/map_enemies.map");
-
-
-	//thu picture perfect
-	newPlayer.addComponent<TransformComponent>(32, 32);
-	newPlayer.addComponent<SpriteComponent>("player", false);
-	newPlayer.addComponent<RigidBody>(1);
-	newPlayer.addComponent<Stats>();
-	newPlayer.addComponent<KeyboardController>();
-	newPlayer.addComponent<ColliderComponent>("player");
-	newPlayer.addGroup(groupPlayers);
-
-
-	assets->CreateEnemies(Vector2D(600, 600), 200, 2, "enemy0", Vector2D(1, 0));
-
-}
-
 auto& players(manager.getGroup(CPlayState::groupPlayers));
 auto& colliders(manager.getGroup(CPlayState::groupColliders));
 auto& projectiles(manager.getGroup(CPlayState::groupProjectitles));
@@ -122,6 +119,8 @@ void checkCollsionMap(Map* map)
 
 	int x1 = 0, x2 = 0;
 	int y1 = 0, y2 = 0;
+
+
 
 	Vector2D pos = newPlayer.getComponent<TransformComponent>().position;
 	Vector2D vel = newPlayer.getComponent<TransformComponent>().velocity;

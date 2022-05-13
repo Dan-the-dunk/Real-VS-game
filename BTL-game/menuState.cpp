@@ -39,7 +39,7 @@ void CMenuState::HandleEvents(Game* game)
 	if (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_QUIT:
-			Game::isRunning = false();
+			Game::isRunning = false;
 			break;
 
 		case SDL_KEYDOWN:
@@ -61,4 +61,6 @@ void CMenuState::Update(Game* game)
 void CMenuState::Draw(Game* game)
 {
 	SDL_RenderCopy(Game::gRenderer, bg, NULL, NULL);
+
+	SDL_RenderPresent(Game::gRenderer);
 }

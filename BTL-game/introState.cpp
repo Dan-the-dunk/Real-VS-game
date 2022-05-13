@@ -92,10 +92,13 @@ void CIntroState::Draw(Game* game)
 
 	SDL_RenderCopy(Game::gRenderer, bg, NULL, NULL);
 
+
+
 	// no need to blit if it's transparent
 	if (alpha != 0)
 		//SDL_BlitSurface(fader, NULL, game->screen, NULL);
 		SDL_RenderCopy(Game::gRenderer, fader, NULL, NULL);
 
+	SDL_RenderPresent(Game::gRenderer);
 	
 }

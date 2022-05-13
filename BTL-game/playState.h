@@ -38,7 +38,7 @@ public:
 	//tu game.h
 	void renderGameover();
 	void clean();
-	void loadMedia();
+
 
 
 	static SDL_Event ev;
@@ -58,7 +58,17 @@ protected:
 
 private:
 	static CPlayState m_PlayState;
-
 	SDL_Texture* bg;
+	int current_lv = 1;
+};
+
+
+
+class Level
+{
+public:
+
+
+
 };
 
