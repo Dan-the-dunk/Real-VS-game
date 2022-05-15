@@ -5,11 +5,11 @@ class Vector2D
 {
 public:
 
-	int x;
-	int y;
+	float x;
+	float y;
 
 	Vector2D() ;
-	Vector2D(int x, int y);
+	Vector2D(float x, float y);
 
 	Vector2D& add(const Vector2D& vec);
 	Vector2D& substract(const Vector2D& vec);

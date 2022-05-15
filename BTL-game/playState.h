@@ -5,6 +5,24 @@
 #include "GameState.h"
 #include<vector>
 #include<SDL_image.h>
+#include<string>
+
+const int max_lv = 10;
+
+
+class Level
+{
+public:
+
+	
+	string map_lnk;
+	string ssheet_link;
+
+};
+
+
+
+
 
 class CPlayState : public CGameState
 {
@@ -30,7 +48,8 @@ public:
 		groupPlayers,
 		groupEnemies,
 		groupColliders,
-		groupProjectitles
+		groupProjectitles,
+		groupLabels
 	};
 
 
@@ -44,7 +63,8 @@ public:
 	static SDL_Event ev;
 	static SDL_Rect camera;
 	static AssetsManager* assets;
-	
+
+	//static bool game_over;
 
 
 	SDL_Texture* backgroundTxt;
@@ -60,15 +80,17 @@ private:
 	static CPlayState m_PlayState;
 	SDL_Texture* bg;
 	int current_lv = 1;
+	
+
+	vector<Level*> g_levels;
+
+
+	//more detail
+
+	SDL_Texture* fader;
+	int alpha;
 };
 
 
 
-class Level
-{
-public:
-
-
-
-};
 

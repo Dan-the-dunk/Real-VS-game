@@ -24,9 +24,6 @@
     <ClCompile Include="assets\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Hero.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,6 +48,9 @@
     <ClCompile Include="playState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gameoverState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h">
@@ -60,9 +60,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="assets\TextureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Hero.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Components.h">
@@ -120,6 +117,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="playState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\UILabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gameoverState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

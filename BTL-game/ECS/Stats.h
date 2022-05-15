@@ -6,6 +6,10 @@
 #include"../Game.h"
 #include"../Gamestate.h"
 #include"../playState.h"
+
+
+const int hp_max = 4;
+
 class Stats : public Component
 {
 public:
@@ -14,9 +18,15 @@ public:
 	float fart_lv;
 	bool charging = false;
 
-	
+	SDL_Rect fart_box;
+	bool farting_f;
+
 	void init() override 
 	{
+		
+
+		hp = 4;
+
 		pTexture = loadTexture("assets/image/pbar_slider.png");
 		p0Texture = loadTexture("assets/image/pbar_base.png");
 
@@ -35,14 +45,25 @@ public:
 		srcRect = { 0 , 0 , 0 , 12 };
 		bSrcRect = { 0 , 0 , bar_width , bar_height };
 
-		desRect = { transform->position.x , transform->position.y - bar_height * 2 , bar_width , bar_height };
+		desRect = { (int)transform->position.x , (int)transform->position.y - bar_height * 2 , bar_width , bar_height };
 
-		bDesRect = { transform->position.x , transform->position.y - bar_height * 2 , bar_width , bar_height };
+		bDesRect = { (int)transform->position.x , (int)transform->position.y - bar_height * 2 , bar_width , bar_height };
 	}
 
 	void update() override
 	{
+	
+		farting_f = false;
+
+
+
+
 		
+
+		if (hp > hp_max) hp = hp_max;
+
+		//if (hp <= 0) CPlayState::game_over = true;
+
 		if (fart_lv > fartMax)
 		{
 		
@@ -97,6 +118,7 @@ public:
 		bDesRect.y = desRect.y;
 		// dong nay de bi lech du lieu
 		
+		fart_box = { desRect.x + 32, desRect.y + bar_height * 2 , 32 ,32 };
 		
 		//cout << srcRect.w << endl;
 

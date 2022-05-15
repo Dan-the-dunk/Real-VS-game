@@ -52,7 +52,7 @@ void AssetsManager::CreateEnemies(Vector2D pos, int range, int speed, std::strin
 	enemy.addComponent<TransformComponent>(pos.x, pos.y - height + title_size, width, height , 1);
 	enemy.addComponent<SpriteComponent>(id, false);
 	enemy.addComponent<Enemy>(range, speed, vel , pos);
-	enemy.addComponent<ColliderComponent>(id);
+	enemy.addComponent<ColliderComponent>(id );
 	enemy.addGroup(CPlayState::groupEnemies);
 }
 
@@ -64,3 +64,17 @@ SDL_Texture* AssetsManager::GetTexture(std::string id)
 {
 	return textures[id];
 }
+
+
+void AssetsManager::AddFont(std::string id, string path, int font_size)
+{
+	fonts.emplace(id, TTF_OpenFont( (path.c_str()) , font_size )) ;
+}
+
+
+TTF_Font* AssetsManager::getFont(std::string id)
+{
+	return fonts[id];
+}
+
+

@@ -13,7 +13,7 @@ public:
 
 	//int height = 32;
 	//int width = 32;
-
+	int hp = 4;
 
 	Enemy(int rng, int sp, Vector2D vel, Vector2D pos ) : range(rng), speed(sp), velocity(vel), OgPos(pos) 
 	{
@@ -36,7 +36,7 @@ public:
 		
 
 
-		// transform->position += velocity;
+		transform->position += velocity;
 
 		if (abs(transform->position.x - OgPos.x) >= range)
 		{
@@ -51,7 +51,7 @@ public:
 private:
 	TransformComponent* transform;
 
-
+	
 	int speed = 0;
 	int range = 0;
 	int distance = 0;

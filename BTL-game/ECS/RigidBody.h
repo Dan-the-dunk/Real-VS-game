@@ -15,7 +15,7 @@ public:
 	
 	const float CHAR_SIZE = 32; 
 	bool onground = false;
-	bool lockGround = false;
+	bool bouncing_back = false;
 
 
 	RigidBody() = default;
@@ -42,7 +42,9 @@ public:
 
 
 		if (onground == false) {
-			transform->velocity.y += gravity_scale * GRAVITY;
+			transform->velocity.y += gravity_scale * GRAVITY ;
+
+			
 			if (transform->velocity.y >= max_fall_speed) transform->velocity.y = max_fall_speed;
 			//cout << "Not on ground" << endl;
 		}
@@ -50,6 +52,15 @@ public:
 		
 		if (onground == true) {
 			//cout << "Im on ground" << endl;
+
+			float fraction_x = transform->velocity.x > 0 ? fraction.x : -fraction.x;
+
+			float pre_vel = transform->velocity.x;
+
+			transform->velocity.x += fraction_x;
+
+			if (transform->velocity.x * pre_vel <= 0) fraction.x = 0;
+
 		}
 
 	}
@@ -63,16 +74,18 @@ public:
 
 
 
-	void setForce(const Vector2D f) {
-		force = f;
+	void setFraction(const Vector2D f) {
+		fraction = f;
 	}
+
+
 
 private:
 
 	
 	int gravity_scale = 1;
 	Vector2D drag = Vector2D();
-	Vector2D force = Vector2D();
+	Vector2D fraction = Vector2D();
 	TransformComponent* transform;
 };
 

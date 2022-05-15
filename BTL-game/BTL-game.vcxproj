@@ -146,7 +146,7 @@
     <ClCompile Include="assets\AssetsManger.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ECS\ECS.cpp" />
-    <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="gameoverState.cpp" />
     <ClCompile Include="introState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -171,9 +171,10 @@
     <ClInclude Include="ECS\TitleComponent.h" />
     <ClInclude Include="ECS\TransformComponent.h" />
     <ClInclude Include="ECS\SpriteComponent.h" />
+    <ClInclude Include="ECS\UILabel.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="gameoverState.h" />
     <ClInclude Include="Gamestate.h" />
-    <ClInclude Include="Hero.h" />
     <ClInclude Include="introState.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="menuState.h" />

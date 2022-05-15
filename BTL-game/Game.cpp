@@ -74,6 +74,16 @@ void Game::init(const char* title, bool fullscreen) {
 					isRunning = false;
 				}
 
+				else
+				{
+					if (TTF_Init() == -1)
+					{
+					cout << "Failed to initialize ttf " << SDL_GetError() << endl;
+					isRunning = false;
+					}
+						
+
+				}
 								
 
 			}

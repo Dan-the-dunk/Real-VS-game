@@ -2,6 +2,7 @@
 #include<SDL.h>
 #include"Game.h"
 #include"Gamestate.h"
+#include"gameoverState.h"
 #include"menuState.h"
 #include"assets/TextureManager.h"
 #include"Map.h"
@@ -12,12 +13,14 @@
 #include<cmath>
 #include"assets/AssetsManager.h"
 #include<format>
-
+#include<sstream>
 
 
 
 
 CPlayState CPlayState::m_PlayState;
+
+//bool CPlayState::game_over = false;
 
 using namespace std;
 
@@ -33,12 +36,20 @@ SDL_Event CPlayState::ev;
 
 
 auto& newPlayer(manager.addEntity());
-
-
+auto& label(manager.addEntity());
+auto& hp_text(manager.addEntity());
 
 
 void CPlayState::Init()
 {
+	
+	// 1 ham de load data cho lv ?:
+
+	//cac data load 1 lan.
+	//if lv change , o load lai nua.
+
+
+
 	bg = loadTexture("assets/image/menu.png");
 
 	backgroundTxt = loadTexture(backGroundImagePath);
@@ -50,7 +61,8 @@ void CPlayState::Init()
 	assets->AddText("player", "assets/image/dirt_txt.png");
 	assets->AddText("projectile", "assets/image/rl_projectile.jpg");
 
-
+	assets->AddFont("arial", "assets/arial.ttf", 16);
+	
 
 	//str = format("number {} , number {}", 1, 2);
 
@@ -64,7 +76,23 @@ void CPlayState::Init()
 	maplv1 = new Map("assets/tileset_items.png", 1, 32, 90, 40);
 	//qua ton ram, nen de background thi hon/.
 
-	maplv1->loadmap("assets/map_enemies.map");
+	if(current_lv == 1) maplv1->loadmap("assets/map_enemies.map");
+	else if (current_lv == 2) maplv1->loadmap("assets/map_lv2.map");
+	// file lv du 2 data tren.
+
+
+	//label
+	SDL_Color white = { 255,255,255,255 };
+
+	if(! label.hasComponent<UILabel>())
+	{
+		hp_text.addComponent<UILabel>(SCREEN_WIDTH/2, 10, "HP", "arial", white);
+		label.addComponent<UILabel>(10, 10, "NAHHH", "arial", white);
+	}
+	
+
+	label.addGroup(groupLabels);
+	hp_text.addGroup(groupLabels);
 
 
 	//thu picture perfect
@@ -80,14 +108,16 @@ void CPlayState::Init()
 
 	printf("CPlayState Init\n");
 
-
+	cout << "load lv" << current_lv << endl;
 	//init a whole lotta shit . 
 }
 
 void CPlayState::Cleanup()
 {
 	SDL_DestroyTexture(bg);
-
+	
+	
+	
 	printf("CPlayState Cleanup\n");
 }
 
@@ -107,7 +137,7 @@ auto& players(manager.getGroup(CPlayState::groupPlayers));
 auto& colliders(manager.getGroup(CPlayState::groupColliders));
 auto& projectiles(manager.getGroup(CPlayState::groupProjectitles));
 auto& enemies(manager.getGroup(CPlayState::groupEnemies));
-
+auto& labels(manager.getGroup(CPlayState::groupLabels));
 
 
 void checkCollsionMap(Map* map)
@@ -165,6 +195,7 @@ void checkCollsionMap(Map* map)
 						pos.y -= cHeight;
 						vel.y = 0;
 						newPlayer.getComponent<RigidBody>().onground = true;
+						newPlayer.getComponent<RigidBody>().bouncing_back = false;
 					}
 				}
 
@@ -253,6 +284,9 @@ void checkCollsionMap(Map* map)
 						if (map->map[1].cMap[y][x] != map->BLANK_TILE)
 						{
 							int f_gain = map->map[1].cMap[y][x] - 50 + 1;
+
+							newPlayer.getComponent<Stats>().hp += f_gain/2;
+
 							f_gain *= 12;
 							newPlayer.getComponent<Stats>().fart_lv += f_gain;
 							cout << newPlayer.getComponent<Stats>().fart_lv << endl;
@@ -314,6 +348,11 @@ void CPlayState::Update(Game* game)
 	checkCollsionMap(maplv1);
 
 
+
+	Vector2D pos = newPlayer.getComponent<TransformComponent>().position;
+	Vector2D vel = newPlayer.getComponent<TransformComponent>().velocity;
+
+
 	for (auto p : projectiles)
 	{
 		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
@@ -326,18 +365,95 @@ void CPlayState::Update(Game* game)
 		//Add diff type for projectile for diff effects
 	}
 
+	SDL_Rect fart_rect = newPlayer.getComponent<ColliderComponent>().desR;
+
+	fart_rect.x += 32;
+
+	for (auto e : enemies)
+	{
+
+
+		
+		if (Collision::AABB(fart_rect, e->getComponent<ColliderComponent>().collider))
+		{
+
+			e->getComponent<Enemy>().hp -= 2;
+		}
+
+
+		Collision::on_top = false;
+
+		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, e->getComponent<ColliderComponent>().collider))
+		{
+			
+
+			
+
+			//wriet a function. newpla
+			if (Collision::on_top)
+			{
+				newPlayer.getComponent<TransformComponent>().velocity.y = -14;
+				e->getComponent<Enemy>().hp -= 2;
+			}
+
+			else
+			{
+				
+
+				bounce_back(newPlayer.getComponent<TransformComponent>().velocity);
+				newPlayer.getComponent<RigidBody>().bouncing_back = true;
+				newPlayer.getComponent<RigidBody>().setFraction(Vector2D(-0.2f, 0));
+			}
+			//
+			
+			if (e->getComponent<Enemy>().hp <= 0) e->destroy();
+
+			// newPlayer.getComponent<Stats>().hp--;
+
+			
+			//e->destroy();
+		}
+	}
+
+
+	stringstream ss;
+	ss << "Player Position :" << newPlayer.getComponent<TransformComponent>().position;
+	
+	label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
+
+	ss.str("");
+
+	ss << "Player HP : " << newPlayer.getComponent<Stats>().hp;
+	hp_text.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
+
+	
+
+	
+	updateCam(newPlayer.getComponent<TransformComponent>().position.x, newPlayer.getComponent<TransformComponent>().position.y , maplv1->mapXmax , maplv1->mapYmax);
+	
+	
 
 
 
-	camera.x = newPlayer.getComponent<TransformComponent>().position.x - SCREEN_WIDTH / 2; // gioi han vi tri nhan vat.
-	camera.y = newPlayer.getComponent<TransformComponent>().position.y - SCREEN_HEIGHT / 2;
+	if (newPlayer.getComponent<Stats>().hp <= 0)
+	{
+		game->ChangeState(CGameoverState::Instance());
+	}
 
 
-	//Camera( can sua lai cho fit map to hon.
-	if (camera.x < 0) camera.x = 0;// 0 tac dong gi
-	if (camera.x > maplv1->mapXmax - SCREEN_WIDTH) camera.x = maplv1->mapXmax - SCREEN_WIDTH;
-	if (camera.y < 0) camera.y = 0;// 0 tac dong gi
-	if (camera.y > maplv1->mapYmax - SCREEN_HEIGHT) camera.y = maplv1->mapYmax - SCREEN_HEIGHT;
+	if (newPlayer.getComponent<TransformComponent>().position.x >= maplv1->mapXmax - 200)
+	{
+		current_lv++;
+		delete maplv1;
+		game->ChangeState(CPlayState::Instance());
+		
+		
+	}
+	
+
+	
+	
+
 
 }
 
@@ -350,16 +466,17 @@ void CPlayState::Draw(Game* game)
 	maplv1->drawMap(newPlayer.getComponent<TransformComponent>().velocity.x);
 
 
+	
 
 	for (auto& p : players)
 	{
 		p->draw();
-	}
-	for (auto& c : colliders)
-	{
-		c->draw();
-	}
 
+
+		SDL_SetRenderDrawColor(Game::gRenderer, 255, 0, 0, 255);
+		SDL_RenderDrawRect(Game::gRenderer, & (newPlayer.getComponent<Stats>().fart_box ) );
+	}
+	
 	for (auto& p : projectiles)
 	{
 		p->draw();
@@ -367,16 +484,24 @@ void CPlayState::Draw(Game* game)
 
 	for (auto& e : enemies)
 	{
-		//draw hit box;
-		/*e->getComponent<ColliderComponent>().collider.x = e->getComponent<ColliderComponent>().collider.x - camera.x;
+	
+		e->getComponent<ColliderComponent>().collider.x = e->getComponent<ColliderComponent>().collider.x - camera.x;
 		e->getComponent<ColliderComponent>().collider.y = e->getComponent<ColliderComponent>().collider.y - camera.y;
-		SDL_Rect eRect = e->getComponent<ColliderComponent>().collider;
-		SDL_SetRenderDrawColor(gRenderer,255, 0, 0, 255);
-		SDL_RenderDrawRect(gRenderer, &eRect);*/
+		SDL_Rect eRect = e->getComponent<ColliderComponent>().desR;
+		SDL_SetRenderDrawColor(Game::gRenderer,255, 0, 0, 255);
+		SDL_RenderDrawRect(Game::gRenderer, &eRect);
 
 		e->draw();
 	}
 
+
+	
+
+	for (auto& l : labels)
+	{
+	
+		l->draw();
+	}
 	
 
 	SDL_RenderPresent(Game::gRenderer);
@@ -384,4 +509,8 @@ void CPlayState::Draw(Game* game)
 
 	
 }
+
+
+
+
 

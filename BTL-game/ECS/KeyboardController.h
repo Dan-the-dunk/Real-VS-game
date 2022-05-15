@@ -48,42 +48,43 @@ public:
 			
 			case SDLK_UP:
 			case SDLK_SPACE:
+				
 				if (body->onground == true)
 				{
 					//140 = char_size
 					transform->velocity.y = -12;
 				}
+
 				break;
 			
-			
-			
-			
-			
-
 			/*
 			case SDLK_DOWN:
 
 				transform->velocity.y = 2;
-				break;
-
+				break;*/
 			
-			*/
 			case SDLK_LEFT:
-			
-				turnLeft = true;
-				sprite->play("Walk");
-				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
+				if (!body->bouncing_back)
+				{
+					turnLeft = true;
+					sprite->play("Walk");
+					sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 
-				transform->velocity.x = -2;
+					transform->velocity.x = -2;
+				}
+				
 				break;
 
 			case SDLK_RIGHT:
 				
-				turnLeft = false;
-				sprite->play("Walk");
-				sprite->spriteFlip = SDL_FLIP_NONE;
+				if (!body->bouncing_back)
+				{
+					turnLeft = false;
+					sprite->play("Walk");
+					sprite->spriteFlip = SDL_FLIP_NONE;
 
-				transform->velocity.x = 2;
+					transform->velocity.x = 2;
+				}
 				break;
 
 			case SDLK_f:
@@ -108,6 +109,7 @@ public:
 			{
 
 			
+			
 			/*
 			case SDLK_DOWN:
 			case SDLK_UP:
@@ -115,18 +117,17 @@ public:
 				transform->velocity.y = 0;
 				//sprite->spriteFlip = SDL_FLIP_NONE;
 				break;
+			
 			*/
 
 			case SDLK_LEFT:
-				
-				sprite->play("Idle");
-				transform->velocity.x = 0;
-				//sprite->spriteFlip = SDL_FLIP_NONE;
-				break;
-
 			case SDLK_RIGHT:
-				sprite->play("Idle");
-				transform->velocity.x = 0;
+				if (!body->bouncing_back)
+				{
+					sprite->play("Idle");
+					transform->velocity.x = 0;
+					//sprite->spriteFlip = SDL_FLIP_NONE;
+				}
 				break;
 
 			case SDLK_f:
