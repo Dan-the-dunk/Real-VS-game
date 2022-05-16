@@ -14,6 +14,7 @@ public:
 	//int height = 32;
 	//int width = 32;
 	int hp = 4;
+	Vector2D velocity;
 
 	Enemy(int rng, int sp, Vector2D vel, Vector2D pos ) : range(rng), speed(sp), velocity(vel), OgPos(pos) 
 	{
@@ -30,6 +31,9 @@ public:
 
 	void update() override
 	{
+
+
+
 		distance += transform->velocity.x;
 
 		// ham cho quay dau.
@@ -45,16 +49,20 @@ public:
 			velocity.x = - velocity.x;
 		}
 
-		
+		smtsmt();
 
 	}
+
+
+	virtual	void smtsmt(){};
+
+
+
 private:
 	TransformComponent* transform;
-
-	
 	int speed = 0;
 	int range = 0;
 	int distance = 0;
 	Vector2D OgPos;
-	Vector2D velocity;
+	
 };

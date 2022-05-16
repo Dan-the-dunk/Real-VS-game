@@ -336,6 +336,9 @@ void CPlayState::Update(Game* game)
 {
 
 
+	Vector2D prev_vel = newPlayer.getComponent<TransformComponent>().velocity;
+
+
 	manager.refresh();
 
 
@@ -352,6 +355,7 @@ void CPlayState::Update(Game* game)
 	Vector2D pos = newPlayer.getComponent<TransformComponent>().position;
 	Vector2D vel = newPlayer.getComponent<TransformComponent>().velocity;
 
+	Vector2D vel_e ;
 
 	for (auto p : projectiles)
 	{
@@ -386,8 +390,14 @@ void CPlayState::Update(Game* game)
 		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, e->getComponent<ColliderComponent>().collider))
 		{
 			
-
+			vel_e = e->getComponent<Enemy>().velocity;
 			
+			
+			if (vel_e.x - vel.x > 0) newPlayer.getComponent<RigidBody>().bounce_right = true;
+			else if (vel_e.x - vel.x < 0) newPlayer.getComponent<RigidBody>().bounce_right = false;
+
+
+
 
 			//wriet a function. newpla
 			if (Collision::on_top)
@@ -400,7 +410,7 @@ void CPlayState::Update(Game* game)
 			{
 				
 
-				bounce_back(newPlayer.getComponent<TransformComponent>().velocity);
+				bounce_back(newPlayer.getComponent<TransformComponent>().velocity , newPlayer.getComponent<RigidBody>().bounce_right);
 				newPlayer.getComponent<RigidBody>().bouncing_back = true;
 				newPlayer.getComponent<RigidBody>().setFraction(Vector2D(-0.2f, 0));
 			}
@@ -435,6 +445,9 @@ void CPlayState::Update(Game* game)
 
 
 
+
+
+
 	if (newPlayer.getComponent<Stats>().hp <= 0)
 	{
 		game->ChangeState(CGameoverState::Instance());
@@ -450,6 +463,17 @@ void CPlayState::Update(Game* game)
 		
 	}
 	
+
+	// hieu van toc enemy va player;
+	if (vel.x * prev_vel.x <= 0)
+	{
+		newPlayer.getComponent<RigidBody>().setFraction(Vector2D(0, 0));
+		if (vel_e.x != 0)
+		{
+			newPlayer.getComponent<RigidBody>().setFraction(Vector2D(-0.2f, 0));
+		}
+	}
+	//
 
 	
 	

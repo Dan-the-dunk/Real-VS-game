@@ -40,11 +40,12 @@ void drawTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des , SDL_Renderer
 }
 
 
-void bounce_back(Vector2D& vel)
+void bounce_back(Vector2D& vel , bool bounce_right)
 {
 
-	vel.x = (vel.x > 0)? - 2 : 2;
+	vel.x = (bounce_right) ? 2 : -2;
 	vel.y = -10;
+	
 }
 
 

@@ -26,7 +26,7 @@ void setAlpha(Uint8 alpha, SDL_Texture** mTexture);
 void drawTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des, SDL_RendererFlip flip );
 
 
-void bounce_back(Vector2D& vel);
+void bounce_back(Vector2D& vel , bool bounce_right);
 
 void updateCam(int xpos, int ypos , int mapXmax , int mapYmax );
 
