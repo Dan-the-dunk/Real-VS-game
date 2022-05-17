@@ -114,7 +114,7 @@ void gMap::load(string path, fstream* mapFile, int sizeX, int sizeY)
 				string str = format("enemy{}", tilecode);
 				
 				
-				CPlayState::assets->CreateEnemies(Vector2D(x  * tile_size, y * tile_size), 200, 2, str, Vector2D(1, 0));
+				CPlayState::assets->CreateEnemies(Vector2D(x  * tile_size, y * tile_size), 120, 2, str, Vector2D(1, 0));
 			}
 			//cout << cMap[y][x] << " ";
 

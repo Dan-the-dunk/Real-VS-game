@@ -57,6 +57,24 @@ public:
 
 
 
+	SpriteComponent(std::string id, bool isAnimated , int num_of_sprites)
+	{
+		animated = isAnimated;
+
+		Animation idle = Animation(0, 1, 100);
+		Animation walk = Animation(1, num_of_sprites, 100);
+		animations.emplace("Idle", idle);
+		animations.emplace("Walk", walk);
+
+
+
+		play("Idle");
+
+
+		setText(id);
+	}
+
+
 
 	~SpriteComponent()
 	{

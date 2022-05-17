@@ -55,9 +55,9 @@ void CPlayState::Init()
 	backgroundTxt = loadTexture(backGroundImagePath);
 	gameOverTxt = loadTexture(gameOverImagePath);
 	
-	assets->AddText("enemy0", "assets/enemies/e0.png");
+	assets->AddText("enemy0", "assets/enemies/e0_f.png");
 	assets->AddText("enemy", "assets/image/rl_projectile.jpg");
-	assets->AddText("enemy1", "assets/enemies/e1.png");
+	assets->AddText("enemy1", "assets/enemies/e1_f.png");
 	assets->AddText("player", "assets/image/dirt_txt.png");
 	assets->AddText("projectile", "assets/image/rl_projectile.jpg");
 
@@ -112,14 +112,7 @@ void CPlayState::Init()
 	//init a whole lotta shit . 
 }
 
-void CPlayState::Cleanup()
-{
-	SDL_DestroyTexture(bg);
-	
-	
-	
-	printf("CPlayState Cleanup\n");
-}
+
 
 void CPlayState::Pause()
 {
@@ -389,6 +382,8 @@ void CPlayState::Update(Game* game)
 
 		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, e->getComponent<ColliderComponent>().collider))
 		{
+
+			newPlayer.getComponent<Stats>().hp--;
 			
 			vel_e = e->getComponent<Enemy>().velocity;
 			
@@ -450,6 +445,7 @@ void CPlayState::Update(Game* game)
 
 	if (newPlayer.getComponent<Stats>().hp <= 0)
 	{
+		Cleanup();
 		game->ChangeState(CGameoverState::Instance());
 	}
 
@@ -534,7 +530,26 @@ void CPlayState::Draw(Game* game)
 	
 }
 
+void CPlayState::Cleanup()
+{
+	SDL_DestroyTexture(bg);
 
+
+
+
+	for (auto& e : enemies)
+	{
+
+		e->destroy();
+	}
+
+
+
+
+
+
+	printf("CPlayState Cleanup\n");
+}
 
 
 

@@ -4,6 +4,7 @@
 
 const int enemy0_size[2] = { 72,45 };
 const int enemy1_size[2] = { 72,33 };
+const int num_of_sprites = 6;
 
 AssetsManager::AssetsManager(Manager* man): manager(man)
 {}
@@ -50,7 +51,7 @@ void AssetsManager::CreateEnemies(Vector2D pos, int range, int speed, std::strin
 	}
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y - height + title_size, width, height , 1);
-	enemy.addComponent<SpriteComponent>(id, false);
+	enemy.addComponent<SpriteComponent>(id, true , 6);
 	enemy.addComponent<Enemy>(range, speed, vel , pos);
 	enemy.addComponent<ColliderComponent>(id );
 	enemy.addGroup(CPlayState::groupEnemies);

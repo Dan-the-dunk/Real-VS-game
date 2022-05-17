@@ -26,7 +26,11 @@ public:
 	void init() override
 	{
 		transform = &entity->getComponent<TransformComponent>();
+		
+		sprite = &entity->getComponent<SpriteComponent>();
 
+
+		sprite->play("Walk");
 	}
 
 	void update() override
@@ -44,7 +48,10 @@ public:
 
 		if (abs(transform->position.x - OgPos.x) >= range)
 		{
-	
+			
+			if(velocity.x > 0) sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
+			else sprite->spriteFlip = SDL_FLIP_NONE;
+
 			//transform->velocity.x = - velocity.x;
 			velocity.x = - velocity.x;
 		}
@@ -59,6 +66,8 @@ public:
 
 
 private:
+
+	SpriteComponent* sprite;
 	TransformComponent* transform;
 	int speed = 0;
 	int range = 0;
