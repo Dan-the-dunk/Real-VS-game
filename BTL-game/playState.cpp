@@ -441,7 +441,7 @@ void CPlayState::Update(Game* game)
 	if (gTimer.getTicks() >= 5000 ) gTimer.start();
 	ss << "Timer :" << gTimer.getTicks();
 	
-	label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
+	//label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
 
 	ss.str("");
 

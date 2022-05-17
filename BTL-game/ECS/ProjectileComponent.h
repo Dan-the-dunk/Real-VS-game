@@ -40,15 +40,7 @@ public:
 			entity->destroy();
 		}
 
-		else if (transform->position.x > CPlayState::camera.x + CPlayState::camera.w ||
-			transform->position.x < CPlayState::camera.x ||
-			transform->position.y > CPlayState::camera.y + CPlayState::camera.h ||
-			transform->position.y < CPlayState::camera.y
-			)
-		{
-			cout << "out of window" << endl;
-			entity->destroy();
-		}
+	
 
 	}
 private:

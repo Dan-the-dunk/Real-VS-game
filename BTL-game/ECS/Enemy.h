@@ -3,11 +3,13 @@
 
 #include"ECS.h"
 #include"Components.h"
+#include<map>
 #include"../Physics/Vector2D.h"
 #include"../Timer.h"
 #include"../assets/AssetsManager.h"
 #include"../playState.h"
 #include"../Gamestate.h"
+
 
 
 
@@ -21,6 +23,7 @@ public:
 	int hp = 4;
 	Vector2D velocity;
 	
+	const int projectile_speed = 3;
 
 
 
@@ -36,18 +39,22 @@ public:
 	{
 
 		
-		eTimer.start();
+
+
+		
 
 
 		transform = &entity->getComponent<TransformComponent>();
 		
 		sprite = &entity->getComponent<SpriteComponent>();
 
+	
+		
 
 		sprite->play("Walk");
 
 
-
+		
 		
 	}
 
@@ -56,57 +63,106 @@ public:
 
 
 		
-		
-		
-		
 
-		p_way.set_vlength(pPos, transform->position , 2);
+		p_way.set_vlength(pPos, transform->position , projectile_speed );
 			
-		cout << p_way << endl ;
+		//cout << p_way << endl ;
 
 
-		if (OgPos.get_distance(transform->position, pPos) <= 150)
+		if (OgPos.get_distance(transform->position, pPos) <= 200)
 		{
-
-			//CPlayState::assets->CreateProjectile(transform->position, 120, 2, "projectile", p_way);
-
-			eTimer.start();
-
-			if (eTimer.getTicks() >= 5000)
+			
+			if (!eTimer.isStarted())
 			{
 				eTimer.start();
 
+				sprite->play("Idle");
+				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "projectile", p_way);
+				cout << "Start timer" << endl;
+
 			}
+			
+
+			if (eTimer.getTicks() >= 4000)
+			{
+				eTimer.start();
+				sprite->play("Idle");
+				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "projectile", p_way);
+				cout << "Restart timer " << endl;
+
+			}
+
+			else 
+			{
+
+				if (eTimer.getTicks() < 500)
+				{
+
+				}
+
+				else if (eTimer.getTicks() >= 500)
+
+				{
+					sprite->play("Walk");
+
+					// chase enemy to range.
+					distance += transform->velocity.x;
+
+					// ham cho quay dau.
+
+
+					//chase
+					(transform->position.x - pPos.x > 0) ? transform->position += velocity : transform->position;
+
+					if (abs(transform->position.x - OgPos.x) >= range)
+					{
+
+
+						if (velocity.x > 0) sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
+						else sprite->spriteFlip = SDL_FLIP_NONE;
+
+						//transform->velocity.x = - velocity.x;
+						velocity.x = -velocity.x;
+					}
+
+					smtsmt();
+				}
+
+			}
+
+			
 
 		}
 
 		else
 		{
-			eTimer.stop();
+			
+
+			distance += transform->velocity.x;
+
+			// ham cho quay dau.
+
+
+
+			transform->position += velocity;
+
+			if (abs(transform->position.x - OgPos.x) >= range)
+			{
+
+
+				if (velocity.x > 0) sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
+				else sprite->spriteFlip = SDL_FLIP_NONE;
+
+				//transform->velocity.x = - velocity.x;
+				velocity.x = -velocity.x;
+			}
+
+			smtsmt();
 		}
 
 		
 
-		distance += transform->velocity.x;
-
-		// ham cho quay dau.
 		
-
-
-		transform->position += velocity;
-
-		if (abs(transform->position.x - OgPos.x) >= range)
-		{
-
-
-			if(velocity.x > 0) sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
-			else sprite->spriteFlip = SDL_FLIP_NONE;
-
-			//transform->velocity.x = - velocity.x;
-			velocity.x = - velocity.x;
-		}
-
-		smtsmt();
 
 	}
 
@@ -115,6 +171,10 @@ public:
 		pPos = p_pos;
 		pVel = p_vel;
 	}
+
+
+	void patrol();
+
 
 	virtual	void smtsmt(){};
 
@@ -129,6 +189,7 @@ private:
 	int speed = 0;
 	int range = 0;
 	int distance = 0;
+	bool is_throwing = false;
 
 
 	Vector2D OgPos;
