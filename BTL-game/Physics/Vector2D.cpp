@@ -1,5 +1,5 @@
 #include"Vector2D.h"
-
+#include<math.h>
 
 
 Vector2D::Vector2D() {
@@ -41,6 +41,43 @@ Vector2D& Vector2D::divide(const Vector2D& vec) {
 	return *this;
 }
 
+float Vector2D::get_distance(const Vector2D& v1, const Vector2D& v2)
+{
+	Vector2D sub = { v1.x - v2.x , v1.y - v2.y };
+
+	float distance = sqrt(sub.x * sub.x + sub.y * sub.y);
+
+	return distance;
+
+}
+
+
+
+
+Vector2D& Vector2D::set_vlength(const Vector2D& v1, const Vector2D& v2, float length)
+{
+
+	
+	*this = { (v1.x - v2.x)/get_distance(v1,v2) *length , (v1.y - v2.y)/ get_distance(v1,v2) * length };
+
+	
+
+	return *this;
+}
+
+float Vector2D::get_vlength()
+{
+
+	float length = sqrt(this->x * this->x + this->y * this->y);
+	return length;
+}
+
+
+
+
+
+
+
 
 Vector2D& operator+(Vector2D& v1, Vector2D& v2)
 {
@@ -62,6 +99,12 @@ Vector2D& operator/(Vector2D& v1, Vector2D& v2)
 {
 	return v1.divide(v2);
 };
+
+
+
+
+
+
 
 
 Vector2D& Vector2D::operator+=(const Vector2D& vec) 
@@ -91,6 +134,11 @@ Vector2D& Vector2D::operator*(const int& i) {
 
 	return *this;
 }
+
+
+
+
+
 
 Vector2D& Vector2D::zero() {
 	this->x = 0;

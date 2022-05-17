@@ -6,7 +6,6 @@
 #include"../Physics/Vector2D.h"
 #include"../ECS/ECS.h"
 #include<SDL_ttf.h>
-
 class AssetsManager
 {
 public:

@@ -14,7 +14,7 @@
 #include"assets/AssetsManager.h"
 #include<format>
 #include<sstream>
-#include"ECS/Timer.h"
+#include"Timer.h"
 
 //test timer
 
@@ -23,6 +23,8 @@ GTimer gTimer;
 CPlayState CPlayState::m_PlayState;
 
 //bool CPlayState::game_over = false;
+
+Vector2D a, b;
 
 using namespace std;
 
@@ -37,8 +39,6 @@ SDL_Rect CPlayState::camera = { 0,0,SCREEN_WIDTH  , SCREEN_HEIGHT };
 SDL_Event CPlayState::ev;
 
 
-Uint32 startTime = 0;
-
 auto& newPlayer(manager.addEntity());
 auto& label(manager.addEntity());
 auto& hp_text(manager.addEntity());
@@ -46,6 +46,7 @@ auto& hp_text(manager.addEntity());
 
 void CPlayState::Init()
 {
+
 
 	gTimer.start();
 	
@@ -111,6 +112,8 @@ void CPlayState::Init()
 	newPlayer.addGroup(groupPlayers);
 
 
+
+	//assets->CreateProjectile(Vector2D(600, 600), 200, 2, "projectile ", Vector2D(1, 0));
 
 	printf("CPlayState Init\n");
 
@@ -379,6 +382,8 @@ void CPlayState::Update(Game* game)
 	for (auto e : enemies)
 	{
 
+
+		e->getComponent<Enemy>().getPlayerMove(pos, vel);
 
 		
 		if (Collision::AABB(fart_rect, e->getComponent<ColliderComponent>().collider))
