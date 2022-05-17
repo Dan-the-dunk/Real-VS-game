@@ -16,6 +16,9 @@ public:
 	Vector2D& multiply(const Vector2D& vec);
 	Vector2D& divide(const Vector2D& vec);
 
+
+
+
 	friend Vector2D& operator+(Vector2D& v1, Vector2D& v2);
 	friend Vector2D& operator-(Vector2D& v1, Vector2D& v2);
 	friend Vector2D& operator*(Vector2D& v1, Vector2D& v2);

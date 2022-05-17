@@ -14,9 +14,11 @@
 #include"assets/AssetsManager.h"
 #include<format>
 #include<sstream>
+#include"ECS/Timer.h"
 
+//test timer
 
-
+GTimer gTimer;
 
 CPlayState CPlayState::m_PlayState;
 
@@ -35,6 +37,8 @@ SDL_Rect CPlayState::camera = { 0,0,SCREEN_WIDTH  , SCREEN_HEIGHT };
 SDL_Event CPlayState::ev;
 
 
+Uint32 startTime = 0;
+
 auto& newPlayer(manager.addEntity());
 auto& label(manager.addEntity());
 auto& hp_text(manager.addEntity());
@@ -42,6 +46,8 @@ auto& hp_text(manager.addEntity());
 
 void CPlayState::Init()
 {
+
+	gTimer.start();
 	
 	// 1 ham de load data cho lv ?:
 
@@ -319,7 +325,10 @@ void CPlayState::HandleEvents(Game* game)
 			case SDLK_m:
 				game->PushState(CMenuState::Instance());
 				break;
+
 			}
+			
+
 			break;
 		}
 	}
@@ -366,6 +375,7 @@ void CPlayState::Update(Game* game)
 
 	fart_rect.x += 32;
 
+
 	for (auto e : enemies)
 	{
 
@@ -376,6 +386,7 @@ void CPlayState::Update(Game* game)
 
 			e->getComponent<Enemy>().hp -= 2;
 		}
+
 
 
 		Collision::on_top = false;
@@ -413,16 +424,17 @@ void CPlayState::Update(Game* game)
 			
 			if (e->getComponent<Enemy>().hp <= 0) e->destroy();
 
-			// newPlayer.getComponent<Stats>().hp--;
-
 			
-			//e->destroy();
 		}
 	}
 
 
+
+	//demo timer
+
 	stringstream ss;
-	ss << "Player Position :" << newPlayer.getComponent<TransformComponent>().position;
+	if (gTimer.getTicks() >= 5000 ) gTimer.start();
+	ss << "Timer :" << gTimer.getTicks();
 	
 	label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
 

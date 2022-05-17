@@ -5,7 +5,6 @@
 #include"Components.h"
 #include"../Physics/Vector2D.h"
 
-
 class Enemy : public Component
 {
 
@@ -35,8 +34,14 @@ public:
 
 	void update() override
 	{
-
-
+		/*
+		
+		if (e_timer.getTicks() >= 5000)
+		{
+			e_timer.start();
+			//throw projectile.
+		}
+		*/
 
 		distance += transform->velocity.x;
 
@@ -67,6 +72,8 @@ public:
 
 private:
 
+
+	//Timer e_timer;
 	SpriteComponent* sprite;
 	TransformComponent* transform;
 	int speed = 0;
