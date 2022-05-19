@@ -119,6 +119,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\SDL_VS\SDL2_ttf-2.0.18\include;C:\SDL_VS\SDL2_mixer-2.0.4\include;C:\SDL_VS\SDL2_image-2.0.5\include;C:\SDL_VS\SDL2-2.0.20\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -2,8 +2,8 @@
 #include"AssetsManager.h"
 #include"../ECS/Components.h"
 
-const int enemy0_size[2] = { 72,45 };
-const int enemy1_size[2] = { 72,33 };
+const int enemy0_size[2] = { 45,45 };
+const int enemy1_size[2] = { 40,33 };
 const int num_of_sprites = 6;
 
 AssetsManager::AssetsManager(Manager* man): manager(man)

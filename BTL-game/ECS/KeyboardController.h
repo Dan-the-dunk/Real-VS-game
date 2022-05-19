@@ -4,7 +4,7 @@
 #include"../Game.h"
 #include"RigidBody.h"
 #include"Stats.h"
-
+#include<SDL_mixer.h>
 
 
 class KeyboardController : public Component{
@@ -51,6 +51,10 @@ public:
 				
 				if (body->onground == true)
 				{
+
+
+					Mix_PlayChannel(1, CPlayState::jump, 1);
+
 					//140 = char_size
 					transform->velocity.y = -12;
 				}
@@ -135,6 +139,7 @@ public:
 				//else transform->velocity.x = (stats->getFartPercent() * 12) / 100;
 				transform->velocity.y = -2*(stats->getFartPercent() * 12) / 100;
 				stats->MinusFart();
+				Mix_PlayChannel(1, CPlayState::fart, 0);
 				stats->charging = false;
 
 			default:

@@ -9,6 +9,8 @@
 #include"assets/AssetsManager.h"
 #include<format>
 #include"Gamestate.h"
+#include<SDL_mixer.h>
+
 
 using namespace std;
 
@@ -80,6 +82,14 @@ void Game::init(const char* title, bool fullscreen) {
 					{
 					cout << "Failed to initialize ttf " << SDL_GetError() << endl;
 					isRunning = false;
+					}
+
+					else {
+						if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+						{
+							printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+							isRunning = false;
+						}
 					}
 						
 
@@ -174,6 +184,8 @@ void Game::clean() {
 	gWindow = nullptr;
 	SDL_DestroyRenderer(gRenderer);
 	gRenderer = nullptr;
+	Mix_Quit();
+	IMG_Quit();
 	SDL_Quit();
 	cout << "SDL has been cleaned";
 };

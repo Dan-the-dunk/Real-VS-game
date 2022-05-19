@@ -63,9 +63,11 @@ public:
 
 		Animation idle = Animation(0, 1, 100);
 		Animation walk = Animation(1, num_of_sprites, 100);
+		Animation die = Animation(2, 2, 100);
+
 		animations.emplace("Idle", idle);
 		animations.emplace("Walk", walk);
-
+		animations.emplace("Die", die);
 
 
 		play("Idle");

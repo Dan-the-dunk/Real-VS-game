@@ -14,12 +14,24 @@ class Stats : public Component
 {
 public:
 	const int bar_width = 32, bar_height = 12;
+
+	const int hp_width = 150, hp_height = 31;
 	int hp;
 	float fart_lv;
 	bool charging = false;
 
 	SDL_Rect fart_box;
 	bool farting_f;
+
+
+
+	~Stats()
+	{
+		SDL_DestroyTexture(hTexture);
+		SDL_DestroyTexture(hbTexture);
+		SDL_DestroyTexture(p0Texture);
+		SDL_DestroyTexture(pTexture);
+	}
 
 	void init() override 
 	{
@@ -29,6 +41,10 @@ public:
 
 		pTexture = loadTexture("assets/image/pbar_slider.png");
 		p0Texture = loadTexture("assets/image/pbar_base.png");
+		hTexture = loadTexture("assets/image/health.png");
+		hbTexture = loadTexture("assets/image/health_bar.png");
+
+		if (pTexture == NULL) cout << "cant load hbar";
 
 		setBlendMode(SDL_BLENDMODE_BLEND, &pTexture);
 		setBlendMode(SDL_BLENDMODE_BLEND, &p0Texture);
@@ -42,8 +58,15 @@ public:
 		transform = &entity->getComponent < TransformComponent>();
 		sprite = &entity->getComponent <SpriteComponent>();
 
-		srcRect = { 0 , 0 , 0 , 12 };
+		srcRect = { 0 , 0 , 0 , bar_height };
 		bSrcRect = { 0 , 0 , bar_width , bar_height };
+
+
+		hSrc = { 0 , 0 , hp_width  , hp_height };
+		hpDes = { 20 , 20 , hp_width , hp_height };
+
+		hDes = hpDes;
+
 
 		desRect = { (int)transform->position.x , (int)transform->position.y - bar_height * 2 , bar_width , bar_height };
 
@@ -66,8 +89,9 @@ public:
 
 		if (fart_lv > fartMax)
 		{
-		
+			
 			transform->velocity.y = -20;
+			Mix_PlayChannel(1, CPlayState::strong_fart, 0);
 			fart_lv = fartMax/2;
 		}
 		if (charging)
@@ -116,9 +140,17 @@ public:
 
 		desRect.y = transform->position.y - bar_height * 2 - CPlayState::camera.y ;
 		bDesRect.y = desRect.y;
+
+
+		
+		hSrc.w =  24 + (hp * 31);
+		hDes.w = hSrc.w;
+
+		cout << hSrc.w << endl;
+
 		// dong nay de bi lech du lieu
 		
-		fart_box = { desRect.x + 32, desRect.y + bar_height * 2 , 32 ,32 };
+		fart_box = { (int)transform->position.x + 32, (int)transform->position.y , 32 ,32 };
 		
 		//cout << srcRect.w << endl;
 
@@ -144,6 +176,12 @@ public:
 
 		drawTexture(p0Texture,bSrcRect , bDesRect, SDL_FLIP_NONE);
 		drawTexture(pTexture, srcRect, desRect, SDL_FLIP_NONE);
+
+		
+		drawTexture(hTexture, hSrc, hDes, SDL_FLIP_NONE);
+		SDL_RenderCopy(Game::gRenderer, hbTexture, NULL, &hpDes);
+	
+
 		SDL_SetRenderDrawColor(Game::gRenderer, 0, 0, 255, 255);
 		SDL_RenderDrawLine(Game::gRenderer, desRect.x + (fart_lv / fartMax) * 32, desRect.y, desRect.x + (fart_lv / fartMax) * 32, desRect.y + 12);
 	}
@@ -153,6 +191,13 @@ private:
 	SpriteComponent* sprite;
 	SDL_Texture* pTexture;
 	SDL_Texture* p0Texture;
+
+	SDL_Rect hpDes;
+	SDL_Rect hSrc;
+	SDL_Rect hDes;
+
+	SDL_Texture* hTexture;
+	SDL_Texture* hbTexture;
 
 	SDL_Rect desRect, srcRect;
 	SDL_Rect bDesRect, bSrcRect;

@@ -6,6 +6,7 @@
 #include<vector>
 #include<SDL_image.h>
 #include<string>
+#include<sdl_mixer.h>
 
 const int max_lv = 10;
 
@@ -59,6 +60,13 @@ public:
 	void clean();
 
 
+
+	
+	static Mix_Chunk* jump;
+	static Mix_Chunk* get_hit;
+	static Mix_Chunk* die;
+	static Mix_Chunk* fart;
+	static Mix_Chunk* strong_fart;
 
 	static SDL_Event ev;
 	static SDL_Rect camera;

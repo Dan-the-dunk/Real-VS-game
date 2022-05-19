@@ -1,5 +1,6 @@
 #include"playState.h"
 #include<SDL.h>
+
 #include"Game.h"
 #include"Gamestate.h"
 #include"gameoverState.h"
@@ -17,6 +18,13 @@
 #include"Timer.h"
 
 //test timer
+
+Mix_Music* bgm = nullptr;
+Mix_Chunk* CPlayState::jump = nullptr;
+Mix_Chunk* CPlayState::get_hit = nullptr;
+Mix_Chunk* CPlayState::die = nullptr;
+Mix_Chunk* CPlayState::fart = nullptr;
+Mix_Chunk* CPlayState::strong_fart = nullptr;
 
 GTimer gTimer;
 
@@ -48,12 +56,20 @@ void CPlayState::Init()
 {
 
 
+	
+	
+	
+
+
 	gTimer.start();
 	
 	// 1 ham de load data cho lv ?:
 
 	//cac data load 1 lan.
 	//if lv change , o load lai nua.
+
+
+
 
 
 
@@ -65,7 +81,7 @@ void CPlayState::Init()
 	assets->AddText("enemy0", "assets/enemies/e0_f.png");
 	assets->AddText("enemy", "assets/image/rl_projectile.jpg");
 	assets->AddText("enemy1", "assets/enemies/e1_f.png");
-	assets->AddText("player", "assets/image/dirt_txt.png");
+	assets->AddText("player", "assets/image/f_petersprite.png");
 	assets->AddText("projectile", "assets/image/rl_projectile.jpg");
 
 	assets->AddFont("arial", "assets/arial.ttf", 16);
@@ -103,13 +119,26 @@ void CPlayState::Init()
 
 
 	//thu picture perfect
-	newPlayer.addComponent<TransformComponent>(32, 32);
-	newPlayer.addComponent<SpriteComponent>("player", false);
+	newPlayer.addComponent<TransformComponent>(48, 61);
+	newPlayer.addComponent<SpriteComponent>("player", true);
 	newPlayer.addComponent<RigidBody>(1);
 	newPlayer.addComponent<Stats>();
 	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<ColliderComponent>("player");
 	newPlayer.addGroup(groupPlayers);
+
+
+
+
+	
+
+	jump = Mix_LoadWAV("assets/music/jump.wav");
+	fart = Mix_LoadWAV("assets/music/fart.wav");
+	strong_fart = Mix_LoadWAV("assets/music/strong_fart.wav");
+
+
+	bgm = Mix_LoadMUS("assets/music/bgm.mp3");
+	Mix_PlayMusic(bgm, -1);
 
 
 
@@ -362,11 +391,14 @@ void CPlayState::Update(Game* game)
 
 	Vector2D vel_e ;
 
-	for (auto p : projectiles)
+	for (auto& p : projectiles)
 	{
 		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
 		{
 			cout << "Hit projectile" << endl;
+
+			newPlayer.getComponent<Stats>().hp--;
+
 			p->destroy();
 		}
 
@@ -374,63 +406,94 @@ void CPlayState::Update(Game* game)
 		//Add diff type for projectile for diff effects
 	}
 
-	SDL_Rect fart_rect = newPlayer.getComponent<ColliderComponent>().desR;
+	SDL_Rect fart_rect = newPlayer.getComponent<Stats>().fart_box;
 
-	fart_rect.x += 32;
+	
 
 
-	for (auto e : enemies)
+	for (auto& e : enemies)
 	{
 
+		GTimer e_time = e->getComponent<Enemy>().eTimer;
 
 		e->getComponent<Enemy>().getPlayerMove(pos, vel);
 
+
+
+		if (e->getComponent<Enemy>().hp <= 0)
+		{
+
+			if (e_time.isStarted())
+			{
+				e_time.start();
+				e->getComponent<SpriteComponent>().play("Die");
+			}
+
+
+			if (e->getComponent<Enemy>().eTimer.getTicks() >= 2000)
+			{
+				e->destroy();
+			}
+			
+		}
+
 		
-		if (Collision::AABB(fart_rect, e->getComponent<ColliderComponent>().collider))
+		else
+
+
 		{
-
-			e->getComponent<Enemy>().hp -= 2;
-		}
-
-
-
-		Collision::on_top = false;
-
-		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, e->getComponent<ColliderComponent>().collider))
-		{
-
-			newPlayer.getComponent<Stats>().hp--;
-			
-			vel_e = e->getComponent<Enemy>().velocity;
-			
-			
-			if (vel_e.x - vel.x > 0) newPlayer.getComponent<RigidBody>().bounce_right = true;
-			else if (vel_e.x - vel.x < 0) newPlayer.getComponent<RigidBody>().bounce_right = false;
-
-
-
-
-			//wriet a function. newpla
-			if (Collision::on_top)
+			if (Collision::AABB(fart_rect, e->getComponent<ColliderComponent>().collider))
 			{
-				newPlayer.getComponent<TransformComponent>().velocity.y = -14;
+
 				e->getComponent<Enemy>().hp -= 2;
+
+				//e->getComponent<Enemy>().imune//
+				cout << "Fart hit !!!" << endl;
 			}
 
-			else
+
+
+			Collision::on_top = false;
+
+			if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, e->getComponent<ColliderComponent>().collider))
 			{
-				
 
-				bounce_back(newPlayer.getComponent<TransformComponent>().velocity , newPlayer.getComponent<RigidBody>().bounce_right);
-				newPlayer.getComponent<RigidBody>().bouncing_back = true;
-				newPlayer.getComponent<RigidBody>().setFraction(Vector2D(-0.2f, 0));
+				newPlayer.getComponent<Stats>().hp--;
+
+				vel_e = e->getComponent<Enemy>().velocity;
+
+
+				if (vel_e.x - vel.x > 0) newPlayer.getComponent<RigidBody>().bounce_right = true;
+				else if (vel_e.x - vel.x < 0) newPlayer.getComponent<RigidBody>().bounce_right = false;
+
+
+
+
+				//wriet a function. newpla
+				if (Collision::on_top)
+				{
+					newPlayer.getComponent<TransformComponent>().velocity.y = -14;
+					e->getComponent<Enemy>().hp -= 2;
+				}
+
+				else
+				{
+
+
+					bounce_back(newPlayer.getComponent<TransformComponent>().velocity, newPlayer.getComponent<RigidBody>().bounce_right);
+					newPlayer.getComponent<RigidBody>().bouncing_back = true;
+					newPlayer.getComponent<RigidBody>().setFraction(Vector2D(-0.2f, 0));
+				}
+
 			}
-			//
-			
-			if (e->getComponent<Enemy>().hp <= 0) e->destroy();
 
-			
+
+
 		}
+		
+		
+
+		
 	}
 
 
@@ -462,7 +525,8 @@ void CPlayState::Update(Game* game)
 
 	if (newPlayer.getComponent<Stats>().hp <= 0)
 	{
-		Cleanup();
+		
+		SDL_Delay(1000);
 		game->ChangeState(CGameoverState::Instance());
 	}
 
@@ -509,9 +573,13 @@ void CPlayState::Draw(Game* game)
 	{
 		p->draw();
 
+		SDL_Rect fart_collider = newPlayer.getComponent<Stats>().fart_box;
+
+		fart_collider.x -= camera.x;
+		fart_collider.y -= camera.y;
 
 		SDL_SetRenderDrawColor(Game::gRenderer, 255, 0, 0, 255);
-		SDL_RenderDrawRect(Game::gRenderer, & (newPlayer.getComponent<Stats>().fart_box ) );
+		SDL_RenderDrawRect(Game::gRenderer, & (fart_collider) ) ;
 	}
 	
 	for (auto& p : projectiles)
@@ -551,13 +619,15 @@ void CPlayState::Cleanup()
 {
 	SDL_DestroyTexture(bg);
 
-
+	Mix_FreeMusic(bgm);
 
 
 	for (auto& e : enemies)
 	{
-
-		e->destroy();
+		if (e->isActive())
+		{
+			e->destroy();
+		}
 	}
 
 

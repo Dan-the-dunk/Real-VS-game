@@ -22,7 +22,7 @@ public:
 	//int width = 32;
 	int hp = 4;
 	Vector2D velocity;
-	
+	GTimer eTimer;
 	const int projectile_speed = 3;
 
 
@@ -106,26 +106,7 @@ public:
 					sprite->play("Walk");
 
 					// chase enemy to range.
-					distance += transform->velocity.x;
-
-					// ham cho quay dau.
-
-
-					//chase
-					(transform->position.x - pPos.x > 0) ? transform->position += velocity : transform->position;
-
-					if (abs(transform->position.x - OgPos.x) >= range)
-					{
-
-
-						if (velocity.x > 0) sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
-						else sprite->spriteFlip = SDL_FLIP_NONE;
-
-						//transform->velocity.x = - velocity.x;
-						velocity.x = -velocity.x;
-					}
-
-					smtsmt();
+					if(hp >0 ) patrol();
 				}
 
 			}
@@ -137,27 +118,8 @@ public:
 		else
 		{
 			
-
-			distance += transform->velocity.x;
-
-			// ham cho quay dau.
-
-
-
-			transform->position += velocity;
-
-			if (abs(transform->position.x - OgPos.x) >= range)
-			{
-
-
-				if (velocity.x > 0) sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
-				else sprite->spriteFlip = SDL_FLIP_NONE;
-
-				//transform->velocity.x = - velocity.x;
-				velocity.x = -velocity.x;
-			}
-
-			smtsmt();
+			if(hp > 0 )	patrol();
+			
 		}
 
 		
@@ -173,7 +135,30 @@ public:
 	}
 
 
-	void patrol();
+	void patrol()
+	{
+
+		distance += transform->velocity.x;
+
+
+		transform->position += velocity;
+
+		if (abs(transform->position.x - OgPos.x) >= range)
+		{
+
+
+			if (velocity.x > 0) sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
+			else sprite->spriteFlip = SDL_FLIP_NONE;
+
+			//transform->velocity.x = - velocity.x;
+			velocity.x = -velocity.x;
+		}
+
+		smtsmt();
+
+
+
+	};
 
 
 	virtual	void smtsmt(){};
@@ -183,7 +168,7 @@ public:
 private:
 
 
-	GTimer eTimer;
+	
 	SpriteComponent* sprite;
 	
 	int speed = 0;
