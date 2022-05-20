@@ -43,4 +43,5 @@ bool Collision::AABB(const ColliderComponent& colliderA, const ColliderComponent
 	else {
 		return false;
 	}
-};
+}
+

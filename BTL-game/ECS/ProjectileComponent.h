@@ -13,7 +13,7 @@ class ProjectileComponent : public Component
 {
 public:
 
-	const int projectile_speed = 3;
+	const int projectile_speed = 2;
 
 	ProjectileComponent(int rng , int sp, Vector2D vel , string id) : range(rng) , speed(sp) , velocity(vel) , pId(id)
 	{}
@@ -27,6 +27,7 @@ public:
 	void init() override
 	{
 		transform = &entity->getComponent<TransformComponent>();
+
 
 	}
 	
@@ -42,18 +43,18 @@ public:
 		if (distance > range)
 		{
 
+			
 			if (pId == "e_projectile1")
 			{
+				cout << "3 small missle"<<endl ;
 				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", p_way );
-				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x , p_way.y + 1/2 ) );
-				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x, p_way.y -  1/2) );
+				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x , ( p_way.y + 0.5f)) );
+				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x, ( p_way.y - 0.5f))  );
 			}
 
-			else
-			{
-				cout << " out of range" << endl;
-				entity->destroy();
-			}
+			cout << " out of range" << endl;
+			entity->destroy();
+			
 		}
 
 	}

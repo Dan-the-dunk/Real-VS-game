@@ -9,6 +9,8 @@ GTimer::GTimer()
 
     mPaused = false;
     mStarted = false;
+    lastRun == false;
+ 
 }
 
 
@@ -23,6 +25,12 @@ void GTimer::start()
     //Get the current clock time
     mStartTicks = SDL_GetTicks();
     mPausedTicks = 0;
+}
+
+void GTimer::last()
+{
+
+    lastRun == true;
 }
 
 
@@ -72,6 +80,11 @@ void GTimer::unpause()
     }
 }
 
+
+bool GTimer::isLast()
+{
+    return lastRun;
+}
 
 bool GTimer::isStarted()
 {

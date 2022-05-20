@@ -54,7 +54,7 @@ public:
 		if (onground == true) {
 			//cout << "Im on ground" << endl;
 
-			float fraction_x = transform->velocity.x > 0 ? fraction.x : - fraction.x;
+			float fraction_x = transform->velocity.x > 0 ? fraction.x : -fraction.x;
 
 			float pre_vel = transform->velocity.x;
 

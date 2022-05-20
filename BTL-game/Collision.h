@@ -14,6 +14,9 @@ public:
 
 	static bool AABB(const ColliderComponent& colliderA, const ColliderComponent& colliderB);
 
+	
+	
+	
 
 	static bool on_top ;
 

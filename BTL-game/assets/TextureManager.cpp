@@ -49,13 +49,7 @@ void drawAngledTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des, SDL_Ren
 
 
 
-void bounce_back(Vector2D& vel , bool bounce_right)
-{
 
-	vel.x = (bounce_right) ? 2 : -2;
-	vel.y = -10;
-	
-}
 
 
 void setBlendMode(SDL_BlendMode blending, SDL_Texture** mTexture)
@@ -89,3 +83,10 @@ void updateCam(int xpos, int ypos, int mapXmax , int mapYmax)
 
 
 
+void bounce_back(Vector2D& vel , bool bounce_right)
+{
+
+	vel.x = (bounce_right) ? 2 : -2;
+	vel.y = -10;
+
+}

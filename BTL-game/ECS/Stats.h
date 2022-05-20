@@ -90,7 +90,7 @@ public:
 		if (fart_lv > fartMax)
 		{
 			
-			transform->velocity.y = -20;
+			transform->velocity.y = -15;
 			Mix_PlayChannel(1, CPlayState::strong_fart, 0);
 			fart_lv = fartMax/2;
 		}

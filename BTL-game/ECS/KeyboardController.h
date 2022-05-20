@@ -126,12 +126,10 @@ public:
 
 			case SDLK_LEFT:
 			case SDLK_RIGHT:
-				if (!body->bouncing_back)
-				{
-					sprite->play("Idle");
-					transform->velocity.x = 0;
+				sprite->play("Idle");
+				transform->velocity.x = 0;
 					//sprite->spriteFlip = SDL_FLIP_NONE;
-				}
+				
 				break;
 
 			case SDLK_f:

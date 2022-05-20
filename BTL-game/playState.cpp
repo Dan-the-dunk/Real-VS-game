@@ -130,7 +130,7 @@ void CPlayState::Init()
 	strong_fart = Mix_LoadWAV("assets/music/strong_fart.wav");
 
 
-	bgm = Mix_LoadMUS("assets/music/bgm_F.mp3");
+	bgm = Mix_LoadMUS("assets/music/bgm_F.wav");
 	rick = Mix_LoadMUS("assets/music/rick.mp3");
 
 	Mix_PlayMusic(bgm, -1);
@@ -221,6 +221,7 @@ void checkCollsionMap(Map* map)
 						vel.y = 0;
 						newPlayer.getComponent<RigidBody>().onground = true;
 						newPlayer.getComponent<RigidBody>().bouncing_back = false;
+						
 					}
 				}
 
@@ -385,11 +386,18 @@ void CPlayState::HandleEvents(Game* game)
 void CPlayState::Update(Game* game)
 {
 
+	Vector2D prev_vel = newPlayer.getComponent<TransformComponent>().velocity;
+
+	manager.refresh();
+	manager.update();
+	checkCollsionMap(maplv1);
 
 	if (newPlayer.getComponent<Stats>().hp <= 0)
 	{
 
 
+		
+		
 		if (!gTimer.isStarted())
 		{
 			gTimer.start();
@@ -402,92 +410,58 @@ void CPlayState::Update(Game* game)
 		{
 			game->ChangeState(CGameoverState::Instance());
 		}
-
-
-	}
-
-
-	Vector2D prev_vel = newPlayer.getComponent<TransformComponent>().velocity;
-
-
-	manager.refresh();
-
-
-
-
-	manager.update();
-
-
-
-	checkCollsionMap(maplv1);
-
-
-
-	Vector2D pos = newPlayer.getComponent<TransformComponent>().position;
-	Vector2D vel = newPlayer.getComponent<TransformComponent>().velocity;
-
-	Vector2D vel_e ;
-
-	for (auto& p : projectiles)
-
-	{
-
-		p->getComponent<ProjectileComponent>().getPlayerMove(pos);
-
-		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
-		{
-			cout << "Hit projectile" << endl;
-
-			newPlayer.getComponent<Stats>().hp--;
-
-			p->destroy();
-		}
-	}
-
-	SDL_Rect fart_rect = newPlayer.getComponent<Stats>().fart_box;
-
-	
-
-
-	for (auto& e : enemies)
-	{
-
-		GTimer e_time = e->getComponent<Enemy>().eTimer;
-
-		e->getComponent<Enemy>().getPlayerMove(pos, vel);
-
-
-
-		if (e->getComponent<Enemy>().hp <= 0)
-		{
-
-			if (e_time.isStarted())
-			{
-				e_time.start();
-				e->getComponent<SpriteComponent>().play("Die");
-			}
-
-			if (e->getComponent<Enemy>().eTimer.getTicks() >= 2000)
-			{
-				e->destroy();
-			}
-			
-		}
-
 		
-		else
+		
+		
 
+
+	}
+
+
+	else
+	{
+
+
+		Vector2D pos = newPlayer.getComponent<TransformComponent>().position;
+		Vector2D vel = newPlayer.getComponent<TransformComponent>().velocity;
+
+		Vector2D vel_e;
+
+		for (auto& p : projectiles)
 
 		{
+
+			p->getComponent<ProjectileComponent>().getPlayerMove(pos);
+
+			if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
+			{
+				cout << "Hit projectile" << endl;
+
+				//newPlayer.getComponent<Stats>().hp--;
+
+				p->destroy();
+			}
+		}
+
+		SDL_Rect fart_rect = newPlayer.getComponent<Stats>().fart_box;
+
+
+
+
+		for (auto& e : enemies)
+		{
+
+			e->getComponent<Enemy>().getPlayerMove(pos, vel);
+
+
+			/*
 			if (Collision::AABB(fart_rect, e->getComponent<ColliderComponent>().collider))
 			{
 
 				e->getComponent<Enemy>().hp -= 2;
 
-				//e->getComponent<Enemy>().imune//
 				cout << "Fart hit !!!" << endl;
-			}
-
+			}*/
 
 
 			Collision::on_top = false;
@@ -495,21 +469,15 @@ void CPlayState::Update(Game* game)
 			if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, e->getComponent<ColliderComponent>().collider))
 			{
 
-				newPlayer.getComponent<Stats>().hp--;
-
+				// newPlayer.getComponent<Stats>().hp--;
 				vel_e = e->getComponent<Enemy>().velocity;
-
 
 				if (vel_e.x - vel.x > 0) newPlayer.getComponent<RigidBody>().bounce_right = true;
 				else if (vel_e.x - vel.x < 0) newPlayer.getComponent<RigidBody>().bounce_right = false;
 
-
-
-
-				//wriet a function. newpla
 				if (Collision::on_top)
 				{
-					newPlayer.getComponent<TransformComponent>().velocity.y = -14;
+					newPlayer.getComponent<TransformComponent>().velocity.y = -7;
 					e->getComponent<Enemy>().hp -= 2;
 				}
 
@@ -527,55 +495,37 @@ void CPlayState::Update(Game* game)
 
 
 		}
+
+
+		updateCam(newPlayer.getComponent<TransformComponent>().position.x, newPlayer.getComponent<TransformComponent>().position.y, maplv1->mapXmax, maplv1->mapYmax);
+
+
+
 		
-		
 
-		
-	}
-
-
-
-	//demo timer
-
-	
-	//label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
-
-	stringstream ss;
-	ss << "Player HP : " << newPlayer.getComponent<Stats>().hp;
-	hp_text.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
-
-	
-
-	
-	updateCam(newPlayer.getComponent<TransformComponent>().position.x, newPlayer.getComponent<TransformComponent>().position.y , maplv1->mapXmax , maplv1->mapYmax);
-	
-	
-
-
-	
-
-
-	if (newPlayer.getComponent<TransformComponent>().position.x >= maplv1->mapXmax - 200)
-	{
-		current_lv++;
-		delete maplv1;
-		game->ChangeState(CPlayState::Instance());
-		
-		
-	}
-	
-
-	// hieu van toc enemy va player;
-	if (vel.x * prev_vel.x <= 0)
-	{
-		newPlayer.getComponent<RigidBody>().setFraction(Vector2D(0, 0));
-		if (vel_e.x != 0)
+		if (newPlayer.getComponent<TransformComponent>().position.x >= maplv1->mapXmax - 200)
 		{
-			newPlayer.getComponent<RigidBody>().setFraction(Vector2D(-0.2f, 0));
-		}
-	}
-	//
+			current_lv++;
+			delete maplv1;
+			game->ChangeState(CPlayState::Instance());
 
+
+		}
+
+		if (vel.x * prev_vel.x <= 0)
+		{
+			newPlayer.getComponent<RigidBody>().setFraction(Vector2D(0, 0));
+			if (vel_e.x != 0)
+			{
+				newPlayer.getComponent<RigidBody>().setFraction(Vector2D(-0.2, 0));
+			}
+		}
+
+		
+
+	
+
+	}
 	
 	
 

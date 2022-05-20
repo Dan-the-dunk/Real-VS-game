@@ -13,6 +13,7 @@ public:
 
     //The various clock actions
     void start();
+    void last();
     void stop();
     void pause();
     void unpause();
@@ -21,6 +22,7 @@ public:
     Uint32 getTicks();
 
     //Checks the status of the timer
+    bool isLast();
     bool isStarted();
     bool isPaused();
 
@@ -33,6 +35,7 @@ private:
     Uint32 mPausedTicks;
 
     //The timer status
+    bool lastRun;
     bool mPaused;
     bool mStarted;
 };

@@ -23,7 +23,7 @@ public:
 	int hp = 4;
 	Vector2D velocity;
 	GTimer eTimer;
-	const int projectile_speed = 3;
+	const int projectile_speed = 2;
 
 
 
@@ -40,10 +40,6 @@ public:
 
 		
 
-
-		
-
-
 		transform = &entity->getComponent<TransformComponent>();
 		
 		sprite = &entity->getComponent<SpriteComponent>();
@@ -53,7 +49,7 @@ public:
 
 		sprite->play("Walk");
 
-
+		
 		
 		
 	}
@@ -69,67 +65,87 @@ public:
 		//cout << p_way << endl ;
 
 
-		if (OgPos.get_distance(transform->position, pPos) <= 200)
+
+
+		if (hp <= 0)
+		{
+			hp = 0;
+
+			if (!eTimer.isLast())
+			{
+				eTimer.last();
+				sprite->play("Die");
+			}
+
+			if (eTimer.getTicks() >= 2000)
+			{
+				
+				entity->destroy();
+			}
+
+		}
+
+
+		else if (OgPos.get_distance(transform->position, pPos) <= 200)
 		{
 			
 			if (!eTimer.isStarted())
 			{
 				eTimer.start();
-
-				sprite->play("Idle");
-
 				//string pj_id = format("e_projectile{}", id);
 
 				if (eID == "enemy1")
 				{
+					sprite->play("Idle");
 					CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1", p_way);
-					cout << "Start timer" << endl;
+
+					cout << "shot mother missle" << endl;
 				}
-				else
-				{
-					CPlayState::assets->CreateProjectile(transform->position, 200, 2, "projectile", p_way);
-					cout << "Start timer" << endl;
-				}
+
 			}
-			
 
 			if (eTimer.getTicks() >= 4000)
 			{
 				eTimer.start();
-				sprite->play("Idle");
-				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "projectile", p_way);
-				cout << "Restart timer " << endl;
+					
+				if (eID == "enemy1")
+				{
+					sprite->play("Idle");
+					CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1", p_way);
 
+					cout << "shot mother missle" << endl;
+				}
+				else
+				{
+					//chase
+				}
+				cout << "Restart timer " << endl;
 			}
+			
+
 
 			else 
 			{
 
-				if (eTimer.getTicks() < 500)
+				if (eTimer.getTicks() < 500 && eID == "ememy1")
 				{
 
 				}
 
-				else if (eTimer.getTicks() >= 500)
+				if (eTimer.getTicks() >= 500)
 
 				{
 					sprite->play("Walk");
-
-					// chase enemy to range.
-					if(hp >0 ) patrol();
+					patrol();
 				}
 
 			}
-
-			
 
 		}
 
 		else
 		{
-			
-			if(hp > 0 )	patrol();
-			
+			patrol();		
 		}
 
 		
