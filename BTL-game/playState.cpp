@@ -165,6 +165,17 @@ auto& enemies(manager.getGroup(CPlayState::groupEnemies));
 auto& labels(manager.getGroup(CPlayState::groupLabels));
 
 
+void hit_spike(Vector2D& vel)
+{
+	//newPlayer.getComponent<Stats>().hp -= 1;
+	if (newPlayer.getComponent<RigidBody>().onground == true)
+	{
+		vel.y = -12;
+		cout << "Hit spike " << endl;
+	}
+}	
+
+
 void checkCollsionMap(Map* map)
 {
 
@@ -216,29 +227,36 @@ void checkCollsionMap(Map* map)
 
 					if (map->map[0].cMap[y2][x1] != map->BLANK_TILE || map->map[0].cMap[y2][x2] != map->BLANK_TILE)
 					{
+
 						pos.y = y2 * map->tileSize;
 						pos.y -= cHeight;
 						vel.y = 0;
 						newPlayer.getComponent<RigidBody>().onground = true;
 						newPlayer.getComponent<RigidBody>().bouncing_back = false;
+
+						if (map->map[0].cMap[y2][x1]/10 == map->SPIKE_TILES || map->map[0].cMap[y2][x2]/10 == map->SPIKE_TILES) hit_spike(vel);
+						
 						
 					}
 				}
 
 				else if (vel.y < 0)
 				{
+
+			
 					if (map->map[0].cMap[y1][x1] != map->BLANK_TILE || map->map[0].cMap[y1][x2] != map->BLANK_TILE)
 					{
 						pos.y = (y1 + 1) * map->tileSize;
 						vel.y = 0;
+						if (map->map[0].cMap[y1][x1] / 10 == map->SPIKE_TILES || map->map[0].cMap[y1][x2] / 10 == map->SPIKE_TILES) hit_spike(vel);
+
+
 					}
 				}
 
 
 
 			}
-
-
 
 
 			x1 = (pos.x + vel.x) / map->tileSize;
@@ -255,13 +273,16 @@ void checkCollsionMap(Map* map)
 			{
 				if (vel.x > 0)
 				{
+
+
 					//check move right
 					if (map->map[0].cMap[y1][x2] != map->BLANK_TILE || map->map[0].cMap[y2][x2] != map->BLANK_TILE)
 					{
 						pos.x = x2 * map->tileSize;
 						pos.x -= cWidth + 1;
 						vel.x = 0;
-
+						
+						if (map->map[0].cMap[y1][x2] / 10 == map->SPIKE_TILES || map->map[0].cMap[y2][x2] / 10 == map->SPIKE_TILES) hit_spike(vel);
 					}
 				}
 				else if (vel.x < 0)
@@ -271,6 +292,9 @@ void checkCollsionMap(Map* map)
 					{
 						pos.x = (x1 + 1) * map->tileSize;
 						vel.x = 0;
+						
+						if (map->map[0].cMap[y1][x1] / 10 == map->SPIKE_TILES || map->map[0].cMap[y2][x1] / 10 == map->SPIKE_TILES) hit_spike(vel);
+
 
 					}
 				}
@@ -334,13 +358,6 @@ void checkCollsionMap(Map* map)
 
 						}
 
-						if (map->map[1].cMap[y][x] / 10 == map->SPIKE_TILES)
-						{
-							//o layer1;
-							newPlayer.getComponent<Stats>().hp -= 1 ;
-							newPlayer.getComponent<TransformComponent>().velocity.y = -6;
-
-						}
 
 						
 					}
@@ -353,6 +370,7 @@ void checkCollsionMap(Map* map)
 
 
 }
+
 
 
 
@@ -392,6 +410,8 @@ void CPlayState::Update(Game* game)
 	manager.update();
 	checkCollsionMap(maplv1);
 
+	
+
 	if (newPlayer.getComponent<Stats>().hp <= 0)
 	{
 
@@ -424,6 +444,8 @@ void CPlayState::Update(Game* game)
 
 		Vector2D pos = newPlayer.getComponent<TransformComponent>().position;
 		Vector2D vel = newPlayer.getComponent<TransformComponent>().velocity;
+
+		cout << "Truoc up e p "<< vel.y << endl;
 
 		Vector2D vel_e;
 
@@ -522,7 +544,7 @@ void CPlayState::Update(Game* game)
 		}
 
 		
-
+		cout << newPlayer.getComponent<TransformComponent>().velocity.y << endl ;
 	
 
 	}
