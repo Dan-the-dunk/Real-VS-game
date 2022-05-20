@@ -22,14 +22,15 @@ void AssetsManager::AddText(std::string id, const char* path)
 }
 
 
-void AssetsManager::CreateProjectile(Vector2D pos, int range, int speed, std::string id , Vector2D vel)
+void AssetsManager::CreateProjectile(Vector2D pos, int range, int speed, std::string id , Vector2D vel )
 {
 
 	auto& projectile(manager->addEntity());
-	projectile.addComponent<TransformComponent>(pos.x, pos.y, title_size, title_size, 1);
-	projectile.addComponent<SpriteComponent>("projectile", false);
-	projectile.addComponent<ProjectileComponent>(range, speed, vel);
-	projectile.addComponent<ColliderComponent>("projectile");
+	//magic number
+	projectile.addComponent<TransformComponent>(pos.x, pos.y, 12, 8, 1);
+	projectile.addComponent<SpriteComponent>(id, false);
+	projectile.addComponent<ProjectileComponent>(range, speed, vel, id);
+	projectile.addComponent<ColliderComponent>(id);
 	projectile.addGroup(CPlayState::groupProjectitles);
 
 }
@@ -52,7 +53,7 @@ void AssetsManager::CreateEnemies(Vector2D pos, int range, int speed, std::strin
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y - height + title_size, width, height , 1);
 	enemy.addComponent<SpriteComponent>(id, true , 6);
-	enemy.addComponent<Enemy>(range, speed, vel , pos);
+	enemy.addComponent<Enemy>(range, speed, vel , pos , id);
 	enemy.addComponent<ColliderComponent>(id );
 	enemy.addGroup(CPlayState::groupEnemies);
 }

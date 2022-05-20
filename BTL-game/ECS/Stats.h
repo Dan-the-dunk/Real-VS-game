@@ -146,7 +146,6 @@ public:
 		hSrc.w =  24 + (hp * 31);
 		hDes.w = hSrc.w;
 
-		cout << hSrc.w << endl;
 
 		// dong nay de bi lech du lieu
 		

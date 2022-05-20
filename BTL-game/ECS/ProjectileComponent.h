@@ -13,7 +13,12 @@ class ProjectileComponent : public Component
 {
 public:
 
-	ProjectileComponent(int rng , int sp, Vector2D vel ) : range(rng) , speed(sp) , velocity(vel)
+	const int projectile_speed = 3;
+
+	ProjectileComponent(int rng , int sp, Vector2D vel , string id) : range(rng) , speed(sp) , velocity(vel) , pId(id)
+	{}
+
+	ProjectileComponent(int rng, int sp, Vector2D vel ) : range(rng), speed(sp), velocity(vel)
 	{}
 
 	~ProjectileComponent()
@@ -29,26 +34,49 @@ public:
 	{
 		distance += speed;
 		
-		
+		p_way.set_vlength(pPos, transform->position, projectile_speed);
 			
 
 		transform->position += velocity;
 
 		if (distance > range)
 		{
-			cout << " out of range" << endl;
-			entity->destroy();
+
+			if (pId == "e_projectile1")
+			{
+				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", p_way );
+				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x , p_way.y + 1/2 ) );
+				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x, p_way.y -  1/2) );
+			}
+
+			else
+			{
+				cout << " out of range" << endl;
+				entity->destroy();
+			}
 		}
 
-	
-
 	}
+
+
+	void getPlayerMove(Vector2D p_pos)
+	{
+		pPos = p_pos;
+		
+	}
+
+
 private:
 	TransformComponent* transform;
 
+	
+	string pId = "";
 	int speed = 0;
 	int range = 0;
 	int distance = 0;
+
+	Vector2D pPos;
+	Vector2D p_way;
 	Vector2D velocity;
 
 };

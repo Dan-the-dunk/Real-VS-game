@@ -31,6 +31,6 @@ void bounce_back(Vector2D& vel , bool bounce_right);
 void updateCam(int xpos, int ypos , int mapXmax , int mapYmax );
 
 
-
+void drawAngledTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des, SDL_RendererFlip flip, float angle, const SDL_Point* center);
 
 #endif 

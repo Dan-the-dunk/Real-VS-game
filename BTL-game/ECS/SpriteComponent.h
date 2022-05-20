@@ -15,6 +15,10 @@ private:
 	TransformComponent* transform;
 	SDL_Texture* texture;
 	SDL_Rect srcRect, desRect;
+	int angle = 0;
+	SDL_Point ctr ;
+
+
 
 	bool animated = false;
 	int frames = 0;
@@ -28,6 +32,7 @@ public:
 	SpriteComponent() = default;
 
 	int animIndex = 0;
+	
 
 	std::map<const char*, Animation> animations;
 
@@ -46,8 +51,10 @@ public:
 
 		Animation idle = Animation(0, 1, 100);
 		Animation walk = Animation(1, 7, 100);
+		Animation die = Animation(2, 2, 100);
 		animations.emplace("Idle", idle);
 		animations.emplace("Walk", walk);
+		animations.emplace("Die", die);
 
 		play("Idle");
 
@@ -95,7 +102,7 @@ public:
 	void init() override
 	{
 
-
+		
 
 		transform = &entity->getComponent<TransformComponent>();
 
@@ -103,6 +110,11 @@ public:
 		srcRect = { 0 ,0 ,transform->width, transform->height };
 		desRect.w = (int)transform->width;
 		desRect.h = (int)transform->height;
+
+		ctr.x = desRect.x + (int)desRect.w / 2;
+		ctr.y = desRect.y + (int)desRect.w / 2;
+
+
 	}
 	void update() override
 	{
@@ -120,15 +132,28 @@ public:
 		desRect.y = static_cast<int>(transform->position.y) - CPlayState::camera.y;
 		desRect.w = static_cast<int>(transform->width * transform->scale);
 		desRect.h = static_cast<int>(transform->height * transform->scale);
+
+
+		ctr.x = desRect.x +(int) desRect.w/2;
+		ctr.y = desRect.y + (int) desRect.w/2;
+
 	}
 	void draw() override
 	{
+
+		
 		drawTexture(texture, srcRect, desRect, spriteFlip);
+	
+
 	}
 
 
 	void play(const char* animName)
 	{
+
+
+
+
 		frames = animations[animName].frames;
 		animIndex = animations[animName].index;
 		speed = animations[animName].speed;

@@ -20,6 +20,7 @@
 //test timer
 
 Mix_Music* bgm = nullptr;
+Mix_Music* rick = nullptr;
 Mix_Chunk* CPlayState::jump = nullptr;
 Mix_Chunk* CPlayState::get_hit = nullptr;
 Mix_Chunk* CPlayState::die = nullptr;
@@ -57,11 +58,7 @@ void CPlayState::Init()
 
 
 	
-	
-	
 
-
-	gTimer.start();
 	
 	// 1 ham de load data cho lv ?:
 
@@ -70,7 +67,8 @@ void CPlayState::Init()
 
 
 
-
+	string spritesheet = format("assets/terrain{}.png",current_lv);
+	string map_link = format("assets/map_lv{}.map",current_lv);
 
 
 	bg = loadTexture("assets/image/menu.png");
@@ -81,26 +79,20 @@ void CPlayState::Init()
 	assets->AddText("enemy0", "assets/enemies/e0_f.png");
 	assets->AddText("enemy", "assets/image/rl_projectile.jpg");
 	assets->AddText("enemy1", "assets/enemies/e1_f.png");
-	assets->AddText("player", "assets/image/f_petersprite.png");
-	assets->AddText("projectile", "assets/image/rl_projectile.jpg");
+	assets->AddText("player", "assets/image/petersprite.png");
+	assets->AddText("projectile", "assets/image/ball.png");
+	assets->AddText("e_projectile1", "assets/image/ball.png");
+	assets->AddText("e_projectile1_m", "assets/image/ball.png");
 
 	assets->AddFont("arial", "assets/arial.ttf", 16);
 	
 
-	//str = format("number {} , number {}", 1, 2);
-
-
 	
+	maplv1 = new Map(spritesheet.c_str(), 1, 32, 120, 40);
+	maplv1->loadmap(map_link);
 
 
 
-	//load component(pos , sprite)
-
-	maplv1 = new Map("assets/tileset_items.png", 1, 32, 90, 40);
-	//qua ton ram, nen de background thi hon/.
-
-	if(current_lv == 1) maplv1->loadmap("assets/map_enemies.map");
-	else if (current_lv == 2) maplv1->loadmap("assets/map_lv2.map");
 	// file lv du 2 data tren.
 
 
@@ -134,12 +126,14 @@ void CPlayState::Init()
 
 	jump = Mix_LoadWAV("assets/music/jump.wav");
 	fart = Mix_LoadWAV("assets/music/fart.wav");
+	
 	strong_fart = Mix_LoadWAV("assets/music/strong_fart.wav");
 
 
-	bgm = Mix_LoadMUS("assets/music/bgm.mp3");
-	Mix_PlayMusic(bgm, -1);
+	bgm = Mix_LoadMUS("assets/music/bgm_F.mp3");
+	rick = Mix_LoadMUS("assets/music/rick.mp3");
 
+	Mix_PlayMusic(bgm, -1);
 
 
 	//assets->CreateProjectile(Vector2D(600, 600), 200, 2, "projectile ", Vector2D(1, 0));
@@ -312,8 +306,20 @@ void checkCollsionMap(Map* map)
 				{
 					for (int x = x1; x <= x2; x++)
 					{
-						if (map->map[1].cMap[y][x] != map->BLANK_TILE)
+
+						if (map->map[1].cMap[y][x] == map->RICK)
 						{
+							map->map[1].cMap[y][x] = map->BLANK_TILE;
+							
+							Mix_PlayMusic(rick, -1);
+							cout << Mix_GetError() << endl;
+							cout << "Play rick roll";
+							
+						}
+
+
+						else if (map->map[1].cMap[y][x]/10 == map->FOOD_TILES && map->map[1].cMap[y][x] != maplv1->RICK)
+						{	
 							int f_gain = map->map[1].cMap[y][x] - 50 + 1;
 
 							newPlayer.getComponent<Stats>().hp += f_gain/2;
@@ -326,6 +332,16 @@ void checkCollsionMap(Map* map)
 							//play noise.//
 
 						}
+
+						if (map->map[1].cMap[y][x] / 10 == map->SPIKE_TILES)
+						{
+							//o layer1;
+							newPlayer.getComponent<Stats>().hp -= 1 ;
+							newPlayer.getComponent<TransformComponent>().velocity.y = -6;
+
+						}
+
+						
 					}
 				}
 			}
@@ -370,6 +386,27 @@ void CPlayState::Update(Game* game)
 {
 
 
+	if (newPlayer.getComponent<Stats>().hp <= 0)
+	{
+
+
+		if (!gTimer.isStarted())
+		{
+			gTimer.start();
+			newPlayer.getComponent<SpriteComponent>().play("Die");
+
+		}
+
+
+		if (gTimer.getTicks() >= 2000)
+		{
+			game->ChangeState(CGameoverState::Instance());
+		}
+
+
+	}
+
+
 	Vector2D prev_vel = newPlayer.getComponent<TransformComponent>().velocity;
 
 
@@ -392,7 +429,11 @@ void CPlayState::Update(Game* game)
 	Vector2D vel_e ;
 
 	for (auto& p : projectiles)
+
 	{
+
+		p->getComponent<ProjectileComponent>().getPlayerMove(pos);
+
 		if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
 		{
 			cout << "Hit projectile" << endl;
@@ -401,9 +442,6 @@ void CPlayState::Update(Game* game)
 
 			p->destroy();
 		}
-
-		//Stats change, components.\
-		//Add diff type for projectile for diff effects
 	}
 
 	SDL_Rect fart_rect = newPlayer.getComponent<Stats>().fart_box;
@@ -428,7 +466,6 @@ void CPlayState::Update(Game* game)
 				e_time.start();
 				e->getComponent<SpriteComponent>().play("Die");
 			}
-
 
 			if (e->getComponent<Enemy>().eTimer.getTicks() >= 2000)
 			{
@@ -500,14 +537,10 @@ void CPlayState::Update(Game* game)
 
 	//demo timer
 
-	stringstream ss;
-	if (gTimer.getTicks() >= 5000 ) gTimer.start();
-	ss << "Timer :" << gTimer.getTicks();
 	
 	//label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
 
-	ss.str("");
-
+	stringstream ss;
 	ss << "Player HP : " << newPlayer.getComponent<Stats>().hp;
 	hp_text.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
 
@@ -519,16 +552,7 @@ void CPlayState::Update(Game* game)
 	
 
 
-
-
-
-
-	if (newPlayer.getComponent<Stats>().hp <= 0)
-	{
-		
-		SDL_Delay(1000);
-		game->ChangeState(CGameoverState::Instance());
-	}
+	
 
 
 	if (newPlayer.getComponent<TransformComponent>().position.x >= maplv1->mapXmax - 200)

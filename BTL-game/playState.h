@@ -68,6 +68,9 @@ public:
 	static Mix_Chunk* fart;
 	static Mix_Chunk* strong_fart;
 
+
+
+
 	static SDL_Event ev;
 	static SDL_Rect camera;
 	static AssetsManager* assets;

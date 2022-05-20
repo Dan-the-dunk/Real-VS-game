@@ -33,11 +33,20 @@ SDL_Texture* loadTexture(const char* path) {
 	}
 	return newTexture;
 }
-void drawTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des , SDL_RendererFlip flip)
+void drawTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des , SDL_RendererFlip flip )
 {
 	SDL_RenderCopyEx(Game::gRenderer,texture, &scr,& des,NULL,NULL,flip);
 	
 }
+
+void drawAngledTexture(SDL_Texture* texture, SDL_Rect scr, SDL_Rect des, SDL_RendererFlip flip, float angle, const SDL_Point* center)
+{
+	SDL_RenderCopyEx(Game::gRenderer, texture, &scr, &des, angle, center, flip);
+
+}
+
+
+
 
 
 void bounce_back(Vector2D& vel , bool bounce_right)

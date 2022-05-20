@@ -53,7 +53,7 @@ public:
 				{
 
 
-					Mix_PlayChannel(1, CPlayState::jump, 1);
+					Mix_PlayChannel(1, CPlayState::jump, 0);
 
 					//140 = char_size
 					transform->velocity.y = -12;

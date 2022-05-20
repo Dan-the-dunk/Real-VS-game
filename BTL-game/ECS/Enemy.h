@@ -28,7 +28,7 @@ public:
 
 
 
-	Enemy(int rng, int sp, Vector2D vel, Vector2D pos ) : range(rng), speed(sp), velocity(vel), OgPos(pos) 
+	Enemy(int rng, int sp, Vector2D vel, Vector2D pos, string id) : range(rng), speed(sp), velocity(vel), OgPos(pos), eID(id)
 	{
 	}
 
@@ -77,9 +77,19 @@ public:
 				eTimer.start();
 
 				sprite->play("Idle");
-				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "projectile", p_way);
-				cout << "Start timer" << endl;
 
+				//string pj_id = format("e_projectile{}", id);
+
+				if (eID == "enemy1")
+				{
+					CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1", p_way);
+					cout << "Start timer" << endl;
+				}
+				else
+				{
+					CPlayState::assets->CreateProjectile(transform->position, 200, 2, "projectile", p_way);
+					cout << "Start timer" << endl;
+				}
 			}
 			
 
@@ -171,6 +181,7 @@ private:
 	
 	SpriteComponent* sprite;
 	
+	string eID = "";
 	int speed = 0;
 	int range = 0;
 	int distance = 0;

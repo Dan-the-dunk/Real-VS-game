@@ -58,6 +58,9 @@ public:
 
 	const int BLANK_TILE = -1;
 	const int death_lv = 960;
+	const int FOOD_TILES = 5;
+	const int SPIKE_TILES = 6;
+	const int RICK = 59;
 
 	gMap map[num_of_mlayers];
 	SDL_Texture* texture;
