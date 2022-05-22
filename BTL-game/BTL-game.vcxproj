@@ -145,6 +145,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="assets\AssetsManger.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ECS\ECS.cpp" />
     <ClCompile Include="gameoverState.cpp" />
@@ -160,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="assets\AssetsManager.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="ECS\Animation.h" />
     <ClInclude Include="ECS\ColliderComponent.h" />
     <ClInclude Include="Collision.h" />

@@ -39,13 +39,10 @@ public:
 	{
 		if (CPlayState::ev.type == SDL_KEYDOWN)
 		{	
-			
-
+		
 			switch (CPlayState::ev.key.keysym.sym)
 			{
-			
-
-			
+				
 			case SDLK_UP:
 			case SDLK_SPACE:
 				
@@ -146,6 +143,5 @@ public:
 		}
 
 		
-
 	}
 };

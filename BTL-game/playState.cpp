@@ -415,8 +415,6 @@ void CPlayState::Update(Game* game)
 	if (newPlayer.getComponent<Stats>().hp <= 0)
 	{
 
-
-		
 		
 		if (!gTimer.isStarted())
 		{
@@ -430,17 +428,13 @@ void CPlayState::Update(Game* game)
 		{
 			game->ChangeState(CGameoverState::Instance());
 		}
-		
-		
-		
-
-
 	}
 
 
 	else
 	{
 
+		
 
 		Vector2D pos = newPlayer.getComponent<TransformComponent>().position;
 		Vector2D vel = newPlayer.getComponent<TransformComponent>().velocity;
@@ -514,10 +508,7 @@ void CPlayState::Update(Game* game)
 
 			}
 
-
-
 		}
-
 
 		updateCam(newPlayer.getComponent<TransformComponent>().position.x, newPlayer.getComponent<TransformComponent>().position.y, maplv1->mapXmax, maplv1->mapYmax);
 
