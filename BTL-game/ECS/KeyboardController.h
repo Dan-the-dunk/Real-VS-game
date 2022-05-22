@@ -37,7 +37,7 @@ public:
 
 	void update() override 
 	{
-		if (CPlayState::ev.type == SDL_KEYDOWN)
+		if (CPlayState::ev.type == SDL_KEYDOWN && CPlayState::gameOver != true)
 		{	
 		
 			switch (CPlayState::ev.key.keysym.sym)

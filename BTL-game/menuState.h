@@ -2,7 +2,7 @@
 
 #include<SDL.h>
 #include"Gamestate.h"
-
+#include"Button.h"
 class CMenuState : public CGameState
 {
 public:
@@ -23,8 +23,15 @@ public:
 protected:
 	CMenuState() { }
 
+
 private:
+
+	int alpha ;
+	SDL_Event event;
+	SDL_Texture* fader;
 	static CMenuState m_MenuState;
+
+	vector<Button> buttons;
 
 	SDL_Texture* bg;
 };

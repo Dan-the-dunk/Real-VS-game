@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
 	
 	newgame = new Game();
 	newgame->init("ah finally", false);
-	newgame->ChangeState(CIntroState::Instance());
+	newgame->ChangeState(CIntroState::Instance(true));
 
 	while (newgame->running()) {
 

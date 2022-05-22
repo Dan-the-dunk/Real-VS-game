@@ -16,15 +16,10 @@ class CIntroState : public CGameState
 public:
 
 
-
+	static bool inIntro;
 	static SDL_Event event;
 
-	Button play_butt;
-	
-	Button help_butt;
-	Button exit_butt;
 	Button back_butt;
-
 
 	void Init();
 	void Cleanup();
@@ -36,7 +31,8 @@ public:
 	void Update(Game* game);
 	void Draw(Game* game);
 
-	static CIntroState* Instance() {
+	static CIntroState* Instance(bool status) {
+		inIntro = status;
 		return &m_IntroState;
 	}
 
@@ -47,7 +43,7 @@ private:
 
 
 	bool isOnHelp = false;
-
+	
 
 	static CIntroState m_IntroState;
 
@@ -64,6 +60,8 @@ private:
 	
 	vector<Button> buttons ;
 
+
+	SDL_Texture* intro_bg;
 	SDL_Texture* currentBg;
 	SDL_Texture* help_bg;
 	SDL_Texture* bg;

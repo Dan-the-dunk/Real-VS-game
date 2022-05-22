@@ -12,22 +12,27 @@ SDL_Event CIntroState::event;
 
 const int  x_pos = 351;
 
+
+bool CIntroState::inIntro ;
+
 void CIntroState::Init()
 {
 
-	bg = loadTexture("assets/image/intro.png");
+	bg = loadTexture("assets/image/menu_bg.jpg");
 	help_bg = loadTexture("assets/image/help_bg.png");
-	currentBg = bg;
+	intro_bg = loadTexture("assets/image/intro_bg.png");
+
+	currentBg = intro_bg;
 
 	fader = loadTexture("assets/image/fader.png");
 	
-	play_butt =  Button("assets/image/button/play_button.png" , x_pos , 200 , 150);
+	Button play_butt =  Button("assets/image/button/play_button.png" , x_pos , 200 , 150);
 	buttons.push_back(play_butt);
-	help_butt =  Button("assets/image/button/help_button.png" , x_pos, 320 , 150);
+	Button help_butt =  Button("assets/image/button/help_button.png" , x_pos, 320 , 150);
 	buttons.push_back(help_butt);
-	exit_butt =  Button("assets/image/button/exit_button.png" , x_pos, 440 ,150);
+	Button exit_butt =  Button("assets/image/button/exit_button.png" , x_pos, 440 ,150);
 	buttons.push_back(exit_butt);
-	back_butt =  Button("assets/image/button/back_button.png" , 20 ,SCREEN_HEIGHT - 300 , 100 );
+	Button back_butt =  Button("assets/image/button/back_button.png" , 20 ,SCREEN_HEIGHT - 300 , 100 );
 	buttons.push_back(back_butt);
 
 
@@ -56,13 +61,6 @@ void CIntroState::Cleanup()
 {
 
 
-	/*
-	delete(play_butt);
-	delete(exit_butt);
-	delete(help_butt);
-	delete(back_butt);
-
-	*/
 	SDL_DestroyTexture(bg);
 	SDL_DestroyTexture(fader);
 
@@ -82,63 +80,98 @@ void CIntroState::Resume()
 void CIntroState::HandleEvents(Game* game)
 {
 
-	if (SDL_PollEvent(&event)) {
-		switch (event.type) {
-		case SDL_QUIT:
-			Game::isRunning = false;
-			break;
 
-
-		case SDL_MOUSEBUTTONDOWN:
-			for (int i = 0; i < 4; i++)
+	if (inIntro)
+	{
+		if (SDL_PollEvent(&event))
+		{
+			switch (event.type)
 			{
-				if (buttons[i].getStatus())
-				{
-					switch (i)
-					{
+			case SDL_QUIT:
+				Game::isRunning = false;
+				break;
+			case SDL_KEYDOWN:
+				inIntro = false;
+				currentBg = bg;
+				break;
+			}
+		}
+	
+	}
 
-					case 0:
-						if (!isOnHelp)
+	else 
+	{
+		if (SDL_PollEvent(&event))
+		{
+			switch (event.type)
+			{
+			case SDL_QUIT:
+				Game::isRunning = false;
+				break;
+
+
+			case SDL_MOUSEBUTTONDOWN:
+				for (int i = 0; i < 4; i++)
+				{
+					if (buttons[i].getStatus())
+					{
+						switch (i)
 						{
-							game->ChangeState(CPlayState::Instance());
+
+						case 0:
+							if (!isOnHelp)
+							{
+								game->ChangeState(CPlayState::Instance());
+							}
+							break;
+						case 1:
+							if (!isOnHelp)
+							{
+								isOnHelp = true;
+							}
+							break;
+						case 2:
+							if (!isOnHelp)
+							{
+								game->isRunning = false;
+							}
+							break;
+						case 3:
+
+							if (!isOnHelp)
+							{
+								isOnHelp = true;
+							}
+							else
+							{
+								isOnHelp = false;
+								currentBg = bg;
+							}
+
+							break;
+
 						}
-						break;
-					case 1:
-						if (!isOnHelp)
-						{
-							isOnHelp = true;
-						}
-						break;
-					case 2:
-						if (!isOnHelp)
-						{
-							game->isRunning = false;
-						}
-						break;
-					case 3:
-						
-						if (!isOnHelp) isOnHelp = true;
-						else isOnHelp = false;
-						
-						
-						break;
 
 					}
+				}
 
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.sym)
+				{
+
+				case SDLK_ESCAPE:
+					game->isRunning = false;
+					break;
+
+
+					break;
 				}
 			}
-
-		case SDL_KEYDOWN:
-			switch (event.key.keysym.sym) {
-
-			case SDLK_ESCAPE:
-				game->isRunning = false;
-				break;
-			
-			}
-			break;
 		}
+
 	}
+
+
 }
 
 void CIntroState::Update(Game* game)
@@ -149,9 +182,9 @@ void CIntroState::Update(Game* game)
 		buttons[i].CheckInside(&event);
 
 	}
-	back_butt.CheckInside(&event);
+	
 
-	alpha--;
+	alpha -= 2;
 
 	if (alpha < 0)
 		alpha = 0;
@@ -167,26 +200,29 @@ void CIntroState::Draw(Game* game)
 
 
 	//
-	
-
-	if (isOnHelp)
+	if (!inIntro)
 	{
-
-		currentBg = help_bg;
-		back_butt.Render();
-	}
-
-	else
-	{
-		currentBg = bg;
-		for (int i = 0; i < 3; i++)
+		if (isOnHelp)
 		{
-			buttons[i].Render();
 
+			currentBg = help_bg;
+			buttons[3].Render();
 		}
 
+		else
+		{
+			currentBg = bg;
+			for (int i = 0; i < 3; i++)
+			{
+				buttons[i].Render();
+
+			}
+
+		}
+		
 	}
-	//
+
+	
 
 	// no need to blit if it's transparent
 	if (alpha != 0)

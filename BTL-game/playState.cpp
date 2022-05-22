@@ -19,7 +19,10 @@
 
 //test timer
 
-Mix_Music* bgm = nullptr;
+
+bool CPlayState::gameOver = false;
+
+Mix_Music* CPlayState::bgm = nullptr;
 Mix_Music* rick = nullptr;
 Mix_Chunk* CPlayState::jump = nullptr;
 Mix_Chunk* CPlayState::get_hit = nullptr;
@@ -56,7 +59,7 @@ auto& hp_text(manager.addEntity());
 void CPlayState::Init()
 {
 
-
+	gameOver = false;
 	
 
 	
@@ -391,6 +394,11 @@ void CPlayState::HandleEvents(Game* game)
 				break;
 			case SDLK_m:
 				game->PushState(CMenuState::Instance());
+				if (Mix_PausedMusic != 0)
+				{
+					Mix_PauseMusic();
+				}
+				
 				break;
 
 			}
@@ -406,19 +414,25 @@ void CPlayState::Update(Game* game)
 
 	Vector2D prev_vel = newPlayer.getComponent<TransformComponent>().velocity;
 
+
+
+	
+
 	manager.refresh();
 	manager.update();
 	checkCollsionMap(maplv1);
 
 	
 
+	
 	if (newPlayer.getComponent<Stats>().hp <= 0)
 	{
 
-		
+
 		if (!gTimer.isStarted())
 		{
 			gTimer.start();
+			gameOver = true;
 			newPlayer.getComponent<SpriteComponent>().play("Die");
 
 		}
@@ -426,10 +440,10 @@ void CPlayState::Update(Game* game)
 
 		if (gTimer.getTicks() >= 2000)
 		{
+
 			game->ChangeState(CGameoverState::Instance());
 		}
 	}
-
 
 	else
 	{
@@ -453,7 +467,7 @@ void CPlayState::Update(Game* game)
 			{
 				cout << "Hit projectile" << endl;
 
-				//newPlayer.getComponent<Stats>().hp--;
+				newPlayer.getComponent<Stats>().hp--;
 
 				p->destroy();
 			}
@@ -493,14 +507,14 @@ void CPlayState::Update(Game* game)
 
 				if (Collision::on_top)
 				{
-					newPlayer.getComponent<TransformComponent>().velocity.y = -7;
+					newPlayer.getComponent<TransformComponent>().velocity.y = -15;
 					e->getComponent<Enemy>().hp -= 2;
 				}
 
 				else
 				{
 
-
+					newPlayer.getComponent<Stats>().hp -- ;
 					bounce_back(newPlayer.getComponent<TransformComponent>().velocity, newPlayer.getComponent<RigidBody>().bounce_right);
 					newPlayer.getComponent<RigidBody>().bouncing_back = true;
 					newPlayer.getComponent<RigidBody>().setFraction(Vector2D(-0.2f, 0));

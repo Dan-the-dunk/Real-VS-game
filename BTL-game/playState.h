@@ -28,6 +28,10 @@ public:
 class CPlayState : public CGameState
 {
 public:
+
+	static Mix_Music* bgm;
+	static bool gameOver;
+
 	void Init(); // = load media.
 	void Cleanup();
 
@@ -96,6 +100,7 @@ private:
 	vector<Level*> g_levels;
 
 
+	
 	//more detail
 
 	SDL_Texture* fader;
