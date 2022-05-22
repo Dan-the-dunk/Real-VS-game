@@ -44,12 +44,13 @@ public:
 		{
 
 			
+			
 			if (pId == "e_projectile1")
 			{
 				cout << "3 small missle"<<endl ;
 				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", p_way );
-				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x , ( p_way.y + 0.5f)) );
-				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x, ( p_way.y - 0.5f))  );
+				//CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x , ( p_way.y + 0.5f)) );
+				//CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x, ( p_way.y - 0.5f))  );
 			}
 
 			cout << " out of range" << endl;

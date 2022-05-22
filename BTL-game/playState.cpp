@@ -114,12 +114,15 @@ void CPlayState::Init()
 
 
 	//thu picture perfect
+	
+	
 	newPlayer.addComponent<TransformComponent>(48, 61);
-	newPlayer.addComponent<SpriteComponent>("player", true);
+	newPlayer.addComponent<SpriteComponent>("player",true);
 	newPlayer.addComponent<RigidBody>(1);
 	newPlayer.addComponent<Stats>();
 	newPlayer.addComponent<KeyboardController>();
 	newPlayer.addComponent<ColliderComponent>("player");
+	
 	newPlayer.addGroup(groupPlayers);
 
 
@@ -174,7 +177,7 @@ void hit_spike(Vector2D& vel)
 	if (newPlayer.getComponent<RigidBody>().onground == true)
 	{
 		vel.y = -12;
-		cout << "Hit spike " << endl;
+		newPlayer.getComponent<Stats>().hp--;
 	}
 }	
 
@@ -201,6 +204,10 @@ void checkCollsionMap(Map* map)
 	int cHeight = newPlayer.getComponent<TransformComponent>().height;
 
 
+	if (pos.y >= map->mapYmax)
+	{
+		CPlayState::gameOver = true;
+	}
 
 
 	for (int i = 0; i < 3; i++)
@@ -238,7 +245,12 @@ void checkCollsionMap(Map* map)
 						newPlayer.getComponent<RigidBody>().bouncing_back = false;
 
 						if (map->map[0].cMap[y2][x1]/10 == map->SPIKE_TILES || map->map[0].cMap[y2][x2]/10 == map->SPIKE_TILES) hit_spike(vel);
-						
+
+						if (map->map[0].cMap[y2][x1] >= map->WATER_TILE_s && map->map[0].cMap[y2][x1] <= map->WATER_TILE_e ||
+							map->map[0].cMap[y2][x2] >= map->WATER_TILE_s && map->map[0].cMap[y2][x2] <= map->WATER_TILE_e)
+						{
+							CPlayState::gameOver = true;
+						}
 						
 					}
 				}
@@ -340,8 +352,8 @@ void checkCollsionMap(Map* map)
 							map->map[1].cMap[y][x] = map->BLANK_TILE;
 							
 							Mix_PlayMusic(rick, -1);
-							cout << Mix_GetError() << endl;
-							cout << "Play rick roll";
+							std::cout << Mix_GetError() << endl;
+							std::cout << "Play rick roll";
 							
 						}
 
@@ -400,7 +412,10 @@ void CPlayState::HandleEvents(Game* game)
 				}
 				
 				break;
+			case SDLK_c:
+				cout << "con cu" << endl;
 
+				break;
 			}
 			
 
@@ -536,8 +551,17 @@ void CPlayState::Update(Game* game)
 			delete maplv1;
 			game->ChangeState(CPlayState::Instance());
 
+		}
+
+		if (gameOver)
+		{
+
+			delete maplv1;
+			SDL_Delay(500);
+			game->ChangeState(CGameoverState::Instance());
 
 		}
+
 
 		if (vel.x * prev_vel.x <= 0)
 		{
@@ -549,7 +573,7 @@ void CPlayState::Update(Game* game)
 		}
 
 		
-		cout << newPlayer.getComponent<TransformComponent>().velocity.y << endl ;
+		
 	
 
 	}
@@ -621,6 +645,10 @@ void CPlayState::Cleanup()
 	SDL_DestroyTexture(bg);
 
 	Mix_FreeMusic(bgm);
+	
+
+	newPlayer.getComponent<SpriteComponent>().freeTxt();
+	newPlayer.getComponent<Stats>().~Stats();
 
 
 	for (auto& e : enemies)

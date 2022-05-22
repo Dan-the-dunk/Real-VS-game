@@ -15,10 +15,15 @@ void CMenuState::Init()
 	fader = loadTexture("assets/image/fader.png");
 
 
-	Button play_butt = Button("assets/image/button/play_button.png", x_pos, 200, 150);
+	
+
+	Button con_butt = Button("assets/image/button/con_button.png", x_pos, 200, 150);
+	buttons.push_back(con_butt);
+
+	Button play_butt = Button("assets/image/button/play_button.png", x_pos, 320, 150);
 	buttons.push_back(play_butt);
 
-	Button exit_butt = Button("assets/image/button/exit_button.png", x_pos, 320, 150);
+	Button exit_butt = Button("assets/image/button/exit_button.png", x_pos, 440, 150);
 	buttons.push_back(exit_butt);
 
 	setBlendMode(SDL_BLENDMODE_BLEND, &fader);
@@ -81,12 +86,14 @@ void CMenuState::HandleEvents(Game* game)
 						Mix_PlayMusic(CPlayState::bgm, -1);
 						break;
 					case 1:
+
+						game->CleanAllAndCreate(CPlayState::Instance());
+						break;
+
+					case 2:
 						game->isRunning = false;
 						break;
-				
-
 					}
-
 				}
 			}
 
@@ -120,7 +127,7 @@ void CMenuState::Update(Game* game)
 void CMenuState::Draw(Game* game)
 {
 	
-	SDL_RenderCopy(Game::gRenderer, bg, NULL, NULL);
+	//SDL_RenderCopy(Game::gRenderer, bg, NULL, NULL);
 
 	for (int i = 0; i < buttons.size(); i++)
 	{

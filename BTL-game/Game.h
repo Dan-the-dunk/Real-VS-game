@@ -75,7 +75,7 @@ public:
 	void ChangeState(CGameState* state);
 	void PushState(CGameState* state);
 	void PopState();
-
+	void CleanAllAndCreate(CGameState* state);
 
 	
 

@@ -89,6 +89,11 @@ public:
 	{
 	}
 
+	void freeTxt()
+	{
+		texture = NULL;
+	}
+
 	void setText(std::string id) {
 		texture = CPlayState::assets->GetTexture(id);
 	}

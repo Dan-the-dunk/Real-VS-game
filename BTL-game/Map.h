@@ -14,7 +14,9 @@ const int xMax = 1000;
 const int yMax = 100;
 const int lMax = 10;
 
+
 const int blank_tile = -1;
+
 
 // format for bg name : "bg_l%s.png"
 
@@ -55,6 +57,8 @@ class Map
 {
 public:
 	
+	const int WATER_TILE_s = 27;
+	const int WATER_TILE_e = 29;
 
 	const int BLANK_TILE = -1;
 	const int death_lv = 960;

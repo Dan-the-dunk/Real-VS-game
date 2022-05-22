@@ -111,7 +111,7 @@ void CIntroState::HandleEvents(Game* game)
 
 
 			case SDL_MOUSEBUTTONDOWN:
-				for (int i = 0; i < 4; i++)
+				for (int i = 0; i < buttons.size(); i++)
 				{
 					if (buttons[i].getStatus())
 					{
@@ -177,7 +177,7 @@ void CIntroState::HandleEvents(Game* game)
 void CIntroState::Update(Game* game)
 {
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < buttons.size(); i++)
 	{
 		buttons[i].CheckInside(&event);
 
@@ -212,7 +212,7 @@ void CIntroState::Draw(Game* game)
 		else
 		{
 			currentBg = bg;
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < buttons.size() - 1; i++)
 			{
 				buttons[i].Render();
 
