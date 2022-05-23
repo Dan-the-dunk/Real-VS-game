@@ -29,6 +29,8 @@ class CPlayState : public CGameState
 {
 public:
 
+	static int current_lv ;
+
 	static Mix_Music* bgm;
 	static bool gameOver;
 
@@ -94,7 +96,7 @@ protected:
 private:
 	static CPlayState m_PlayState;
 	SDL_Texture* bg;
-	int current_lv = 1;
+	
 	
 
 	vector<Level*> g_levels;

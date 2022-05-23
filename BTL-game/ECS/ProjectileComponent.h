@@ -14,6 +14,8 @@ class ProjectileComponent : public Component
 public:
 
 	const int projectile_speed = 2;
+	bool outOfRange = false;
+	Vector2D p_way;
 
 	ProjectileComponent(int rng , int sp, Vector2D vel , string id) : range(rng) , speed(sp) , velocity(vel) , pId(id)
 	{}
@@ -39,27 +41,34 @@ public:
 			
 
 		transform->position += velocity;
-
-		if (distance > range)
+		
+		if (distance > range - speed)
 		{
 
-			
-			
 			if (pId == "e_projectile1")
 			{
-				cout << "3 small missle"<<endl ;
-				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", p_way );
-				//CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x , ( p_way.y + 0.5f)) );
-				//CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x, ( p_way.y - 0.5f))  );
+				
+				cout << "3 small missle" << endl;
+				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", p_way);
+				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x , ( p_way.y + 0.5f)) );
+				CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x, ( p_way.y - 0.5f))  );
+				
 			}
 
-			cout << " out of range" << endl;
-			entity->destroy();
 			
+			entity->destroy();
+			cerr << "destroyed proj" << endl;
 		}
+
+
+
+
 
 	}
 
+	string getId() { return pId; };
+
+	bool rangeStatus() { return outOfRange; }
 
 	void getPlayerMove(Vector2D p_pos)
 	{
@@ -78,7 +87,7 @@ private:
 	int distance = 0;
 
 	Vector2D pPos;
-	Vector2D p_way;
+	
 	Vector2D velocity;
 
 };

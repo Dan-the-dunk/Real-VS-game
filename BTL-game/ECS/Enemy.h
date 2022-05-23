@@ -69,15 +69,14 @@ public:
 
 		if (hp <= 0)
 		{
-			hp = 0;
-
 			if (!eTimer.isLast())
 			{
 				eTimer.last();
+				eTimer.start();
 				sprite->play("Die");
 			}
 
-			if (eTimer.getTicks() >= 2000)
+			if (eTimer.getTicks() >= 1200)
 			{
 				
 				entity->destroy();

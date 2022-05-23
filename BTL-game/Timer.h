@@ -8,6 +8,9 @@ class GTimer
 {
 public:
 
+
+    
+
     //Initializes variables
     GTimer();
 
@@ -35,7 +38,7 @@ private:
     Uint32 mPausedTicks;
 
     //The timer status
-    bool lastRun;
+    bool lastRun = false;
     bool mPaused;
     bool mStarted;
 };

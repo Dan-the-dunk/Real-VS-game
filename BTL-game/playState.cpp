@@ -20,6 +20,7 @@
 //test timer
 
 
+int CPlayState::current_lv = 1;
 bool CPlayState::gameOver = false;
 
 Mix_Music* CPlayState::bgm = nullptr;
@@ -142,7 +143,7 @@ void CPlayState::Init()
 	Mix_PlayMusic(bgm, -1);
 
 
-	//assets->CreateProjectile(Vector2D(600, 600), 200, 2, "projectile ", Vector2D(1, 0));
+	
 
 	printf("CPlayState Init\n");
 
@@ -182,7 +183,7 @@ void hit_spike(Vector2D& vel)
 }	
 
 
-void checkCollsionMap(Map* map)
+void checkCollsionMap(Map* map , Game* game)
 {
 
 	//->map[0] check lai thanh map[i];
@@ -347,6 +348,14 @@ void checkCollsionMap(Map* map)
 					for (int x = x1; x <= x2; x++)
 					{
 
+
+						if (map->map[1].cMap[y][x] == map->NEXT_LV)
+						{
+							CPlayState::current_lv++;
+							game->ChangeState(CPlayState::Instance());
+
+						}
+
 						if (map->map[1].cMap[y][x] == map->RICK)
 						{
 							map->map[1].cMap[y][x] = map->BLANK_TILE;
@@ -431,11 +440,12 @@ void CPlayState::Update(Game* game)
 
 
 
-	
-
 	manager.refresh();
 	manager.update();
-	checkCollsionMap(maplv1);
+
+
+	cerr << "update completete" << endl;
+	checkCollsionMap(maplv1, game);
 
 	
 
@@ -463,20 +473,52 @@ void CPlayState::Update(Game* game)
 	else
 	{
 
-		
-
+		int cnt = 0;
+		int c = 0;
 		Vector2D pos = newPlayer.getComponent<TransformComponent>().position;
 		Vector2D vel = newPlayer.getComponent<TransformComponent>().velocity;
 
-		cout << "Truoc up e p "<< vel.y << endl;
+	
 
 		Vector2D vel_e;
 
 		for (auto& p : projectiles)
 
 		{
+			c++;
 
 			p->getComponent<ProjectileComponent>().getPlayerMove(pos);
+
+			/*
+			
+			if (p->getComponent<ProjectileComponent>().rangeStatus() == true && p->isActive() == true )
+			{
+
+
+				cnt++;
+
+				
+				
+				
+				if (p->getComponent<ProjectileComponent>().getId() == "e_projectile1")
+				{
+					cout << "3 small missle" << endl;
+					assets->CreateProjectile(p->getComponent<TransformComponent>().position, 200, 2, "e_projectile1_m", p->getComponent<ProjectileComponent>().p_way);
+					//CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x , ( p_way.y + 0.5f)) );
+					//CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x, ( p_way.y - 0.5f))  );
+				}
+				
+				
+				
+
+				
+				
+			
+			cerr << "destroy p " << cnt << endl;
+			p->destroy();
+		}
+			*/
+			
 
 			if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
 			{
@@ -486,7 +528,15 @@ void CPlayState::Update(Game* game)
 
 				p->destroy();
 			}
+
+
+			cout << "Num of proj " << c << endl;
+
+
+
 		}
+
+		cerr << "Update projectile xong " << endl;
 
 		SDL_Rect fart_rect = newPlayer.getComponent<Stats>().fart_box;
 
@@ -511,31 +561,45 @@ void CPlayState::Update(Game* game)
 
 			Collision::on_top = false;
 
-			if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, e->getComponent<ColliderComponent>().collider))
+			if (e->getComponent<Enemy>().hp > 0)
 			{
-
-				// newPlayer.getComponent<Stats>().hp--;
-				vel_e = e->getComponent<Enemy>().velocity;
-
-				if (vel_e.x - vel.x > 0) newPlayer.getComponent<RigidBody>().bounce_right = true;
-				else if (vel_e.x - vel.x < 0) newPlayer.getComponent<RigidBody>().bounce_right = false;
-
-				if (Collision::on_top)
-				{
-					newPlayer.getComponent<TransformComponent>().velocity.y = -15;
-					e->getComponent<Enemy>().hp -= 2;
-				}
-
-				else
+				if (Collision::AABB_OT(newPlayer.getComponent<ColliderComponent>().collider, e->getComponent<ColliderComponent>().collider, vel.y))
 				{
 
-					newPlayer.getComponent<Stats>().hp -- ;
-					bounce_back(newPlayer.getComponent<TransformComponent>().velocity, newPlayer.getComponent<RigidBody>().bounce_right);
-					newPlayer.getComponent<RigidBody>().bouncing_back = true;
-					newPlayer.getComponent<RigidBody>().setFraction(Vector2D(-0.2f, 0));
-				}
+					// newPlayer.getComponent<Stats>().hp--;
+					vel_e = e->getComponent<Enemy>().velocity;
 
+
+					cout << "Truoc up e p " << newPlayer.getComponent<TransformComponent>().velocity.y << endl;
+
+					if (vel_e.x - vel.x > 0) newPlayer.getComponent<RigidBody>().bounce_right = true;
+					else if (vel_e.x - vel.x < 0) newPlayer.getComponent<RigidBody>().bounce_right = false;
+
+					cout << "Collider e " << e->getComponent<ColliderComponent>().collider.y << endl;
+					cout << "Collider p " << newPlayer.getComponent<ColliderComponent>().collider.y << endl;
+
+					if (Collision::on_top)
+					{
+						newPlayer.getComponent<TransformComponent>().position.y = e->getComponent<ColliderComponent>().collider.y - newPlayer.getComponent<TransformComponent>().height - 1;
+						newPlayer.getComponent<TransformComponent>().velocity.y = -12;
+						e->getComponent<Enemy>().hp -= 2;
+					}
+
+					else
+					{
+
+						newPlayer.getComponent<Stats>().hp--;
+						bounce_back(newPlayer.getComponent<TransformComponent>().velocity, newPlayer.getComponent<RigidBody>().bounce_right);
+						newPlayer.getComponent<RigidBody>().bouncing_back = true;
+						newPlayer.getComponent<RigidBody>().setFraction(Vector2D(-0.2f, 0));
+					}
+
+
+					cout << "sau up e p " << newPlayer.getComponent<TransformComponent>().velocity.y << endl;
+
+				}
 			}
+			
 
 		}
 

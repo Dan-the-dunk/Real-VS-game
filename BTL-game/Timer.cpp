@@ -30,7 +30,7 @@ void GTimer::start()
 void GTimer::last()
 {
 
-    lastRun == true;
+    lastRun = true;
 }
 
 

@@ -32,6 +32,33 @@ bool Collision::AABB(const SDL_Rect& rectA, const SDL_Rect& rectB) {
 }
 
 
+bool Collision::AABB_OT(const SDL_Rect& rectA, const SDL_Rect& rectB , int vel_y) {
+
+	on_top = false;
+
+	if (
+		rectA.x + rectA.w >= rectB.x &&
+		rectB.x + rectB.w >= rectA.x &&
+		rectA.y + rectA.h >= rectB.y &&
+		rectB.y + rectB.h >= rectA.y
+		)
+	{
+
+		if (rectA.x + rectA.w - 4 >= rectB.x &&
+			rectB.x + rectB.w - 4 >= rectA.x &&
+			rectA.y + rectA.h + vel_y >= rectB.y)
+		{
+			cout << "on top " << endl;
+			on_top = true;
+		}
+		return  true;
+	}
+
+
+	return false;
+}
+
+
 
 bool Collision::AABB(const ColliderComponent& colliderA, const ColliderComponent& colliderB)
 {

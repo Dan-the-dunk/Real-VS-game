@@ -59,7 +59,7 @@ public:
 	
 	const int WATER_TILE_s = 27;
 	const int WATER_TILE_e = 29;
-
+	const int NEXT_LV = 41;
 	const int BLANK_TILE = -1;
 	const int death_lv = 960;
 	const int FOOD_TILES = 5;
