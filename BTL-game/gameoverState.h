@@ -9,7 +9,7 @@ class CGameoverState : public CGameState
 {
 public:
 
-	
+	static bool isFinished;
 	static SDL_Event event;
 	void Init();
 	void Cleanup();
@@ -21,7 +21,8 @@ public:
 	void Update(Game* game);
 	void Draw(Game* game);
 
-	static CGameoverState* Instance() {
+	static CGameoverState* Instance(bool iF) {
+		isFinished = iF;
 		return &m_GameoverState;
 	}
 
@@ -34,7 +35,6 @@ private:
 	vector<Button> buttons;
 	
 	bool isOnCre = false;
-
 
 	SDL_Texture* current_bg;
 	SDL_Texture* credit_tex;

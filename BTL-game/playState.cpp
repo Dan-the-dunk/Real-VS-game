@@ -19,6 +19,7 @@
 
 //test timer
 
+const int max_lv = 2;
 
 int CPlayState::current_lv = 1;
 bool CPlayState::gameOver = false;
@@ -143,6 +144,8 @@ void CPlayState::Init()
 	Mix_PlayMusic(bgm, -1);
 
 
+
+	gTimer.isntLast();
 	
 
 	printf("CPlayState Init\n");
@@ -256,7 +259,7 @@ void checkCollsionMap(Map* map , Game* game)
 					}
 				}
 
-				else if (vel.y < 0)
+				else if (vel.y <= 0)
 				{
 
 			
@@ -351,8 +354,25 @@ void checkCollsionMap(Map* map , Game* game)
 
 						if (map->map[1].cMap[y][x] == map->NEXT_LV)
 						{
+
+							
+							
 							CPlayState::current_lv++;
-							game->ChangeState(CPlayState::Instance());
+							if (CPlayState::current_lv > max_lv)
+
+							{
+								cout << "reset lv" << endl;
+								CPlayState::current_lv = 1;
+								game->ChangeState(CGameoverState::Instance(true));
+							}
+
+							else
+							{
+								game->ChangeState(CPlayState::Instance());
+
+							}
+							
+							
 
 						}
 
@@ -443,8 +463,6 @@ void CPlayState::Update(Game* game)
 	manager.refresh();
 	manager.update();
 
-
-	cerr << "update completete" << endl;
 	checkCollsionMap(maplv1, game);
 
 	
@@ -454,19 +472,21 @@ void CPlayState::Update(Game* game)
 	{
 
 
-		if (!gTimer.isStarted())
+		if (!gTimer.isLast())
 		{
 			gTimer.start();
+			gTimer.last();
 			gameOver = true;
 			newPlayer.getComponent<SpriteComponent>().play("Die");
-
+			newPlayer.getComponent<ColliderComponent>().collider = {0,0,0,0};
 		}
 
 
 		if (gTimer.getTicks() >= 2000)
 		{
-
-			game->ChangeState(CGameoverState::Instance());
+		
+			
+			game->ChangeState(CGameoverState::Instance(false));
 		}
 	}
 
@@ -489,36 +509,6 @@ void CPlayState::Update(Game* game)
 
 			p->getComponent<ProjectileComponent>().getPlayerMove(pos);
 
-			/*
-			
-			if (p->getComponent<ProjectileComponent>().rangeStatus() == true && p->isActive() == true )
-			{
-
-
-				cnt++;
-
-				
-				
-				
-				if (p->getComponent<ProjectileComponent>().getId() == "e_projectile1")
-				{
-					cout << "3 small missle" << endl;
-					assets->CreateProjectile(p->getComponent<TransformComponent>().position, 200, 2, "e_projectile1_m", p->getComponent<ProjectileComponent>().p_way);
-					//CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x , ( p_way.y + 0.5f)) );
-					//CPlayState::assets->CreateProjectile(transform->position, 200, 2, "e_projectile1_m", Vector2D(p_way.x, ( p_way.y - 0.5f))  );
-				}
-				
-				
-				
-
-				
-				
-			
-			cerr << "destroy p " << cnt << endl;
-			p->destroy();
-		}
-			*/
-			
 
 			if (Collision::AABB(newPlayer.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
 			{
@@ -530,15 +520,10 @@ void CPlayState::Update(Game* game)
 			}
 
 
-			cout << "Num of proj " << c << endl;
-
-
-
 		}
 
-		cerr << "Update projectile xong " << endl;
-
-		SDL_Rect fart_rect = newPlayer.getComponent<Stats>().fart_box;
+	
+		
 
 
 
@@ -547,16 +532,6 @@ void CPlayState::Update(Game* game)
 		{
 
 			e->getComponent<Enemy>().getPlayerMove(pos, vel);
-
-
-			/*
-			if (Collision::AABB(fart_rect, e->getComponent<ColliderComponent>().collider))
-			{
-
-				e->getComponent<Enemy>().hp -= 2;
-
-				cout << "Fart hit !!!" << endl;
-			}*/
 
 
 			Collision::on_top = false;
@@ -607,22 +582,13 @@ void CPlayState::Update(Game* game)
 
 
 
-		
-
-		if (newPlayer.getComponent<TransformComponent>().position.x >= maplv1->mapXmax - 200)
-		{
-			current_lv++;
-			delete maplv1;
-			game->ChangeState(CPlayState::Instance());
-
-		}
 
 		if (gameOver)
 		{
 
 			delete maplv1;
 			SDL_Delay(500);
-			game->ChangeState(CGameoverState::Instance());
+			game->ChangeState(CGameoverState::Instance(false));
 
 		}
 
@@ -662,13 +628,14 @@ void CPlayState::Draw(Game* game)
 	{
 		p->draw();
 
+		/*
 		SDL_Rect fart_collider = newPlayer.getComponent<Stats>().fart_box;
 
 		fart_collider.x -= camera.x;
 		fart_collider.y -= camera.y;
 
 		SDL_SetRenderDrawColor(Game::gRenderer, 255, 0, 0, 255);
-		SDL_RenderDrawRect(Game::gRenderer, & (fart_collider) ) ;
+		SDL_RenderDrawRect(Game::gRenderer, & (fart_collider) ) ;*/
 	}
 	
 	for (auto& p : projectiles)
@@ -679,11 +646,13 @@ void CPlayState::Draw(Game* game)
 	for (auto& e : enemies)
 	{
 	
+		/*
 		e->getComponent<ColliderComponent>().collider.x = e->getComponent<ColliderComponent>().collider.x - camera.x;
 		e->getComponent<ColliderComponent>().collider.y = e->getComponent<ColliderComponent>().collider.y - camera.y;
 		SDL_Rect eRect = e->getComponent<ColliderComponent>().desR;
 		SDL_SetRenderDrawColor(Game::gRenderer,255, 0, 0, 255);
 		SDL_RenderDrawRect(Game::gRenderer, &eRect);
+		*/
 
 		e->draw();
 	}

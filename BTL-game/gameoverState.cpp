@@ -9,11 +9,20 @@ CGameoverState CGameoverState::m_GameoverState;
 
 const int x_pos = 351;
 
+bool CGameoverState::isFinished = false;
+
+
 SDL_Event CGameoverState::event;
 
 void CGameoverState::Init()
 {
-	bg = loadTexture("assets/image/go_bg.jpg");
+	if(isFinished)
+		bg = loadTexture("assets/image/end_bg.png");
+	else
+	{
+		bg = loadTexture("assets/image/go_bg.jpg");
+		cout << "load endgame bg" << endl;
+	}
 	credit_tex = loadTexture("assets/image/cre_bg.png");
 	current_bg = bg;
 

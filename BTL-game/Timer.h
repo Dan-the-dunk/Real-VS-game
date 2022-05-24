@@ -26,6 +26,10 @@ public:
 
     //Checks the status of the timer
     bool isLast();
+    void isntLast()
+    {
+        lastRun = false;
+    }
     bool isStarted();
     bool isPaused();
 

@@ -3,7 +3,7 @@
 #include"Components.h"
 #include"../Physics/Vector2D.h"
 
-constexpr float GRAVITY = 1.0f;
+constexpr float GRAVITY = 0.7f;
 const float max_fall_speed = 15;
 
 

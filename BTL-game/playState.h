@@ -8,7 +8,7 @@
 #include<string>
 #include<sdl_mixer.h>
 
-const int max_lv = 10;
+
 
 
 class Level
